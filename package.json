@@ -2,7 +2,7 @@
 	"name": "vscode-coffee-break",
 	"displayName": "Coffee Break",
 	"description": "Meeting Minutes for VSCode",
-	"icon": "./resources/logo/CoffeeBreak.png",
+	"icon": "resources/logo/CoffeeBreak.png",
 	"version": "0.0.1",
 	"license": "TBD",
 	"engines": {
@@ -322,6 +322,7 @@
 		"find-up": "^3.0.0",
 		"globby": "^9.2.0",
 		"lodash": "^4.17.11",
+		"mkdirp": "^0.5.1",
 		"moment": "^2.24.0",
 		"pify": "^4.0.1",
 		"string-matches": "^1.1.3"
