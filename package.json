@@ -17,68 +17,68 @@
 	"main": "./out/extension.js",
 	"publisher": "frenya",
 	"author": {
-	  "name": "Frantisek Vymazal",
-	  "email": "frenya@frenya.net"
+		"name": "Frantisek Vymazal",
+		"email": "frenya@frenya.net"
 	},
 	"contributes": {
 		"views": {
-		  "todo": [
-			{
-			  "id": "todo.views.2embedded",
-			  "name": "Embedded"
-			}
-		  ]
+			"todo": [
+				{
+					"id": "todo.views.2embedded",
+					"name": "Embedded"
+				}
+			]
 		},
 		"viewsContainers": {
-		  "activitybar": [
-			{
-			  "id": "todo",
-			  "title": "Todo",
-			  "icon": "resources/icons/activity_bar_logo.svg"
-			}
-		  ]
+			"activitybar": [
+				{
+					"id": "todo",
+					"title": "Todo",
+					"icon": "resources/icons/activity_bar_logo.svg"
+				}
+			]
 		},
 		"menus": {
-		  "commandPalette": [
-			{
-			  "command": "todo.viewEmbeddedCollapse",
-			  "when": "false"
-			},
-			{
-			  "command": "todo.viewEmbeddedExpand",
-			  "when": "false"
-			},
-			{
-			  "command": "todo.viewEmbeddedFilter",
-			  "when": "false"
-			},
-			{
-			  "command": "todo.viewEmbeddedClearFilter",
-			  "when": "false"
-			}
-		  ],
-		  "view/title": [
-			{
-			  "command": "todo.viewEmbeddedCollapse",
-			  "when": "view == todo.views.2embedded && todo-embedded-expanded == true",
-			  "group": "navigation@2"
-			},
-			{
-			  "command": "todo.viewEmbeddedExpand",
-			  "when": "view == todo.views.2embedded && todo-embedded-expanded == false",
-			  "group": "navigation@2"
-			},
-			{
-			  "command": "todo.viewEmbeddedFilter",
-			  "when": "view == todo.views.2embedded && todo-embedded-filtered == false",
-			  "group": "navigation@1"
-			},
-			{
-			  "command": "todo.viewEmbeddedClearFilter",
-			  "when": "view == todo.views.2embedded && todo-embedded-filtered == true",
-			  "group": "navigation@1"
-			}
-		  ]
+			"commandPalette": [
+				{
+					"command": "todo.viewEmbeddedCollapse",
+					"when": "false"
+				},
+				{
+					"command": "todo.viewEmbeddedExpand",
+					"when": "false"
+				},
+				{
+					"command": "todo.viewEmbeddedFilter",
+					"when": "false"
+				},
+				{
+					"command": "todo.viewEmbeddedClearFilter",
+					"when": "false"
+				}
+			],
+			"view/title": [
+				{
+					"command": "todo.viewEmbeddedCollapse",
+					"when": "view == todo.views.2embedded && todo-embedded-expanded == true",
+					"group": "navigation@2"
+				},
+				{
+					"command": "todo.viewEmbeddedExpand",
+					"when": "view == todo.views.2embedded && todo-embedded-expanded == false",
+					"group": "navigation@2"
+				},
+				{
+					"command": "todo.viewEmbeddedFilter",
+					"when": "view == todo.views.2embedded && todo-embedded-filtered == false",
+					"group": "navigation@1"
+				},
+				{
+					"command": "todo.viewEmbeddedClearFilter",
+					"when": "view == todo.views.2embedded && todo-embedded-filtered == true",
+					"group": "navigation@1"
+				}
+			]
 		}
 	},
 	"scripts": {
@@ -97,18 +97,18 @@
 		"@types/mocha": "^2.2.42"
 	},
 	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
+		"type": "git",
+		"url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
 	},
 	"keywords": [
-	  "vscode",
-	  "extension",
-	  "todo",
-	  "task",
-	  "todos",
-    "tasks",
-    "meeting",
-    "minutes"
+		"vscode",
+		"extension",
+		"todo",
+		"task",
+		"todos",
+		"tasks",
+		"meeting",
+		"minutes"
 	],
 	"dependencies": {
 		"lodash": "^4.17.11",
