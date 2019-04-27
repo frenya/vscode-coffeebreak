@@ -7,7 +7,6 @@ import Config from './config';
 /* CONSTS */
 
 const Consts = {
-  languageId: 'todo',
   regexes: {
     todoEmbedded: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)', 'g' ),
   }
