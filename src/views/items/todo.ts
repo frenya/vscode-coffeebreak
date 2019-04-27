@@ -41,32 +41,24 @@ class Todo extends Item {
       const today = moment();
       this.description = dueDate.calendar(null, displayFormat);
       if (dueDate.isSame(today, 'day')) {
-        this.setTaskIcon(0);
+        this.setTaskIcon('d28019');
       }
       else if (dueDate.isBefore(today, 'day')) {
-        this.setTaskIcon(-1);
+        this.setTaskIcon('d03535');
       }
       else if (dueDate.isAfter(today, 'day')) {
-        this.setTaskIcon(1);
+        this.setTaskIcon('21cadd');
       }
     }
-    else this.setTaskIcon ( null );
+    else this.setTaskIcon('333333');
 
     // Remove the date from label
     this.label = label.replace(dateRegex, '');
 
   }
 
-  setTaskIcon ( due ) {
-
-    const iconPath = Utils.view.getTaskIcon ( due );
-
-    if ( iconPath ) {
-
-      this.iconPath = iconPath;
-
-    }
-   
+  setTaskIcon (color) {
+    this.iconPath = Utils.view.getTaskIcon(color) || this.iconPath;
   }
 
 }
