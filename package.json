@@ -27,10 +27,6 @@
 				"title": "Coffee Break: Open"
 			},
 			{
-				"command": "coffeebreak.openEmbedded",
-				"title": "Coffee Break: Open Embedded"
-			},
-			{
 				"command": "coffeebreak.toggleBox",
 				"title": "Coffee Break: Toggle Box"
 			},
@@ -109,10 +105,6 @@
 					"light": "resources/icons/clear_filter_light.svg",
 					"dark": "resources/icons/clear_filter_dark.svg"
 				}
-			},
-			{
-				"command": "coffeebreak.viewOpenFile",
-				"title": "Open"
 			},
 			{
 				"command": "coffeebreak.viewRevealTodo",

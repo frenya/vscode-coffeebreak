@@ -9,31 +9,7 @@ import ItemTodo from './views/items/todo';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
 
-/* COMMANDS */
-
-async function openEmbedded () {
-
-  await Utils.embedded.initProvider ();
-
-  const config = Config.get (),
-        todos = await Utils.embedded.provider.get ( undefined, config.embedded.file.groupByRoot, config.embedded.file.groupByType, config.embedded.file.groupByFile ),
-        content = Utils.embedded.provider.renderTodos ( todos );
-
-  if ( !content ) return vscode.window.showInformationMessage ( 'No embedded todos found' );
-
-  Utils.editor.open ( content );
-
-}
-
 /* VIEW */
-
-function viewOpenFile ( file: ItemFile ) {
-
-  if (file.resourceUri) {
-    Utils.file.open ( file.resourceUri.fsPath, true, 0 );
-  }
-
-}
 
 function viewRevealTodo ( todo: ItemTodo ) {
 
@@ -86,4 +62,4 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export { openEmbedded, viewOpenFile, viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter };
+export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter };
