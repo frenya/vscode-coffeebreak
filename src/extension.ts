@@ -1,27 +1,38 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+
+/* IMPORT */
+
 import * as vscode from 'vscode';
+import Config from './config';
+import Utils from './utils';
+import ViewEmbedded from './views/embedded';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+/* ACTIVATE */
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-		console.log('Congratulations, your extension "vscode-coffee-break" is now active!');
+const activate = function ( context: vscode.ExtensionContext ) {
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+  const config = Config.get ();
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
+  Config.check ( config );
 
-	context.subscriptions.push(disposable);
-}
+  ViewEmbedded.expanded = true; //config.embedded.view.expanded;
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!ViewEmbedded.filter );
+
+  Utils.context = context;
+  Utils.folder.initRootsRe ();
+  Utils.init.views ();
+
+  context.subscriptions.push (
+    vscode.workspace.onDidChangeConfiguration ( () => Utils.embedded.provider && delete Utils.embedded.provider.filesData ),
+    vscode.workspace.onDidChangeWorkspaceFolders ( () => Utils.embedded.provider && Utils.embedded.provider.unwatchPaths () ),
+    vscode.workspace.onDidChangeWorkspaceFolders ( Utils.folder.initRootsRe )
+  );
+
+  return Utils.init.commands ( context );
+
+};
+
+/* EXPORT */
+
+export {activate};
