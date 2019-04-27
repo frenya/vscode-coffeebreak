@@ -13,6 +13,8 @@ const displayFormat = {
   sameElse: 'dddd, MMM DD'
 };
 
+const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
+
 /* TODO */
 
 class Todo extends Item {
@@ -33,7 +35,7 @@ class Todo extends Item {
 
     // console.log('Detecting date in', obj.line);
     // Detect due date
-    let match = /[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/.exec(obj.line);
+    let match = dateRegex.exec(label);
     if (match && match.length) {
       const dueDate = moment(match[0]);
       const today = moment();
@@ -50,7 +52,8 @@ class Todo extends Item {
     }
     else this.setTaskIcon ( null );
 
-
+    // Remove the date from label
+    this.label = label.replace(dateRegex, '');
 
   }
 
