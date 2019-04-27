@@ -61,7 +61,7 @@ class Embedded extends View {
 
       return obj.map ( obj => {
 
-        return new Todo ( obj, this.config.embedded.view.wholeLine ? obj.line : obj.message || obj.todo, this.config.embedded.view.icons );
+        return new Todo ( obj, this.config.embedded.view.wholeLine ? obj.line : obj.message || obj.todo, true );
 
       });
 
