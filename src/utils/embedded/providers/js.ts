@@ -103,8 +103,6 @@ class JS extends Abstract {
 
     });
 
-    console.log(data);
-
     return data;
 
   }

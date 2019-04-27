@@ -33,7 +33,6 @@ class Todo extends Item {
       arguments: [this]
     };
 
-    // console.log('Detecting date in', obj.line);
     // Detect due date
     let match = dateRegex.exec(label);
     if (match && match.length) {

@@ -8,13 +8,7 @@ import JS from './providers/js';
 const Embedded = {
 
   async initProvider () {
-
-    if ( Embedded.provider ) return;
-
-    console.log('initializing provider');
-
-    Embedded.provider = new JS ();
-
+    if (!Embedded.provider) Embedded.provider = new JS ();
   },
 
   provider: undefined as JS,
