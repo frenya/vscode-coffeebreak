@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as path from 'path';
 import stringMatches from 'string-matches';
 import Consts from '../../../consts';
 import File from '../../file';
@@ -66,6 +67,7 @@ class JS extends Abstract {
     const lines = content.split ( /\r?\n/ );
 
     let parsedPath;
+    let defaultType = '<unassigned>';
 
     lines.forEach ( ( rawLine, lineNr ) => {
 
@@ -77,6 +79,7 @@ class JS extends Abstract {
       if ( !parsedPath ) {
 
         parsedPath = Folder.parsePath ( filePath );
+        if (parsedPath.relativePath.startsWith('@')) defaultType = path.basename(filePath, path.extname(filePath));
 
       }
 
@@ -84,7 +87,7 @@ class JS extends Abstract {
 
         data.push ({
           todo: match[0],
-          type: match[1].toUpperCase (),
+          type: match[1].trim() || defaultType,
           message: match[2],
           code: line.slice ( 0, line.indexOf ( match[0] ) ),
           rawLine,
@@ -99,6 +102,8 @@ class JS extends Abstract {
       });
 
     });
+
+    console.log(data);
 
     return data;
 

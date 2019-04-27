@@ -193,7 +193,7 @@
 				"coffeebreak.embedded.file.groupByFile": {
 					"type": "boolean",
 					"description": "Group embedded todos by file",
-					"default": true
+					"default": false
 				},
 				"coffeebreak.embedded.view.wholeLine": {
 					"type": "boolean",
@@ -213,7 +213,7 @@
 				"coffeebreak.embedded.view.groupByFile": {
 					"type": "boolean",
 					"description": "Group embedded todos by file",
-					"default": true
+					"default": false
 				},
 				"coffeebreak.embedded.view.expanded": {
 					"type": "boolean",

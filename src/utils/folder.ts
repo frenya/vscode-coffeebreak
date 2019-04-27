@@ -78,7 +78,7 @@ const Folder = {
       return {
         root: path.basename ( match[1] ),
         rootPath: match[1],
-        relativePath: match[2]
+        relativePath: path.basename(match[2])
       };
 
     } else { // External path
