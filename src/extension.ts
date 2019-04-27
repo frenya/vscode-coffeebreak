@@ -14,7 +14,7 @@ const activate = function ( context: vscode.ExtensionContext ) {
 
   Config.check ( config );
 
-  ViewEmbedded.expanded = true; //config.embedded.view.expanded;
+  ViewEmbedded.expanded = false; //config.embedded.view.expanded;
 
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!ViewEmbedded.filter );
