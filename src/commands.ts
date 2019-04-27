@@ -2,10 +2,8 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as path from 'path';
 import * as vscode from 'vscode';
 import Config from './config';
-import Consts from './consts';
 import ItemFile from './views/items/item';
 import ItemTodo from './views/items/todo';
 import Utils from './utils';
@@ -31,7 +29,9 @@ async function openEmbedded () {
 
 function viewOpenFile ( file: ItemFile ) {
 
-  Utils.file.open ( file.resourceUri.fsPath, true, 0 );
+  if (file.resourceUri) {
+    Utils.file.open ( file.resourceUri.fsPath, true, 0 );
+  }
 
 }
 
