@@ -107,6 +107,10 @@
 				}
 			},
 			{
+				"command": "coffeebreak.openTaskURL",
+				"title": "Open URL"
+			},
+			{
 				"command": "coffeebreak.viewRevealTodo",
 				"title": "Open"
 			},

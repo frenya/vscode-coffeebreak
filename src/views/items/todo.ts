@@ -14,6 +14,7 @@ const displayFormat = {
 };
 
 const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
+const linkRegex = /\[\]\(([^)]*)\)/;
 
 /* TODO */
 
@@ -34,9 +35,9 @@ class Todo extends Item {
     };
 
     // Detect due date
-    let match = dateRegex.exec(label);
-    if (match && match.length) {
-      const dueDate = moment(match[0]);
+    let matchDate = dateRegex.exec(label);
+    if (matchDate && matchDate.length) {
+      const dueDate = moment(matchDate[0]);
       const today = moment();
       this.description = dueDate.calendar(null, displayFormat);
       if (dueDate.isSame(today, 'day')) {
@@ -52,7 +53,19 @@ class Todo extends Item {
     else this.setTaskIcon('333333');
 
     // Remove the date from label
-    this.label = label.replace(dateRegex, '');
+    this.label = this.label.replace(dateRegex, '');
+
+    // Detect external service link
+    let matchLink = linkRegex.exec(label);
+    if (matchLink && matchLink.length) {
+      const url = matchLink[1];
+      console.log('Detected url', url);
+      this.contextValue = 'todo-linked';
+      this.obj.externalURL = url;
+    }
+
+    // Remove the date from label
+    this.label = this.label.replace(linkRegex, '');
 
   }
 

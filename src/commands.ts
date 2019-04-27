@@ -28,6 +28,13 @@ function viewRevealTodo ( todo: ItemTodo ) {
 
 }
 
+function openTaskURL ( todo: ItemTodo ) {
+  // console.log(todo);
+  vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(todo.obj.externalURL));
+}
+
+
+
 /* VIEW EMBEDDED */
 
 function viewEmbeddedCollapse () {
@@ -62,4 +69,4 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter };
+export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, openTaskURL };
