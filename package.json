@@ -109,5 +109,9 @@
     "tasks",
     "meeting",
     "minutes"
-	]  
+	],
+	"dependencies": {
+		"lodash": "^4.17.11",
+		"moment": "^2.24.0"
+	}
 }
