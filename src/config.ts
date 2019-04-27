@@ -8,7 +8,7 @@ import * as vscode from 'vscode';
 
 const Config = {
 
-  get ( extension = 'todo' ) {
+  get ( extension = 'coffeebreak' ) {
 
     return vscode.workspace.getConfiguration ().get ( extension ) as any;
 

@@ -17,7 +17,7 @@ class Todo extends Item {
 
     this.command = {
       title: 'Reveal',
-      command: 'todo.viewRevealTodo',
+      command: 'coffeebreak.viewRevealTodo',
       arguments: [this]
     };
 
