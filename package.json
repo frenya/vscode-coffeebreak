@@ -21,11 +21,217 @@
 		"email": "frenya@frenya.net"
 	},
 	"contributes": {
+		"commands": [
+			{
+				"command": "coffeebreak.open",
+				"title": "Coffee Break: Open"
+			},
+			{
+				"command": "coffeebreak.openEmbedded",
+				"title": "Coffee Break: Open Embedded"
+			},
+			{
+				"command": "coffeebreak.toggleBox",
+				"title": "Coffee Break: Toggle Box"
+			},
+			{
+				"command": "coffeebreak.toggleDone",
+				"title": "Coffee Break: Toggle Done"
+			},
+			{
+				"command": "coffeebreak.toggleCancelled",
+				"title": "Coffee Break: Toggle Cancelled"
+			},
+			{
+				"command": "coffeebreak.toggleStart",
+				"title": "Coffee Break: Toggle Start"
+			},
+			{
+				"command": "coffeebreak.toggleTimer",
+				"title": "Coffee Break: Toggle Timer"
+			},
+			{
+				"command": "coffeebreak.archive",
+				"title": "Coffee Break: Archive"
+			},
+			{
+				"command": "coffeebreak.viewFilesOpen",
+				"title": "Open",
+				"icon": {
+					"light": "resources/icons/open_file_light.svg",
+					"dark": "resources/icons/open_file_dark.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewFilesCollapse",
+				"title": "Collapse",
+				"icon": {
+					"light": "resources/icons/collapse_light.svg",
+					"dark": "resources/icons/collapse_dark.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewFilesExpand",
+				"title": "Expand",
+				"icon": {
+					"light": "resources/icons/expand_light.svg",
+					"dark": "resources/icons/expand_dark.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedCollapse",
+				"title": "Collapse",
+				"icon": {
+					"light": "resources/icons/collapse_light.svg",
+					"dark": "resources/icons/collapse_dark.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedExpand",
+				"title": "Expand",
+				"icon": {
+					"light": "resources/icons/expand_light.svg",
+					"dark": "resources/icons/expand_dark.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedFilter",
+				"title": "Filter",
+				"icon": {
+					"light": "resources/icons/filter_light.svg",
+					"dark": "resources/icons/filter_dark.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedClearFilter",
+				"title": "Clear Filter",
+				"icon": {
+					"light": "resources/icons/clear_filter_light.svg",
+					"dark": "resources/icons/clear_filter_dark.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewOpenFile",
+				"title": "Open"
+			},
+			{
+				"command": "coffeebreak.viewRevealTodo",
+				"title": "Open"
+			},
+			{
+				"command": "coffeebreak.editorToggleBox",
+				"title": "Toggle Box"
+			},
+			{
+				"command": "coffeebreak.editorToggleDone",
+				"title": "Toggle Done"
+			},
+			{
+				"command": "coffeebreak.editorToggleCancelled",
+				"title": "Toggle Cancelled"
+			},
+			{
+				"command": "coffeebreak.editorToggleStart",
+				"title": "Toggle Start"
+			},
+			{
+				"command": "coffeebreak.editorArchive",
+				"title": "Archive"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Coffee Break - Configuration",
+			"properties": {
+				"coffeebreak.embedded.include": {
+					"type": "array",
+					"description": "Globs to use for including files",
+					"default": [
+						"**/*.md"
+					]
+				},
+				"coffeebreak.embedded.exclude": {
+					"type": "array",
+					"description": "Globs to use for excluding files",
+					"default": [
+						"**/.*",
+						"**/.*/**",
+						"**/_output/**",
+						"**/bower_components/**",
+						"**/build/**",
+						"**/dist/**",
+						"**/node_modules/**",
+						"**/out/**",
+						"**/output/**",
+						"**/release/**",
+						"**/releases/**",
+						"**/static/**",
+						"**/target/**",
+						"**/third_party/**",
+						"**/vendor/**",
+						"**/CHANGELOG",
+						"**/CHANGELOG.*",
+						"**/*.min.*",
+						"**/*.map"
+					]
+				},
+				"coffeebreak.embedded.file.wholeLine": {
+					"type": "boolean",
+					"description": "Show the whole line",
+					"default": true
+				},
+				"coffeebreak.embedded.file.groupByRoot": {
+					"type": "boolean",
+					"description": "Group embedded todos by workspace root",
+					"default": true
+				},
+				"coffeebreak.embedded.file.groupByType": {
+					"type": "boolean",
+					"description": "Group embedded todos by type",
+					"default": true
+				},
+				"coffeebreak.embedded.file.groupByFile": {
+					"type": "boolean",
+					"description": "Group embedded todos by file",
+					"default": true
+				},
+				"coffeebreak.embedded.view.wholeLine": {
+					"type": "boolean",
+					"description": "Show the whole line",
+					"default": false
+				},
+				"coffeebreak.embedded.view.groupByRoot": {
+					"type": "boolean",
+					"description": "Group embedded todos by workspace root",
+					"default": true
+				},
+				"coffeebreak.embedded.view.groupByType": {
+					"type": "boolean",
+					"description": "Group embedded todos by type",
+					"default": true
+				},
+				"coffeebreak.embedded.view.groupByFile": {
+					"type": "boolean",
+					"description": "Group embedded todos by file",
+					"default": true
+				},
+				"coffeebreak.embedded.view.expanded": {
+					"type": "boolean",
+					"description": "Start the tree in an expanded state",
+					"default": true
+				},
+				"coffeebreak.embedded.view.icons": {
+					"type": "boolean",
+					"description": "Show icons next to todos and types",
+					"default": true
+				}
+			}
+		},
 		"views": {
 			"todo": [
 				{
-					"id": "todo.views.2embedded",
-					"name": "Embedded"
+					"id": "coffeebreak.views.coffeeBreak",
+					"name": "Coffee Break"
 				}
 			]
 		},
@@ -41,41 +247,41 @@
 		"menus": {
 			"commandPalette": [
 				{
-					"command": "todo.viewEmbeddedCollapse",
+					"command": "coffeebreak.viewEmbeddedCollapse",
 					"when": "false"
 				},
 				{
-					"command": "todo.viewEmbeddedExpand",
+					"command": "coffeebreak.viewEmbeddedExpand",
 					"when": "false"
 				},
 				{
-					"command": "todo.viewEmbeddedFilter",
+					"command": "coffeebreak.viewEmbeddedFilter",
 					"when": "false"
 				},
 				{
-					"command": "todo.viewEmbeddedClearFilter",
+					"command": "coffeebreak.viewEmbeddedClearFilter",
 					"when": "false"
 				}
 			],
 			"view/title": [
 				{
-					"command": "todo.viewEmbeddedCollapse",
-					"when": "view == todo.views.2embedded && todo-embedded-expanded == true",
+					"command": "coffeebreak.viewEmbeddedCollapse",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-expanded == true",
 					"group": "navigation@2"
 				},
 				{
-					"command": "todo.viewEmbeddedExpand",
-					"when": "view == todo.views.2embedded && todo-embedded-expanded == false",
+					"command": "coffeebreak.viewEmbeddedExpand",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-expanded == false",
 					"group": "navigation@2"
 				},
 				{
-					"command": "todo.viewEmbeddedFilter",
-					"when": "view == todo.views.2embedded && todo-embedded-filtered == false",
+					"command": "coffeebreak.viewEmbeddedFilter",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered == false",
 					"group": "navigation@1"
 				},
 				{
-					"command": "todo.viewEmbeddedClearFilter",
-					"when": "view == todo.views.2embedded && todo-embedded-filtered == true",
+					"command": "coffeebreak.viewEmbeddedClearFilter",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered == true",
 					"group": "navigation@1"
 				}
 			]
@@ -90,11 +296,12 @@
 		"package": "vsce package && code --install-extension *.vsix"
 	},
 	"devDependencies": {
-		"typescript": "^3.3.1",
-		"vscode": "^1.1.28",
-		"tslint": "^5.12.1",
+		"@types/lodash": "^4.14.123",
+		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
-		"@types/mocha": "^2.2.42"
+		"tslint": "^5.12.1",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28"
 	},
 	"repository": {
 		"type": "git",
@@ -111,7 +318,12 @@
 		"minutes"
 	],
 	"dependencies": {
+		"absolute": "0.0.1",
+		"find-up": "^3.0.0",
+		"globby": "^9.2.0",
 		"lodash": "^4.17.11",
-		"moment": "^2.24.0"
+		"moment": "^2.24.0",
+		"pify": "^4.0.1",
+		"string-matches": "^1.1.3"
 	}
 }
