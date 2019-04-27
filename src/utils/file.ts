@@ -3,7 +3,6 @@
 
 import * as _ from 'lodash';
 import * as fs from 'fs';
-import * as mkdirp from 'mkdirp';
 import * as path from 'path';
 import * as pify from 'pify';
 import * as vscode from 'vscode';
@@ -50,30 +49,6 @@ const File = {
     }
 
   },
-
-  readSync ( filepath ) {
-
-    try {
-      return ( fs.readFileSync ( filepath, { encoding: 'utf8' } ) ).toString ();
-    } catch ( e ) {
-      return;
-    }
-
-  },
-
-  async make ( filepath, content ) {
-
-    await pify ( mkdirp )( path.dirname ( filepath ) );
-
-    return File.write ( filepath, content );
-
-  },
-
-  async write ( filepath, content ) {
-
-    return pify ( fs.writeFile )( filepath, content, {} );
-
-  }
 
 };
 

@@ -3,7 +3,6 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
-import Consts from '../consts';
 import * as Commands from '../commands';
 import Views from '../views';
 
@@ -26,18 +25,6 @@ const Init = {
     });
 
     return Commands;
-
-  },
-
-  language () {
-
-    vscode.languages.setLanguageConfiguration ( Consts.languageId, {
-      wordPattern: /(-?\d*\.\d\w*)|([^\-\`\~\!\#\%\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
-      indentationRules: {
-        increaseIndentPattern: Consts.regexes.project,
-        decreaseIndentPattern: Consts.regexes.impossible
-      }
-    });
 
   },
 

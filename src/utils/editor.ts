@@ -2,7 +2,6 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as diff from 'diff';
 import * as vscode from 'vscode';
 import Consts from '../consts';
 
@@ -52,28 +51,6 @@ const Editor = {
     },
 
     /* MAKE */
-
-    makeDiff ( before: string, after: string, lineNr: number = 0 ) {
-
-      if ( before === after ) return;
-
-      const changes = diff.diffWordsWithSpace ( before, after );
-
-      let index = 0;
-
-      return _.filter ( changes.map ( change => {
-        if ( change.added ) {
-          return Editor.edits.makeInsert ( change.value, lineNr, index );
-        } else if ( change.removed ) {
-          const edit = Editor.edits.makeDelete ( lineNr, index, index + change.value.length );
-          index += change.value.length;
-          return edit;
-        } else {
-          index += change.value.length;
-        }
-      }));
-
-    },
 
     makeDelete ( lineNr: number, fromCh: number, toCh: number = fromCh ) {
 
