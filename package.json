@@ -133,6 +133,10 @@
 			{
 				"command": "coffeebreak.editorArchive",
 				"title": "Archive"
+			},
+			{
+				"command": "coffeebreak.newFile",
+				"title": "New Coffee Break file"
 			}
 		],
 		"configuration": {
@@ -223,6 +227,13 @@
 				}
 			}
 		},
+		"keybindings": [
+			{
+			  "command": "coffeebreak.newFile",
+			  "key": "Ctrl+Alt+N",
+			  "mac": "Cmd+Alt+N"
+			}
+		],
 		"views": {
 			"todo": [
 				{

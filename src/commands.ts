@@ -2,6 +2,8 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import Config from './config';
 import ItemFile from './views/items/item';
@@ -67,6 +69,48 @@ function viewEmbeddedClearFilter () {
   ViewEmbedded.refresh ();
 }
 
+/* FILE CREATION */
+
+async function newFile () {
+
+  const title = await vscode.window.showInputBox ({ placeHolder: 'Folder / Title ...' });
+  const comps = title.split('/');   // TODO: Same logic for Windows?
+
+  let folder = Utils.folder.getRootPath();
+  let name = comps[0].trim() || 'Untitled';
+  let suffix: any = '';
+
+  const paths = Utils.folder.getAllRootPaths();
+
+  if (comps.length > 1) {
+    folder = paths.find((p: string) => path.basename(p).toLowerCase().startsWith(name.toLowerCase())) || folder;
+
+    name = comps[1].trim() || 'Untitled';
+  }
+
+  // Get current date
+  let date = new Date().toISOString().substr(0, 10);
+
+  // SNIPPET
+  while (fs.existsSync(`${folder}/${date} ${name}${suffix}.md`)) {
+    suffix = (suffix || 0) - 1;
+  }
+
+  var uri: vscode.Uri = vscode.Uri.parse(`untitled:${folder}/${date} ${name}${suffix}.md`);
+  vscode.workspace.openTextDocument(uri).then((doc: vscode.TextDocument) => {
+      vscode.window.showTextDocument(doc, 1, false).then(e => {
+          if (name !== 'Untitled') {
+            e.edit(edit => { edit.insert(new vscode.Position(0, 0), `# ${name}\n\n`); });
+          }
+      });
+  }, (error: any) => {
+      console.error(error);
+      debugger;
+  });
+}
+
+
+
 /* EXPORT */
 
-export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, openTaskURL };
+export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, openTaskURL, newFile };
