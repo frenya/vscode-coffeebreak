@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-var moment = require('moment');
+import * as moment from 'moment';
 import Utils from '../../utils';
 
 import Item from './item';
