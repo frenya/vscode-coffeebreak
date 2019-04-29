@@ -73,25 +73,28 @@ function viewEmbeddedClearFilter () {
 
 async function newFile () {
 
-  const title = await vscode.window.showInputBox ({ placeHolder: 'Folder / Title ...' });
-  const comps = title.split('/');   // TODO: Same logic for Windows?
+  const title = await vscode.window.showInputBox ({ placeHolder: 'Note title [, Folder]' });
+
+  // Sanity check (null means Esc was pressed)
+  // tslint:disable-next-line:triple-equals
+  if (title == null) return;
+
+  const comps = title.split(',');
 
   let folder = Utils.folder.getRootPath();
   let name = comps[0].trim() || 'Untitled';
   let suffix: any = '';
 
-  const paths = Utils.folder.getAllRootPaths();
-
   if (comps.length > 1) {
-    folder = paths.find((p: string) => path.basename(p).toLowerCase().startsWith(name.toLowerCase())) || folder;
-
-    name = comps[1].trim() || 'Untitled';
+    const paths = Utils.folder.getAllRootPaths();
+    folder = paths.find((p: string) => path.basename(p).toLowerCase().startsWith(comps[1].trim().toLowerCase())) || folder;
   }
 
   // Get current date
   let date = new Date().toISOString().substr(0, 10);
 
   // SNIPPET
+  // Find first non-colliding name
   while (fs.existsSync(`${folder}/${date} ${name}${suffix}.md`)) {
     suffix = (suffix || 0) - 1;
   }
