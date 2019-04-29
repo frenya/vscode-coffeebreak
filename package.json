@@ -14,7 +14,7 @@
 	"activationEvents": [
 		"*"
 	],
-	"main": "./dist/extension.js",
+	"main": "./out/extension.js",
 	"publisher": "frenya",
 	"author": {
 		"name": "Frantisek Vymazal",
