@@ -20,6 +20,8 @@ const Init = {
             handler = Commands[commandName],
             disposable = vscode.commands.registerCommand ( command, handler );
 
+      if (!handler) console.warn('No handler found for command', command);
+
       context.subscriptions.push ( disposable );
 
     });
