@@ -17,7 +17,7 @@ const Consts = {
     todo: /^(\s*)([*+-]\s+\[[ xX]\]\s*)(.*)$/,
     todoBox: /^(\s*)([*+-]\s+\[ \]\s*)(.*)$/,
     todoDone: /^(\s*)([*+-]\s+\[[xX]\]\s*)(.*)$/,
-    todoEmbedded: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)', 'g' ),
+    todoEmbedded: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)', 'g' ),  // FIXME: Not consistent with regexes above
   }
 };
 

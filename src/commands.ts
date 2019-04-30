@@ -159,7 +159,7 @@ function toggleTodo () {
         {line, todoBox, todoDone} = Consts.regexes;
 
   toggleRules (
-    [todoBox, '$1$3'],
+    [todoBox, `$1${bullet} $3`],
     [todoDone, `$1${bullet} [ ] $3`],
     [line, `$1${bullet} [ ] $3`]
   );
