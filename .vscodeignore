@@ -6,7 +6,7 @@
 **/*.ts
 .vscode
 node_modules
-out/
+out/test/**
 test/**
 src/
 webpack.config.js
