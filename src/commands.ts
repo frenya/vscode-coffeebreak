@@ -71,6 +71,20 @@ function viewEmbeddedClearFilter () {
   ViewEmbedded.refresh ();
 }
 
+async function viewEmbeddedFilterMyTasks () {
+
+  const filter = '@Franta';
+
+  if ( !filter || ViewEmbedded.filter === filter ) return;
+
+  ViewEmbedded.filter = filter;
+  ViewEmbedded.expanded = true;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
+  ViewEmbedded.refresh ( true );
+
+}
+
 /* FILE CREATION */
 
 async function newFile () {
@@ -181,4 +195,4 @@ function toggleDone () {
 
 /* EXPORT */
 
-export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, openTaskURL, newFile, toggleTodo, toggleDone };
+export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, openTaskURL, newFile, toggleTodo, toggleDone, viewEmbeddedFilterMyTasks };

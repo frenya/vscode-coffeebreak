@@ -55,6 +55,10 @@
 				}
 			},
 			{
+				"command": "coffeebreak.viewEmbeddedFilterMyTasks",
+				"title": "Show my tasks"
+			},
+			{
 				"command": "coffeebreak.openTaskURL",
 				"title": "Open URL"
 			},
@@ -236,6 +240,10 @@
 					"command": "coffeebreak.viewEmbeddedClearFilter",
 					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered == true",
 					"group": "navigation@1"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedFilterMyTasks",
+					"when": "view == coffeebreak.views.coffeeBreak"
 				}
 			],
 			"view/item/context": [
