@@ -22,6 +22,16 @@ const Decorators = {
 			}
 		});
 
+		// Used for empty links
+		this.mentionDecorator = vscode.window.createTextEditorDecorationType({
+			light: {
+				color: '#112f77'
+			},
+			dark: {
+				color:  '#21cadd',
+			}
+		});
+	
 		this.activeEditor = vscode.window.activeTextEditor;
 		if (this.activeEditor) {
 			this.triggerUpdateDecorations();
@@ -95,6 +105,7 @@ const Decorators = {
 
 		this.decorateDates (this.activeEditor);
 		this.decorateMatches (this.activeEditor, /\[\]\([^)]*\)/g, this.linkDecorator);
+		this.decorateMatches (this.activeEditor, /@[A-Z][a-z]*/g, this.mentionDecorator);
 	},
 
 	triggerUpdateDecorations() {
