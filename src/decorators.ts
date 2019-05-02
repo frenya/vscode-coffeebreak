@@ -91,16 +91,36 @@ const Decorators = {
 		}
 
 		console.log('Matched ranges', ranges);
-		Object.keys(ranges).forEach((group) => cb(group, ranges[group]));
+		Object.keys(ranges).forEach((group) => cb(ranges[group], group));
 	},
 
 	updateDecorations() {
 		// Sanity check
 		if (!this.activeEditor) return;
 
-		this.decorateMatches (this.activeEditor, /\d{4}-\d{2}-\d{2}/g, Todo.getDateColor, (group, ranges) => this.activeEditor.setDecorations(this.getDateDecorator(group), ranges));
-		this.decorateMatches (this.activeEditor, /\[\]\([^)]*\)/g, null, (group, ranges) => this.activeEditor.setDecorations(this.linkDecorator, ranges));
-		this.decorateMatches (this.activeEditor, /@[A-Z][a-z]*/g, null, (group, ranges) => this.activeEditor.setDecorations(this.mentionDecorator, ranges));
+		// Decorate due dates
+		this.decorateMatches (
+			this.activeEditor,
+			/\d{4}-\d{2}-\d{2}/g,
+			Todo.getDateColor,		// Group by date color
+			(ranges, group) => this.activeEditor.setDecorations(this.getDateDecorator(group), ranges)
+		);
+
+		// Decorate empty links, ungrouped
+		this.decorateMatches (
+			this.activeEditor,
+			/\[\]\([^)]*\)/g,
+			null,
+			(ranges) => this.activeEditor.setDecorations(this.linkDecorator, ranges)
+		);
+
+		// Decorate mentions
+		this.decorateMatches (
+			this.activeEditor,
+			/@[A-Z][a-z]*/g,
+			(mention) => mention === '@Franta' ? 'me' : 'others',	// FIXME: Get current user from config
+			(ranges, group) => this.activeEditor.setDecorations(this.getMentionDecorator(group), ranges)
+		);
 	},
 
 	triggerUpdateDecorations() {
