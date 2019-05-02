@@ -65,8 +65,7 @@ const Decorators = {
 	},
 
 
-	decorateDates (editor) {
-		const regEx = /\d{4}-\d{2}-\d{2}/g;
+	decorateMatches (editor, regEx, grouping, cb) {
 		const text = editor.document.getText();
 		let ranges = {};
 
@@ -75,37 +74,26 @@ const Decorators = {
 			const startPos = editor.document.positionAt(match.index);
 			const endPos = editor.document.positionAt(match.index + match[0].length);
 			const decoration = { range: new vscode.Range(startPos, endPos) };
-			const dateColor = Todo.getDateColor(match[0]);
 
-			if (!ranges[dateColor]) ranges[dateColor] = [];
-			ranges[dateColor].push(decoration);
+			console.log('match', match);
+
+			const group = grouping ? grouping(match[0]) : 'default';
+			
+			if (!ranges[group]) ranges[group] = [];
+			ranges[group].push(decoration);
 		}
 
-		Object.keys(ranges).forEach((dateColor) => editor.setDecorations(this.getDateDecorator(dateColor), ranges[dateColor]));
-	},
-
-	decorateMatches (editor, regEx, decorator) {
-		const text = editor.document.getText();
-		let ranges: vscode.DecorationOptions[] = [];
-
-		let match;
-		while (match = regEx.exec(text)) {
-			const startPos = editor.document.positionAt(match.index);
-			const endPos = editor.document.positionAt(match.index + match[0].length);
-			const decoration = { range: new vscode.Range(startPos, endPos) };
-
-			ranges.push(decoration);
-		}
-		editor.setDecorations(decorator, ranges);
+		console.log('Matched ranges', ranges);
+		Object.keys(ranges).forEach((group) => cb(group, ranges[group]));
 	},
 
 	updateDecorations() {
 		// Sanity check
 		if (!this.activeEditor) return;
 
-		this.decorateDates (this.activeEditor);
-		this.decorateMatches (this.activeEditor, /\[\]\([^)]*\)/g, this.linkDecorator);
-		this.decorateMatches (this.activeEditor, /@[A-Z][a-z]*/g, this.mentionDecorator);
+		this.decorateMatches (this.activeEditor, /\d{4}-\d{2}-\d{2}/g, Todo.getDateColor, (group, ranges) => this.activeEditor.setDecorations(this.getDateDecorator(group), ranges));
+		this.decorateMatches (this.activeEditor, /\[\]\([^)]*\)/g, null, (group, ranges) => this.activeEditor.setDecorations(this.linkDecorator, ranges));
+		this.decorateMatches (this.activeEditor, /@[A-Z][a-z]*/g, null, (group, ranges) => this.activeEditor.setDecorations(this.mentionDecorator, ranges));
 	},
 
 	triggerUpdateDecorations() {
