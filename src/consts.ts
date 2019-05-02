@@ -12,6 +12,13 @@ const Consts = {
     bullet: '-',
     done: 'x'
   },
+  dateColors: {
+    overdue: 'd03535',
+    dueSoon: 'd28019',
+    // future: '21cadd',
+    future: '112f77',
+    undated: '333333'
+  },
   regexes: {
     line: /^(\s*)([*+-]?\s*)(.*)$/,
     todo: /^(\s*)([*+-]\s+\[[ xX]\]\s*)(.*)$/,

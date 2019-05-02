@@ -3,6 +3,7 @@
 
 import * as moment from 'moment';
 import Utils from '../../utils';
+import Consts from '../../consts';
 
 import Item from './item';
 
@@ -37,20 +38,9 @@ class Todo extends Item {
     // Detect due date
     let matchDate = dateRegex.exec(label);
     if (matchDate && matchDate.length) {
-      const dueDate = moment(matchDate[0]);
-      const today = moment();
-      this.description = dueDate.calendar(null, displayFormat);
-      if (dueDate.isSame(today, 'day')) {
-        this.setTaskIcon('d28019');
-      }
-      else if (dueDate.isBefore(today, 'day')) {
-        this.setTaskIcon('d03535');
-      }
-      else if (dueDate.isAfter(today, 'day')) {
-        this.setTaskIcon('21cadd');
-      }
+      this.setTaskIcon(Todo.getDateColor(matchDate[0]));
     }
-    else this.setTaskIcon('333333');
+    else this.setTaskIcon(Todo.getDateColor(null));
 
     // Remove the date from label
     this.label = this.label.replace(dateRegex, '');
@@ -71,6 +61,23 @@ class Todo extends Item {
 
   setTaskIcon (color) {
     this.iconPath = Utils.view.getTaskIcon(color) || this.iconPath;
+  }
+
+  static getDateColor (dateStr) {
+    if (dateStr) {
+      const dueDate = moment(dateStr);
+      const today = moment();
+      if (dueDate.isSame(today, 'day')) {
+        return Consts.dateColors.dueSoon;
+      }
+      else if (dueDate.isBefore(today, 'day')) {
+        return Consts.dateColors.overdue;
+      }
+      else if (dueDate.isAfter(today, 'day')) {
+        return Consts.dateColors.future;
+      }
+    }
+    else return Consts.dateColors.undated;
   }
 
 }
