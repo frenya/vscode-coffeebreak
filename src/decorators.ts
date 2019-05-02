@@ -7,6 +7,7 @@ const Decorators = {
 	timeout: undefined,
 
 	dateDecorators: {},
+	mentionDecorators: {},
 	linkDecorator: undefined,
 
 	activeEditor: undefined,
@@ -22,16 +23,6 @@ const Decorators = {
 			}
 		});
 
-		// Used for empty links
-		this.mentionDecorator = vscode.window.createTextEditorDecorationType({
-			light: {
-				color: '#112f77'
-			},
-			dark: {
-				color:  '#21cadd',
-			}
-		});
-	
 		this.activeEditor = vscode.window.activeTextEditor;
 		if (this.activeEditor) {
 			this.triggerUpdateDecorations();
@@ -62,6 +53,22 @@ const Decorators = {
 			});
 		}
 		return this.dateDecorators[dateColor];
+	},
+
+	getMentionDecorator (group) {
+		if (!this.mentionDecorators[group]) {
+			this.mentionDecorators[group] = vscode.window.createTextEditorDecorationType({
+				backgroundColor: group === 'me' ? '#112f77' : 'inherit',
+				light: {
+					color: '#112f77'
+				},
+				dark: {
+					color:  '#21cadd',
+				}
+			});
+		}
+		console.log('getMentionDecorator', group);
+		return this.mentionDecorators[group];
 	},
 
 
