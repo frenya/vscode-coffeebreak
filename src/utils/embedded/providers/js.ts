@@ -123,7 +123,7 @@ class JS extends Abstract {
 
     // Detect due date
     let match = regex.exec(obj.message);
-    if (match && match.length > group) obj[attributeName] = match[group];
+    if (match && match.length > group) obj[attributeName] = match[group].trim();
 
     // Remove the regex from message
     obj.message = obj.message.replace(regex, '');
