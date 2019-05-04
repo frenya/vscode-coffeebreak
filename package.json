@@ -67,8 +67,24 @@
 				"title": "Show all tasks"
 			},
 			{
-				"command": "coffeebreak.viewEmbeddedDueTasks",
-				"title": "Due today and overdue"
+				"command": "coffeebreak.viewEmbeddedDueToday",
+				"title": "Due today"
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedDueThisWeek",
+				"title": "Due this week"
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedDueAnytime",
+				"title": "Due anytime"
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedHideLinkedTasks",
+				"title": "Hide linked tasks"
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedShowLinkedTasks",
+				"title": "Show linked tasks"
 			},
 			{
 				"command": "coffeebreak.openTaskURL",
@@ -256,23 +272,44 @@
 				{
 					"command": "coffeebreak.viewEmbeddedFilterMyTasks",
 					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "owner@1"
+					"group": "1_owner@1"
 				},
 				{
 					"command": "coffeebreak.viewEmbeddedFilterUnassignedTasks",
 					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "owner@2"
+					"group": "1_owner@2"
 				},
 				{
 					"command": "coffeebreak.viewEmbeddedFilterAllTasks",
 					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "owner@3"
+					"group": "1_owner@3"
 				},
 				{
-					"command": "coffeebreak.viewEmbeddedDueTasks",
+					"command": "coffeebreak.viewEmbeddedDueToday",
 					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "due@1"
+					"group": "2_due@1"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedDueThisWeek",
+					"when": "view == coffeebreak.views.coffeeBreak",
+					"group": "2_due@2"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedDueAnytime",
+					"when": "view == coffeebreak.views.coffeeBreak",
+					"group": "2_due@3"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedHideLinkedTasks",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-hide-linked == false",
+					"group": "3_linked"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedShowLinkedTasks",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-hide-linked == true",
+					"group": "3_linked"
 				}
+
 			],
 			"view/item/context": [
 				{

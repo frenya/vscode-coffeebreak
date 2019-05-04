@@ -19,7 +19,8 @@ const activate = function ( context: vscode.ExtensionContext ) {
 
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!ViewEmbedded.filter );
-
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-hide-linked', false );
+  
   Utils.context = context;
   Utils.folder.initRootsRe ();
   Utils.init.views ();

@@ -112,13 +112,38 @@ async function viewEmbeddedFilterAllTasks () {
 
 }
 
-async function viewEmbeddedDueTasks () {
+async function viewEmbeddedDueTasks (date) {
 
   // TODO: Avoid unnecessary refreshes
   // if ( !filter || ViewEmbedded.filter === filter ) return;
 
-  ViewEmbedded.filterDueDate = new Date().toISOString().substr(0, 10);
+  ViewEmbedded.filterDueDate = date && date.toISOString().substr(0, 10);
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
+  ViewEmbedded.refresh ( true );
+
+}
+
+async function viewEmbeddedDueToday () {
+  viewEmbeddedDueTasks(new Date());
+}
+
+async function viewEmbeddedDueAnytime () {
+  viewEmbeddedDueTasks(null);
+}
+
+
+async function viewEmbeddedShowLinkedTasks () {
+
+  ViewEmbedded.hideLinked = false;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-hide-linked', false );
+  ViewEmbedded.refresh ( true );
+
+}
+
+async function viewEmbeddedHideLinkedTasks () {
+
+  ViewEmbedded.hideLinked = true;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-hide-linked', true );
   ViewEmbedded.refresh ( true );
 
 }
@@ -238,5 +263,7 @@ export {
   viewEmbeddedFilter, viewEmbeddedClearFilter, 
   openTaskURL, newFile, 
   toggleTodo, toggleDone,
-  viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks, viewEmbeddedDueTasks
+  viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks,
+  viewEmbeddedDueToday, viewEmbeddedDueAnytime,
+  viewEmbeddedShowLinkedTasks, viewEmbeddedHideLinkedTasks
 };
