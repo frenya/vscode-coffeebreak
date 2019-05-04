@@ -24,6 +24,7 @@ class Embedded extends View {
   filterRe: RegExp | false = false;
   filterType: string | false = false; // NOTE: Actually it's "owner"
   filterDueDate: string | false = false;
+  hideLinked = false;
   filePathRe = /^(?!~).*(?:\\|\/)/;
 
   getTreeItem ( item: Item ): vscode.TreeItem {
@@ -45,6 +46,9 @@ class Embedded extends View {
   }
 
   isItemVisible (obj) {
+    // Filter linked
+    if (this.hideLinked && obj.externalURL) return false;
+
     // Filter by type if applicable
     if (this.filterType && obj.type !== this.filterType) return false;
 
