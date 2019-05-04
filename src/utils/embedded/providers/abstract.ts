@@ -164,67 +164,6 @@ class Abstract {
 
   }
 
-  renderTodos ( todos ) {
-
-    if ( _.isEmpty ( todos ) ) return '';
-
-    const sepRe = new RegExp ( querystring.escape ( '/' ), 'g' ),
-          config = Config.get (),
-          { indentation, embedded: { file: { wholeLine } }, symbols: { box } } = config,
-          lines = [];
-
-    /* LINES */
-
-    const roots = Object.keys ( todos ).sort ();
-
-    roots.forEach ( root => {
-
-      if ( root ) {
-        lines.push ( `\n${root}:` );
-      }
-
-      const types = Object.keys ( todos[root] ).sort ();
-
-      types.forEach ( type => {
-
-        if ( type ) {
-          lines.push ( `${root ? indentation : '\n'}${type}:` );
-        }
-
-        const filePaths = Object.keys ( todos[root][type] ).sort ();
-
-        filePaths.forEach ( filePath => {
-
-          if ( filePath ) {
-
-            const normalizedFilePath = `/${_.trimStart ( filePath, '/' )}`,
-                  encodedFilePath = querystring.escape ( normalizedFilePath ).replace ( sepRe, '/' );
-
-            lines.push ( `${root ? indentation : ''}${type ? indentation : ''}@file://${encodedFilePath}` );
-
-          }
-
-          const data = todos[root][type][filePath];
-
-          data.forEach ( datum => {
-
-            const normalizedFilePath = `/${_.trimStart ( datum.filePath, '/' )}`,
-                  encodedFilePath = querystring.escape ( normalizedFilePath ).replace ( sepRe, '/' );
-
-            lines.push ( `${root ? indentation : ''}${type ? indentation : ''}${filePath ? indentation : ''}${box} ${_.trimStart ( wholeLine ? datum.line : datum.message )} @file://${encodedFilePath}#${datum.lineNr + 1}` );
-
-          });
-
-        });
-
-      });
-
-    });
-
-    return lines.length ? `${lines.join ( '\n' )}\n` : '';
-
-  }
-
 }
 
 /* EXPORT */
