@@ -90,7 +90,7 @@ const Decorators = {
 			ranges[group].push(decoration);
 		}
 
-		console.log('Matched ranges', ranges);
+		// console.log('Matched ranges', ranges);
 		Object.keys(ranges).forEach((group) => cb(ranges[group], group));
 	},
 
@@ -128,7 +128,7 @@ const Decorators = {
 			clearTimeout(this.timeout);
 			this.timeout = undefined;
 		}
-		this.timeout = setTimeout(() => this.updateDecorations(), 500);
+		this.timeout = setTimeout(() => this.updateDecorations(), 300);
 	}
 
 };
