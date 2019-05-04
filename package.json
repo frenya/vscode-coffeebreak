@@ -42,8 +42,8 @@
 				"command": "coffeebreak.viewEmbeddedFilter",
 				"title": "Filter",
 				"icon": {
-					"light": "resources/icons/filter_light.svg",
-					"dark": "resources/icons/filter_dark.svg"
+					"light": "resources/icons/search_light.svg",
+					"dark": "resources/icons/search_dark.svg"
 				}
 			},
 			{
