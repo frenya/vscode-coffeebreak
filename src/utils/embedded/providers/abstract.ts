@@ -18,7 +18,7 @@ class Abstract {
   filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher: vscode.FileSystemWatcher = undefined;
 
-  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false ) {
+  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter ) {
 
     rootPaths = _.castArray ( rootPaths );
 
@@ -140,7 +140,7 @@ class Abstract {
 
       data.forEach ( datum => {
 
-        if ( filterRe && !filterRe.test ( datum.line ) ) return;
+        if ( filter && !filter(datum) ) return;
 
         const rootGroup = groupByRoot ? datum.root : '';
 

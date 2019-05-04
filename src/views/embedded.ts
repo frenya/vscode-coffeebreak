@@ -21,6 +21,9 @@ class Embedded extends View {
   clear = false;
   expanded = true;
   filter: string | false = false;
+  filterRe: RegExp | false = false;
+  filterType: string | false = false; // NOTE: Actually it's "owner"
+  filterDueDate: string | false = false;
   filePathRe = /^(?!~).*(?:\\|\/)/;
 
   getTreeItem ( item: Item ): vscode.TreeItem {
@@ -37,8 +40,21 @@ class Embedded extends View {
 
     await Utils.embedded.initProvider ();
 
-    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter );
+    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.isItemVisible.bind(this) );
 
+  }
+
+  isItemVisible (obj) {
+    // Filter by type if applicable
+    if (this.filterType && obj.type !== this.filterType) return false;
+
+    // Filter by due date if applicable
+    if (this.filterDueDate && (!obj.dueDate || obj.dueDate > this.filterDueDate)) return false;
+
+    // Filter by text if applicable
+    if (this.filterRe && !this.filterRe.test(obj.message)) return false;
+
+    return true;
   }
 
   async getChildren ( item?: Item ): Promise<Item[]> {
