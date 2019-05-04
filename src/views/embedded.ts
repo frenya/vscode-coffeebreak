@@ -51,9 +51,11 @@ class Embedded extends View {
 
     }
 
+    // Check the item's data or load the whole tree when item is null (i.e. rendering root)
     let obj = item ? item.obj : await this.getEmbedded ();
 
-    while ( obj && '' in obj ) obj = obj['']; // Collapsing unnecessary groups
+    // Collapse unnecessary groups
+    while ( obj && '' in obj ) obj = obj[''];
 
     if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos found' )];
 
