@@ -60,6 +60,7 @@ async function viewEmbeddedFilter () {
   if ( !filter || ViewEmbedded.filter === filter ) return;
 
   ViewEmbedded.filter = filter;
+  ViewEmbedded.filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
   ViewEmbedded.refresh ();
 
@@ -67,20 +68,57 @@ async function viewEmbeddedFilter () {
 
 function viewEmbeddedClearFilter () {
   ViewEmbedded.filter = false;
+  ViewEmbedded.filterRe = false;
+  ViewEmbedded.filterType = false;
+  ViewEmbedded.filterDueDate = null;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', false );
   ViewEmbedded.refresh ();
 }
 
 async function viewEmbeddedFilterMyTasks () {
 
-  const filter = '@Franta';
+  // TODO: Avoid unnecessary refreshes
+  // if ( !filter || ViewEmbedded.filter === filter ) return;
 
-  if ( !filter || ViewEmbedded.filter === filter ) return;
-
-  ViewEmbedded.filter = filter;
+  ViewEmbedded.filterType = '@Franta';
   ViewEmbedded.expanded = true;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
+  ViewEmbedded.refresh ( true );
+
+}
+
+async function viewEmbeddedFilterUnassignedTasks () {
+
+  // TODO: Avoid unnecessary refreshes
+  // if ( !filter || ViewEmbedded.filter === filter ) return;
+
+  ViewEmbedded.filterType = '<unassigned>';
+  ViewEmbedded.expanded = true;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
+  ViewEmbedded.refresh ( true );
+
+}
+
+async function viewEmbeddedFilterAllTasks () {
+
+  // TODO: Avoid unnecessary refreshes
+  // if ( !filter || ViewEmbedded.filter === filter ) return;
+
+  ViewEmbedded.filterType = false;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', false );
+  ViewEmbedded.refresh ( true );
+
+}
+
+async function viewEmbeddedDueTasks () {
+
+  // TODO: Avoid unnecessary refreshes
+  // if ( !filter || ViewEmbedded.filter === filter ) return;
+
+  ViewEmbedded.filterDueDate = new Date().toISOString().substr(0, 10);
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
   ViewEmbedded.refresh ( true );
 
 }
@@ -195,4 +233,10 @@ function toggleDone () {
 
 /* EXPORT */
 
-export { viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, openTaskURL, newFile, toggleTodo, toggleDone, viewEmbeddedFilterMyTasks };
+export {
+  viewRevealTodo, viewEmbeddedCollapse, viewEmbeddedExpand, 
+  viewEmbeddedFilter, viewEmbeddedClearFilter, 
+  openTaskURL, newFile, 
+  toggleTodo, toggleDone,
+  viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks, viewEmbeddedDueTasks
+};

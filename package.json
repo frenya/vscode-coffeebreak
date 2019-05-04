@@ -59,6 +59,18 @@
 				"title": "Show my tasks"
 			},
 			{
+				"command": "coffeebreak.viewEmbeddedFilterUnassignedTasks",
+				"title": "Show unassigned tasks"
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedFilterAllTasks",
+				"title": "Show all tasks"
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedDueTasks",
+				"title": "Due today and overdue"
+			},
+			{
 				"command": "coffeebreak.openTaskURL",
 				"title": "Open URL"
 			},
@@ -233,8 +245,8 @@
 				},
 				{
 					"command": "coffeebreak.viewEmbeddedFilter",
-					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered == false",
-					"group": "navigation@1"
+					"when": "view == coffeebreak.views.coffeeBreak",
+					"group": "navigation@0"
 				},
 				{
 					"command": "coffeebreak.viewEmbeddedClearFilter",
@@ -243,7 +255,23 @@
 				},
 				{
 					"command": "coffeebreak.viewEmbeddedFilterMyTasks",
-					"when": "view == coffeebreak.views.coffeeBreak"
+					"when": "view == coffeebreak.views.coffeeBreak",
+					"group": "owner@1"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedFilterUnassignedTasks",
+					"when": "view == coffeebreak.views.coffeeBreak",
+					"group": "owner@2"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedFilterAllTasks",
+					"when": "view == coffeebreak.views.coffeeBreak",
+					"group": "owner@3"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedDueTasks",
+					"when": "view == coffeebreak.views.coffeeBreak",
+					"group": "due@1"
 				}
 			],
 			"view/item/context": [
