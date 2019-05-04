@@ -88,7 +88,11 @@
 			},
 			{
 				"command": "coffeebreak.openTaskURL",
-				"title": "Open URL"
+				"title": "Open URL",
+				"icon": {
+					"light": "resources/icons/link_light.svg",
+					"dark": "resources/icons/link_dark.svg"
+				}
 			},
 			{
 				"command": "coffeebreak.viewRevealTodo",
