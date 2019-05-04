@@ -14,9 +14,6 @@ const displayFormat = {
   sameElse: 'dddd, MMM DD'
 };
 
-const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
-const linkRegex = /\[\]\(([^)]*)\)/;
-
 /* TODO */
 
 class Todo extends Item {
@@ -35,27 +32,11 @@ class Todo extends Item {
       arguments: [this]
     };
 
-    // Detect due date
-    let matchDate = dateRegex.exec(label);
-    if (matchDate && matchDate.length) {
-      this.setTaskIcon(Todo.getDateColor(matchDate[0]));
-    }
-    else this.setTaskIcon(Todo.getDateColor(null));
+    // Color by due date
+    this.setTaskIcon(Todo.getDateColor(obj.dueDate));
 
-    // Remove the date from label
-    this.label = this.label.replace(dateRegex, '');
-
-    // Detect external service link
-    let matchLink = linkRegex.exec(label);
-    if (matchLink && matchLink.length) {
-      const url = matchLink[1];
-      console.log('Detected url', url);
-      this.contextValue = 'todo-linked';
-      this.obj.externalURL = url;
-    }
-
-    // Remove the date from label
-    this.label = this.label.replace(linkRegex, '');
+    // Indicate external service link
+    if (obj.externalURL) this.contextValue = 'todo-linked';
 
   }
 

@@ -9,6 +9,10 @@ import File from '../../file';
 import Folder from '../../folder';
 import Abstract from './abstract';
 
+const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
+const linkRegex = /\[\]\(([^)]*)\)/;
+
+
 /* JS */
 
 class JS extends Abstract {
@@ -85,20 +89,27 @@ class JS extends Abstract {
 
       matches.forEach ( match => {
 
-        data.push ({
-          todo: match[0],
-          type: match[1].trim() || defaultType,
-          message: match[2],
-          code: line.slice ( 0, line.indexOf ( match[0] ) ),
-          rawLine,
-          line,
-          lineNr,
-          filePath,
-          root: parsedPath.root,
-          rootPath: parsedPath.rootPath,
-          relativePath: parsedPath.relativePath
-        });
-
+        data.push (
+          this.extractRegex(
+            this.extractRegex({
+                todo: match[0],
+                type: match[1].trim() || defaultType,
+                message: match[2],
+                code: line.slice ( 0, line.indexOf ( match[0] ) ),
+                rawLine,
+                line,
+                lineNr,
+                filePath,
+                root: parsedPath.root,
+                rootPath: parsedPath.rootPath,
+                relativePath: parsedPath.relativePath
+              }, 
+              dateRegex, 0, 'dueDate'
+            ),
+            linkRegex, 1, 'externalURL'
+          )
+        );
+      
       });
 
     });
@@ -107,7 +118,21 @@ class JS extends Abstract {
 
   }
 
-};
+  // Extract a regex from obj.message, store it in attribute name
+  extractRegex (obj, regex, group, attributeName) {
+
+    // Detect due date
+    let match = regex.exec(obj.message);
+    if (match && match.length > group) obj[attributeName] = match[group];
+
+    // Remove the regex from message
+    obj.message = obj.message.replace(regex, '');
+
+    return obj;
+
+  }
+
+}
 
 /* EXPORT */
 
