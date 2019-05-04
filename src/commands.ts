@@ -75,41 +75,29 @@ function viewEmbeddedClearFilter () {
   ViewEmbedded.refresh ();
 }
 
-async function viewEmbeddedFilterMyTasks () {
+async function viewEmbeddedFilterByType (type) {
 
-  // TODO: Avoid unnecessary refreshes
-  // if ( !filter || ViewEmbedded.filter === filter ) return;
+  // Avoid unnecessary refreshes
+  if ( ViewEmbedded.filterType === type ) return;
 
-  ViewEmbedded.filterType = '@Franta';
+  ViewEmbedded.filterType =type;
   ViewEmbedded.expanded = true;
-  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!type );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
   ViewEmbedded.refresh ( true );
 
+}
+
+async function viewEmbeddedFilterMyTasks () {
+  viewEmbeddedFilterByType('@Franta');
 }
 
 async function viewEmbeddedFilterUnassignedTasks () {
-
-  // TODO: Avoid unnecessary refreshes
-  // if ( !filter || ViewEmbedded.filter === filter ) return;
-
-  ViewEmbedded.filterType = '<unassigned>';
-  ViewEmbedded.expanded = true;
-  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
-  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
-  ViewEmbedded.refresh ( true );
-
+  viewEmbeddedFilterByType('<unassigned>');
 }
 
 async function viewEmbeddedFilterAllTasks () {
-
-  // TODO: Avoid unnecessary refreshes
-  // if ( !filter || ViewEmbedded.filter === filter ) return;
-
-  ViewEmbedded.filterType = false;
-  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', false );
-  ViewEmbedded.refresh ( true );
-
+  viewEmbeddedFilterByType(null);
 }
 
 async function viewEmbeddedDueTasks (date) {
