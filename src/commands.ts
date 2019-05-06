@@ -69,10 +69,15 @@ async function viewEmbeddedFilter () {
 function viewEmbeddedClearFilter () {
   ViewEmbedded.filter = false;
   ViewEmbedded.filterRe = false;
-  ViewEmbedded.filterType = false;
-  ViewEmbedded.filterDueDate = null;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', false );
   ViewEmbedded.refresh ();
+}
+
+async function viewEmbeddedFilterByOwner () {
+
+  const filter = await vscode.window.showInputBox ({ value: '@Franta' });
+  if (filter != null) viewEmbeddedFilterByType(filter || '<unassigned>');
+
 }
 
 async function viewEmbeddedFilterByType (type) {
@@ -81,9 +86,11 @@ async function viewEmbeddedFilterByType (type) {
   if ( ViewEmbedded.filterType === type ) return;
 
   ViewEmbedded.filterType =type;
-  ViewEmbedded.expanded = true;
-  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!type );
-  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-owner', !!type );
+  if (type) {
+    ViewEmbedded.expanded = true;
+    vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
+  }
   ViewEmbedded.refresh ( true );
 
 }
@@ -100,19 +107,30 @@ async function viewEmbeddedFilterAllTasks () {
   viewEmbeddedFilterByType(null);
 }
 
+async function viewEmbeddedFilterByDate () {
+
+  const filter = await vscode.window.showInputBox ({ value: new Date().toISOString().substr(0, 10) });
+  if (filter != null) viewEmbeddedDueTasks(filter || '2999-12-31');
+
+}
+
 async function viewEmbeddedDueTasks (date) {
 
   // TODO: Avoid unnecessary refreshes
   // if ( !filter || ViewEmbedded.filter === filter ) return;
 
-  ViewEmbedded.filterDueDate = date && date.toISOString().substr(0, 10);
-  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
+  ViewEmbedded.filterDueDate = date;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-due', !!date );
+  if (date) {
+    ViewEmbedded.expanded = true;
+    vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', true );
+  }
   ViewEmbedded.refresh ( true );
 
 }
 
 async function viewEmbeddedDueToday () {
-  viewEmbeddedDueTasks(new Date());
+  viewEmbeddedDueTasks(new Date().toISOString().substr(0, 10));
 }
 
 async function viewEmbeddedDueAnytime () {
@@ -251,7 +269,7 @@ export {
   viewEmbeddedFilter, viewEmbeddedClearFilter, 
   openTaskURL, newFile, 
   toggleTodo, toggleDone,
-  viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks,
-  viewEmbeddedDueToday, viewEmbeddedDueAnytime,
+  viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks, viewEmbeddedFilterByOwner,
+  viewEmbeddedDueToday, viewEmbeddedDueAnytime, viewEmbeddedFilterByDate,
   viewEmbeddedShowLinkedTasks, viewEmbeddedHideLinkedTasks
 };

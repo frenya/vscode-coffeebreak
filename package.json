@@ -42,21 +42,25 @@
 				"command": "coffeebreak.viewEmbeddedFilter",
 				"title": "Filter",
 				"icon": {
-					"light": "resources/icons/search_light.svg",
-					"dark": "resources/icons/search_dark.svg"
+					"light": "resources/icons/light/search.svg",
+					"dark": "resources/icons/dark/search.svg"
 				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedClearFilter",
 				"title": "Clear Filter",
 				"icon": {
-					"light": "resources/icons/clear_filter_light.svg",
-					"dark": "resources/icons/clear_filter_dark.svg"
+					"light": "resources/icons/light/search_clear.svg",
+					"dark": "resources/icons/dark/search_clear.svg"
 				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedFilterMyTasks",
-				"title": "Show my tasks"
+				"title": "Show my tasks",
+				"icon": {
+					"light": "resources/material/social/ic_person_24px.svg",
+					"dark": "resources/material/social/ic_person_24px.svg"
+				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedFilterUnassignedTasks",
@@ -64,11 +68,35 @@
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedFilterAllTasks",
-				"title": "Show all tasks"
+				"title": "Clear owner filter",
+				"icon": {
+					"light": "resources/icons/light/filter_owner_clear.svg",
+					"dark": "resources/icons/dark/filter_owner_clear.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedFilterByOwner",
+				"title": "Filter by owner",
+				"icon": {
+					"light": "resources/icons/light/filter_owner.svg",
+					"dark": "resources/icons/dark/filter_owner.svg"
+				}
+			},
+			{
+				"command": "coffeebreak.viewEmbeddedFilterByDate",
+				"title": "Due today",
+				"icon": {
+					"light": "resources/icons/light/filter_due.svg",
+					"dark": "resources/icons/dark/filter_due.svg"
+				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedDueToday",
-				"title": "Due today"
+				"title": "Due today",
+				"icon": {
+					"light": "resources/icons/light/filter_due.svg",
+					"dark": "resources/icons/dark/filter_due.svg"
+				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedDueThisWeek",
@@ -76,15 +104,27 @@
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedDueAnytime",
-				"title": "Due anytime"
+				"title": "Clear due filter",
+				"icon": {
+					"light": "resources/icons/light/filter_due_clear.svg",
+					"dark": "resources/icons/dark/filter_due_clear.svg"
+				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedHideLinkedTasks",
-				"title": "Hide linked tasks"
+				"title": "Hide linked tasks",
+				"icon": {
+					"light": "resources/icons/light/hide_linked.svg",
+					"dark": "resources/icons/dark/hide_linked.svg"
+				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedShowLinkedTasks",
-				"title": "Show linked tasks"
+				"title": "Show linked tasks",
+				"icon": {
+					"light": "resources/icons/light/show_linked.svg",
+					"dark": "resources/icons/dark/show_linked.svg"
+				}
 			},
 			{
 				"command": "coffeebreak.openTaskURL",
@@ -256,16 +296,46 @@
 				{
 					"command": "coffeebreak.viewEmbeddedCollapse",
 					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-expanded == true",
-					"group": "navigation@2"
+					"group": "navigation@6"
 				},
 				{
 					"command": "coffeebreak.viewEmbeddedExpand",
 					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-expanded == false",
-					"group": "navigation@2"
+					"group": "navigation@6"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedHideLinkedTasks",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-hide-linked == false",
+					"group": "navigation@5"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedShowLinkedTasks",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-hide-linked == true",
+					"group": "navigation@5"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedFilterByDate",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered-due == false",
+					"group": "navigation@4"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedDueAnytime",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered-due == true",
+					"group": "navigation@4"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedFilterByOwner",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered-owner == false",
+					"group": "navigation@3"
+				},
+				{
+					"command": "coffeebreak.viewEmbeddedFilterAllTasks",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered-owner == true",
+					"group": "navigation@3"
 				},
 				{
 					"command": "coffeebreak.viewEmbeddedFilter",
-					"when": "view == coffeebreak.views.coffeeBreak",
+					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered == false",
 					"group": "navigation@0"
 				},
 				{
