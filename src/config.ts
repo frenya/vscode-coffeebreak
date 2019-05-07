@@ -30,4 +30,8 @@ const Config = {
 
 /* EXPORT */
 
+export interface IConfiguration {
+	tags: string[];
+}
+
 export default Config;
