@@ -16,7 +16,7 @@ const Consts = {
     overdue: 'd03535',
     dueSoon: 'd28019',
     // future: '21cadd',
-    future: '112f77',
+    future: '21cadd',
     undated: '333333'
   },
   regexes: {

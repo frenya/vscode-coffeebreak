@@ -47,9 +47,7 @@ const Decorators = {
 	getDateDecorator (dateColor) {
 		if (!this.dateDecorators[dateColor]) {
 			this.dateDecorators[dateColor] = vscode.window.createTextEditorDecorationType({
-				backgroundColor: '#' + dateColor,
-				color: '#eee',
-				borderRadius: '2px'
+				color: '#' + dateColor
 			});
 		}
 		return this.dateDecorators[dateColor];
@@ -58,7 +56,8 @@ const Decorators = {
 	getMentionDecorator (group) {
 		if (!this.mentionDecorators[group]) {
 			this.mentionDecorators[group] = vscode.window.createTextEditorDecorationType({
-				backgroundColor: group === 'me' ? '#112f77' : 'inherit',
+				// backgroundColor: group === 'me' ? '#112f77' : 'inherit',
+				fontWeight: group === 'me' ? '800' : 'inherit',
 				light: {
 					color: '#112f77'
 				},
@@ -67,7 +66,6 @@ const Decorators = {
 				}
 			});
 		}
-		console.log('getMentionDecorator', group);
 		return this.mentionDecorators[group];
 	},
 
@@ -81,8 +79,6 @@ const Decorators = {
 			const startPos = editor.document.positionAt(match.index);
 			const endPos = editor.document.positionAt(match.index + match[0].length);
 			const decoration = { range: new vscode.Range(startPos, endPos) };
-
-			console.log('match', match);
 
 			const group = grouping ? grouping(match[0]) : 'default';
 			
