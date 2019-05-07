@@ -26,16 +26,16 @@
 				"command": "coffeebreak.viewEmbeddedCollapse",
 				"title": "Collapse",
 				"icon": {
-					"light": "resources/icons/collapse_light.svg",
-					"dark": "resources/icons/collapse_dark.svg"
+					"light": "resources/icons/light/collapse.svg",
+					"dark": "resources/icons/dark/collapse.svg"
 				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedExpand",
 				"title": "Expand",
 				"icon": {
-					"light": "resources/icons/expand_light.svg",
-					"dark": "resources/icons/expand_dark.svg"
+					"light": "resources/icons/light/expand.svg",
+					"dark": "resources/icons/dark/expand.svg"
 				}
 			},
 			{
@@ -99,10 +99,6 @@
 				}
 			},
 			{
-				"command": "coffeebreak.viewEmbeddedDueThisWeek",
-				"title": "Due this week"
-			},
-			{
 				"command": "coffeebreak.viewEmbeddedDueAnytime",
 				"title": "Clear due filter",
 				"icon": {
@@ -114,16 +110,16 @@
 				"command": "coffeebreak.viewEmbeddedHideLinkedTasks",
 				"title": "Hide linked tasks",
 				"icon": {
-					"light": "resources/icons/light/hide_linked.svg",
-					"dark": "resources/icons/dark/hide_linked.svg"
+					"light": "resources/icons/light/ic_cast_connected.svg",
+					"dark": "resources/icons/dark/ic_cast_connected.svg"
 				}
 			},
 			{
 				"command": "coffeebreak.viewEmbeddedShowLinkedTasks",
 				"title": "Show linked tasks",
 				"icon": {
-					"light": "resources/icons/light/show_linked.svg",
-					"dark": "resources/icons/dark/show_linked.svg"
+					"light": "resources/icons/light/ic_cast.svg",
+					"dark": "resources/icons/dark/ic_cast.svg"
 				}
 			},
 			{
@@ -346,46 +342,6 @@
 					"command": "coffeebreak.viewEmbeddedClearFilter",
 					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered == true",
 					"group": "navigation@1"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedFilterMyTasks",
-					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "1_owner@1"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedFilterUnassignedTasks",
-					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "1_owner@2"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedFilterAllTasks",
-					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "1_owner@3"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedDueToday",
-					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "2_due@1"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedDueThisWeek",
-					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "2_due@2"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedDueAnytime",
-					"when": "view == coffeebreak.views.coffeeBreak",
-					"group": "2_due@3"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedHideLinkedTasks",
-					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-hide-linked == false",
-					"group": "3_linked"
-				},
-				{
-					"command": "coffeebreak.viewEmbeddedShowLinkedTasks",
-					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-hide-linked == true",
-					"group": "3_linked"
 				}
 
 			],
