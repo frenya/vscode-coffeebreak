@@ -10,6 +10,8 @@ import Folder from '../../folder';
 
 /* ABSTRACT */
 
+export const pathNormalizer = filePath => filePath.replace ( /\\/g, '/' ).normalize();
+
 class Abstract {
 
   include = undefined;
@@ -45,10 +47,6 @@ class Abstract {
   }
 
   async watchPaths () {
-
-    /* HELPERS */
-
-    const pathNormalizer = filePath => filePath.replace ( /\\/g, '/' );
 
     /* HANDLERS */
 
@@ -130,7 +128,7 @@ class Abstract {
           filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false,
           filePaths = Object.keys ( this.filesData );
 
-    filePaths.forEach ( filePath => {
+    filePaths.map(pathNormalizer).forEach ( filePath => {
 
       const data = this.filesData[filePath];
 

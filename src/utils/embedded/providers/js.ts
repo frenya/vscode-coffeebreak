@@ -7,7 +7,7 @@ import stringMatches from 'string-matches';
 import Consts from '../../../consts';
 import File from '../../file';
 import Folder from '../../folder';
-import Abstract from './abstract';
+import Abstract, { pathNormalizer } from './abstract';
 
 const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
 const linkRegex = /\[\]\(([^)]*)\)/;
@@ -41,7 +41,7 @@ class JS extends Abstract {
 
     await Promise.all ( _.map ( filePaths, async ( filePath: string ) => {
 
-      this.filesData[filePath] = await this.getFileData ( filePath );
+      this.filesData[pathNormalizer(filePath)] = await this.getFileData ( pathNormalizer(filePath) );
 
     }));
 
@@ -55,7 +55,7 @@ class JS extends Abstract {
 
       if ( val ) return;
 
-      this.filesData[filePath] = await this.getFileData ( filePath );
+      this.filesData[pathNormalizer(filePath)] = await this.getFileData ( pathNormalizer(filePath) );
 
     }));
 
