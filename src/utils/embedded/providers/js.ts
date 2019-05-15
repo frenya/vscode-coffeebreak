@@ -70,8 +70,10 @@ class JS extends Abstract {
 
     const lines = content.split ( /\r?\n/ );
 
-    let parsedPath;
     let defaultType = '<unassigned>';
+
+    const parsedPath = Folder.parsePath ( filePath );
+    if (parsedPath.relativePath.startsWith('@')) defaultType = path.basename(filePath, path.extname(filePath));
 
     lines.forEach ( ( rawLine, lineNr ) => {
 
@@ -79,13 +81,6 @@ class JS extends Abstract {
             matches = stringMatches ( line, Consts.regexes.todoEmbedded );
 
       if ( !matches.length ) return;
-
-      if ( !parsedPath ) {
-
-        parsedPath = Folder.parsePath ( filePath );
-        if (parsedPath.relativePath.startsWith('@')) defaultType = path.basename(filePath, path.extname(filePath));
-
-      }
 
       matches.forEach ( match => {
 
