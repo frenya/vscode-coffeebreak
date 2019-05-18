@@ -43,22 +43,21 @@ async function todoistSync (tasks, uri) {
     console.warn('No Todoist token available');
     return;
   }
-  else console.log(token);
+  // else console.log(token);
 
   // Get the local config
   const defaults = vscode.workspace.getConfiguration('todoist-sync', uri).get<TodoistConfiguration>('defaults');
 
   const cmds = tasks.map(constructTodoistCommand);
 
-  console.log('Synchronizing to Todoist', defaults, tasks, cmds);
+  // console.log('Synchronizing to Todoist', defaults, tasks, cmds);
 
-  const response = await callTodoistSyncAPI(token, cmds);
+  const response = await callTodoistSyncAPI(token, JSON.stringify(cmds));
 
   console.log('Got response from Todoist');
-  // console.log(response.data.sync_token);
-  console.log(response, response.temp_id_mapping);
+  console.log(response);
 
-
+  // Return an array of newly created tasks with id's
   return tasks.filter(x => !!x.temp_id).map(x => ({ externalURL: TodoistTaskUrl.stringify({ id: response.temp_id_mapping[x.temp_id] }), ...x }));
 
   function constructTodoistCommand (task) {
@@ -90,24 +89,15 @@ async function todoistSync (tasks, uri) {
   
 }
 
-const endpoint = 'https://todoist.com/api/v7/sync';
-
 async function callTodoistSyncAPI (token, commands) {
 
-  console.log('Sending commands', JSON.stringify(commands));
+  console.log('Sending commands', commands);
 
   const options = {
     method: "GET",
-    uri: endpoint,
-    qs:  {
-      token,
-      /* sync_token: '*',
-      resource_types: '["projects", "labels"]', */
-      commands: JSON.stringify(commands)
-    },
-    headers: {
-      "User-Agent": "Request-Promise"
-    },
+    uri: 'https://todoist.com/api/v7/sync',
+    qs:  { token, commands },
+    headers: { "User-Agent": "Request-Promise" },
     json: true
   };
 
@@ -115,11 +105,3 @@ async function callTodoistSyncAPI (token, commands) {
 }
 
 export { todoistSync };
-
-/*
-project_id
-priority
-labels Array of Integer
-assigned_by_uid
-responsible_uid
-*/
