@@ -41,6 +41,9 @@ async function syncFile () {
   const tasks = filesData[textDocument.fileName].filter(t => ownerFilter.test(t.type));
   console.log('Tasks:', tasks);
 
+  // Sanity check
+  if (!tasks.length) return;
+
   try {
     let result: any[] = await vscode.commands.executeCommand(config.command, tasks, textDocument.uri);
     console.log('Sync result', result);
