@@ -20,15 +20,20 @@ interface TodoistConfiguration {
 
 const TodoistTaskUrl = new UrlPattern('https\\://todoist.com/showTask?id=:id');
 
+async function updateToken () {
 
+  const token = await vscode.window.showInputBox ({ placeHolder: 'Please, insert Todoist API token ...' });
+  Utils.context.workspaceState.update('todoistToken', token);
+  return token;
+
+}
 
 async function getToken () {
 
   let token = Utils.context.workspaceState.get('todoistToken');
 
   if (!token) {
-    token = await vscode.window.showInputBox ({ placeHolder: 'Please, insert Todoist API token ...' });
-    if (token) Utils.context.workspaceState.update('todoistToken', token);
+    token = await vscode.commands.executeCommand('coffeebreak.updateToken');
   }
 
   return token;
@@ -104,4 +109,4 @@ async function callTodoistSyncAPI (token, commands) {
   return rp(options);
 }
 
-export { todoistSync };
+export { updateToken, todoistSync };

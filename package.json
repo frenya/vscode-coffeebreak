@@ -153,6 +153,10 @@
 			{
 				"command": "coffeebreak.todoistSync",
 				"title": "Coffee Break: Sync to Todoist"
+			},
+			{
+				"command": "coffeebreak.updateToken",
+				"title": "Coffee Break: Update Todoist token"
 			}
 		],
 		"configuration": {
