@@ -157,6 +157,10 @@
 			{
 				"command": "coffeebreak.updateToken",
 				"title": "Coffee Break: Update Todoist token"
+			},
+			{
+				"command": "coffeebreak.createMention",
+				"title": "Coffee Break: Add mention"
 			}
 		],
 		"configuration": {

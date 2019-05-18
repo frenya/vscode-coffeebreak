@@ -12,6 +12,7 @@ import ViewEmbedded from '../views/embedded';
 import { toggleTodo, toggleDone } from './toggle';
 import { todoistSync, updateToken } from './todoist';
 import { syncFile } from './sync';
+import { createMention } from './mentions';
 
 /* VIEW */
 
@@ -207,5 +208,6 @@ export {
   viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks, viewEmbeddedFilterByOwner,
   viewEmbeddedDueToday, viewEmbeddedDueAnytime, viewEmbeddedFilterByDate,
   viewEmbeddedShowLinkedTasks, viewEmbeddedHideLinkedTasks,
-  syncFile, todoistSync, updateToken
+  syncFile, todoistSync, updateToken,
+  createMention
 };

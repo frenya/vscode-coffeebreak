@@ -3,6 +3,8 @@ import Consts from './consts';
 import Todo from './views/items/todo';
 import Editor from './editor';
 
+const mentionRegex = /@[A-Z][a-zA-Z]*/g;
+	  
 const Decorators = {
 
 	timeout: undefined,
@@ -12,6 +14,8 @@ const Decorators = {
 	linkDecorator: undefined,
 
 	activeEditor: undefined,
+
+	mentionTags: [],
 
 	init (context: vscode.ExtensionContext) {
 		// Used for empty links
@@ -42,7 +46,45 @@ const Decorators = {
 			}
 		}, null, context.subscriptions);
 	
-	
+		this.mentionTags = vscode.workspace.getConfiguration('coffeebreak.mentions').get('tags');
+
+		vscode.languages.registerHoverProvider('markdown', {
+			provideHover(document, position, token) {
+        if (!this.mentionTags) {
+          this.mentionTags = vscode.workspace.getConfiguration('coffeebreak.mentions').get('tags');
+        }
+
+        const line = document.lineAt(position.line); 
+			  // console.log(line.text, position.line, position.character);
+	  
+			  let match;
+			  let mention = null;
+			  while (match = mentionRegex.exec(line.text)) {
+				const startPos = new vscode.Position(position.line, match.index + 1);
+				const endPos = startPos.translate(0, match[0].length - 1);
+				const range = new vscode.Range(startPos, endPos);
+				// console.log('Checking range', range);
+				if (range.contains(position)) mention = document.getText(range);
+			  }
+	  
+			  if (!mention) return;
+
+			  // console.log('Checking if ', mention, 'in', this.mentionTags, this);
+
+			  if (this.mentionTags.includes(mention)) return;
+		  
+			  const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([mention]))}`);
+			  const contents = new vscode.MarkdownString(`[Click here to add *${mention}* ](${commandUri})`);
+	  
+			  // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
+			  // When creating trusted Markdown string, make sure to properly sanitize all the
+			  // input content so that only expected command URIs can be executed
+			  contents.isTrusted = true;
+	  
+			  return new vscode.Hover(contents);
+			}
+		});
+	  	  
 	},
 
 	getDateDecorator (dateColor) {
@@ -56,16 +98,30 @@ const Decorators = {
 
 	getMentionDecorator (group) {
 		if (!this.mentionDecorators[group]) {
-			this.mentionDecorators[group] = vscode.window.createTextEditorDecorationType({
-				// backgroundColor: group === 'me' ? '#112f77' : 'inherit',
-				fontWeight: group === 'me' ? '800' : 'inherit',
-				light: {
-					color: '#112f77'
-				},
-				dark: {
-					color:  '#21cadd',
-				}
-			});
+			if (group === 'missing') {
+				this.mentionDecorators[group] = vscode.window.createTextEditorDecorationType({
+					// backgroundColor: group === 'me' ? '#112f77' : 'inherit',
+					// fontWeight: group === 'me' ? '800' : 'inherit',
+					light: {
+						color: '#d03535'
+					},
+					dark: {
+						color:  '#d03535',
+					}
+				});
+			}
+			else {
+				this.mentionDecorators[group] = vscode.window.createTextEditorDecorationType({
+					// backgroundColor: group === 'me' ? '#112f77' : 'inherit',
+					// fontWeight: group === 'me' ? '800' : 'inherit',
+					light: {
+						color: '#112f77'
+					},
+					dark: {
+						color:  '#21cadd',
+					}
+				});
+			}
 		}
 		return this.mentionDecorators[group];
 	},
@@ -114,8 +170,12 @@ const Decorators = {
 		// Decorate mentions
 		this.decorateMatches (
 			this.activeEditor,
-			/@[A-Z][a-z]*/g,
-			(mention) => mention === '@Franta' ? 'me' : 'others',	// FIXME: Get current user from config
+			mentionRegex,
+			(mention) => {
+				const index = this.mentionTags.indexOf(mention.substr(1));
+				if (index < 0) return 'missing';
+				return index === 0 ? 'me' : 'others';
+			},
 			(ranges, group) => this.activeEditor.setDecorations(this.getMentionDecorator(group), ranges)
 		);
 	},
