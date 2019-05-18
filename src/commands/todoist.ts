@@ -40,13 +40,19 @@ async function getToken () {
 
 }
 
-async function todoistSync (tasks, uri) {
+/**
+ * Push a list of tasks into Todoist
+ * 
+ * @param tasks Array of task objects to synchronize to Todoist
+ * @param uri URI of the file that is being synchronized, used to pull local sync config
+ * @returns An array of newly created tasks with their id's filled
+ */
+async function todoistSync (tasks: any[], uri: vscode.Uri) {
 
   // Make sure we have an authentication token
   const token = await getToken();
   if (!token) {
-    console.warn('No Todoist token available');
-    return;
+    throw new Error('No Todoist token available');
   }
   // else console.log(token);
 
@@ -62,8 +68,20 @@ async function todoistSync (tasks, uri) {
   console.log('Got response from Todoist');
   console.log(response);
 
+  // Check sync_status and warn in some commands not successfully completed
+  Object.keys(response.sync_status).forEach(cmdId => {
+    if (typeof response.sync_status[cmdId] === 'object') {
+      console.warn(response.sync_status[cmdId].error);
+      vscode.window.showWarningMessage(response.sync_status[cmdId].error);
+    }
+  });
+
   // Return an array of newly created tasks with id's
-  return tasks.filter(x => !!x.temp_id).map(x => ({ externalURL: TodoistTaskUrl.stringify({ id: response.temp_id_mapping[x.temp_id] }), ...x }));
+  return tasks
+    // Only process tasks that were sucessfully added, i.e. their temp_id was converted into id
+    .filter(x => x.temp_id && response.temp_id_mapping[x.temp_id])
+    // Construct external URL and add it to the task record
+    .map(x => ({ externalURL: TodoistTaskUrl.stringify({ id: response.temp_id_mapping[x.temp_id] }), ...x }));
 
   function constructTodoistCommand (task) {
     const documentLink = ` vscode://file/${encodeURIComponent(task.filePath)}:${task.lineNr+1} ((☰))`;
