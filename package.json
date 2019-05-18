@@ -145,6 +145,14 @@
 			{
 				"command": "coffeebreak.toggleDone",
 				"title": "Coffee Break: Toggle Done"
+			},
+			{
+				"command": "coffeebreak.syncFile",
+				"title": "Coffee Break: Synchronize file with external task manager"
+			},
+			{
+				"command": "coffeebreak.todoistSync",
+				"title": "Coffee Break: Sync to Todoist"
 			}
 		],
 		"configuration": {
@@ -245,6 +253,52 @@
 							}
 						}
 					}
+				},
+				"coffeebreak.sync": {
+					"type": "object",
+					"scope": "resource",
+					"description": "Task synchronization plugin settings",
+					"properties": {
+						"command": {
+							"type": "string",
+							"description": "Command to execute for each task"
+						},
+						"ownerFilter": {
+							"type": "string",
+							"description": "Regular expression used to filter tasks by owner"
+						}
+					}
+				},
+				"todoist-sync.defaults": {
+					"type": "object",
+					"scope": "resource",
+					"description": "Additional parameters to pass to the Todoist API",
+					"properties": {
+						"project_id": {
+							"type": "integer",
+							"description": "The id of the project to add the task to. By default the task is added to the user’s Inbox project."
+						},
+						"priority": {
+							"type": "integer",
+							"description": "The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for natural)"
+						},
+						"labels": {
+							"type": "array",
+							"description": "The tasks labels (a list of label ids)",
+							"items": {
+								"type": "number"
+							}
+						},
+						"assigned_by_uid": {
+							"type": "integer",
+							"description": "The id of user who assigns the current task. This makes sense for shared projects only. Accepts 0 or any user id from the list of project collaborators. If this value is unset or invalid, it will be automatically setup to your uid."
+						},
+						"responsible_uid": {
+							"type": "integer",
+							"description": "The id of user who is responsible for accomplishing the current task. This makes sense for shared projects only. Accepts any user id from the list of project collaborators or null or an empty string to unset."
+						}
+					}
+
 				}
 			}
 		},
@@ -356,7 +410,6 @@
 					"when": "view == coffeebreak.views.coffeeBreak && todo-embedded-filtered == true",
 					"group": "navigation@1"
 				}
-
 			],
 			"view/item/context": [
 				{
@@ -403,13 +456,16 @@
 	],
 	"dependencies": {
 		"absolute": "0.0.1",
+		"diff": "^3.5.0",
 		"find-up": "^3.0.0",
 		"globby": "^9.2.0",
 		"lodash": "^4.17.11",
 		"mkdirp": "^0.5.1",
 		"moment": "^2.24.0",
 		"pify": "^4.0.1",
+		"request-promise": "^4.2.4",
 		"string-matches": "^1.1.3",
-		"diff": "^3.5.0"
+		"url-pattern": "^1.0.3",
+		"uuid": "^3.3.2"
 	}
 }

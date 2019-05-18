@@ -10,6 +10,8 @@ import Utils from '../utils';
 import ViewEmbedded from '../views/embedded';
 
 import { toggleTodo, toggleDone } from './toggle';
+import { todoistSync } from './todoist';
+import { syncFile } from './sync';
 
 /* VIEW */
 
@@ -205,4 +207,5 @@ export {
   viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks, viewEmbeddedFilterByOwner,
   viewEmbeddedDueToday, viewEmbeddedDueAnytime, viewEmbeddedFilterByDate,
   viewEmbeddedShowLinkedTasks, viewEmbeddedHideLinkedTasks,
+  syncFile, todoistSync
 };
