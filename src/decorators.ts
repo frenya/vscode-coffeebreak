@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import Consts from './consts';
 import Todo from './views/items/todo';
+import Editor from './editor';
 
 const Decorators = {
 
@@ -92,7 +93,7 @@ const Decorators = {
 
 	updateDecorations() {
 		// Sanity check
-		if (!this.activeEditor) return;
+		if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
 
 		// Decorate due dates
 		this.decorateMatches (
