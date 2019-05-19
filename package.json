@@ -3,7 +3,7 @@
 	"displayName": "Coffee Break",
 	"description": "Meeting Minutes for VSCode",
 	"icon": "resources/logo/CoffeeBreak.png",
-	"version": "0.0.3",
+	"version": "0.1.0",
 	"license": "TBD",
 	"engines": {
 		"vscode": "^1.33.0"
