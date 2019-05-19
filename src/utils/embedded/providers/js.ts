@@ -31,14 +31,6 @@ class JS extends Abstract {
 
     this.filesData = {};
 
-    /*
-    await Promise.all ( filePaths.map ( async ( filePath: string ) => {
-
-      this.filesData[filePath] = await this.getFileData ( filePath );
-
-    }));
-    */
-
     await Promise.all ( _.map ( filePaths, async ( filePath: string ) => {
 
       this.filesData[pathNormalizer(filePath)] = await this.getFileData ( pathNormalizer(filePath) );

@@ -125,7 +125,6 @@ class Abstract {
     if ( _.isEmpty ( this.filesData ) ) return;
 
     const todos = {}, // { [ROOT] { [TYPE] => { [FILEPATH] => [DATA] } } }
-          filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false,
           filePaths = Object.keys ( this.filesData );
 
     filePaths.map(pathNormalizer).forEach ( filePath => {
