@@ -35,8 +35,9 @@ async function syncFile () {
   const ownerFilter = new RegExp(config.ownerFilter);
 
   // Get the tasks
-  // FIXME: This isn't enough - until the tree view asks for data, nothing is parsed
   await Utils.embedded.initProvider ();
+  await Utils.embedded.provider.get ( undefined, true, true, false, null );
+
   const filesData = Utils.embedded.provider.filesData;
   const tasks = filesData[textDocument.fileName].filter(t => ownerFilter.test(t.type));
   console.log('Tasks:', tasks);

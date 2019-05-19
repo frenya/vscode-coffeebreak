@@ -117,8 +117,8 @@ async function viewEmbeddedFilterByDate () {
 
 async function viewEmbeddedDueTasks (date) {
 
-  // TODO: Avoid unnecessary refreshes
-  // if ( !filter || ViewEmbedded.filter === filter ) return;
+  // Avoid unnecessary refreshes
+  if ( ViewEmbedded.filterDueDate === date ) return;
 
   ViewEmbedded.filterDueDate = date;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-due', !!date );
