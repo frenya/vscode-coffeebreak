@@ -80,7 +80,7 @@ class JS extends Abstract {
           this.extractRegex(
             this.extractRegex({
                 todo: match[0],
-                type: match[1].trim() || defaultOwner,
+                owner: match[1].trim() || defaultOwner,
                 message: match[2],
                 code: line.slice ( 0, line.indexOf ( match[0] ) ),
                 rawLine,

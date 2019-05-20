@@ -49,8 +49,8 @@ class Embedded extends View {
     // Filter linked
     if (this.hideLinked && obj.externalURL) return false;
 
-    // Filter by type if applicable
-    if (this.filterOwner && obj.type !== this.filterOwner) return false;
+    // Filter by owner if applicable
+    if (this.filterOwner && obj.owner !== this.filterOwner) return false;
 
     // Filter by due date if applicable
     if (this.filterDueDate && (!obj.dueDate || obj.dueDate > this.filterDueDate)) return false;

@@ -39,7 +39,7 @@ async function syncFile () {
   await Utils.embedded.provider.get ( undefined, true, true, false, null );
 
   const filesData = Utils.embedded.provider.filesData;
-  const tasks = filesData[textDocument.fileName].filter(t => ownerFilter.test(t.type));
+  const tasks = filesData[textDocument.fileName].filter(t => ownerFilter.test(t.owner));
   console.log('Tasks:', tasks);
 
   // Sanity check

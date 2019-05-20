@@ -143,13 +143,13 @@ class Abstract {
 
         if ( !todos[rootGroup] ) todos[rootGroup] = {};
 
-        const typeGroup = groupByOwner ? datum.type : '';
+        const ownerGroup = groupByOwner ? datum.owner : '';
 
-        if ( !todos[rootGroup][typeGroup] ) todos[rootGroup][typeGroup] = {};
+        if ( !todos[rootGroup][ownerGroup] ) todos[rootGroup][ownerGroup] = {};
 
-        if ( !todos[rootGroup][typeGroup][filePathGroup] ) todos[rootGroup][typeGroup][filePathGroup] = [];
+        if ( !todos[rootGroup][ownerGroup][filePathGroup] ) todos[rootGroup][ownerGroup][filePathGroup] = [];
 
-        todos[rootGroup][typeGroup][filePathGroup].push ( datum );
+        todos[rootGroup][ownerGroup][filePathGroup].push ( datum );
 
       });
 
