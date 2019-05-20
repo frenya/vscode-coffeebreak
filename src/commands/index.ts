@@ -76,9 +76,11 @@ function viewEmbeddedClearFilter () {
 
 async function viewEmbeddedFilterByOwner (owner) {
 
+  // tslint:disable-next-line:triple-equals
   if (owner == null) {
     // FIXME: Get value from config
     owner = await vscode.window.showInputBox ({ value: '@Franta' });
+    // tslint:disable-next-line:triple-equals
     if (owner == null) return;
     else owner = '<unassigned>';
   }
@@ -111,6 +113,7 @@ async function viewEmbeddedFilterAllTasks () {
 async function viewEmbeddedFilterByDate () {
 
   const filter = await vscode.window.showInputBox ({ value: new Date().toISOString().substr(0, 10) });
+  // tslint:disable-next-line:triple-equals
   if (filter != null) viewEmbeddedDueTasks(filter || '2999-12-31');
 
 }
