@@ -12,6 +12,23 @@ import Folder from '../../folder';
 
 export const pathNormalizer = filePath => filePath.replace ( /\\/g, '/' ).normalize();
 
+export interface TaskType {
+  todo: string;
+  owner: string;
+  message: string;
+  code: string;
+  rawLine: string;
+  line: string;
+  lineNr: number;
+  filePath: string;
+  root: string;
+  rootPath: string;
+  relativePath: string;
+  dueDate?: string;
+  externalURL?: string;
+}
+
+
 class Abstract {
 
   include = undefined;

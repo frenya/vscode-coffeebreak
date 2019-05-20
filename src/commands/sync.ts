@@ -6,6 +6,7 @@ import * as vscode from 'vscode';
 import Consts from '../consts';
 import Editor from '../editor';
 import Utils from '../utils';
+import { TaskType } from '../utils/embedded/providers/abstract';
 
 interface SyncConfiguration {
   tags: string[];
@@ -39,14 +40,14 @@ async function syncFile () {
   await Utils.embedded.provider.get ( undefined, true, true, false, null );
 
   const filesData = Utils.embedded.provider.filesData;
-  const tasks = filesData[textDocument.fileName].filter(t => ownerFilter.test(t.owner));
+  const tasks: TaskType[] = filesData[textDocument.fileName].filter(t => ownerFilter.test(t.owner));
   console.log('Tasks:', tasks);
 
   // Sanity check
   if (!tasks.length) return;
 
   try {
-    let result: any[] = await vscode.commands.executeCommand(config.command, tasks, textDocument.uri);
+    let result: TaskType[] = await vscode.commands.executeCommand(config.command, tasks, textDocument.uri);
     console.log('Sync result', result);
 
     // Sanity check

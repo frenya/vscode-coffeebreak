@@ -7,11 +7,10 @@ import stringMatches from 'string-matches';
 import Consts from '../../../consts';
 import File from '../../file';
 import Folder from '../../folder';
-import Abstract, { pathNormalizer } from './abstract';
+import Abstract, { pathNormalizer, TaskType } from './abstract';
 
 const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
 const linkRegex = /\[\]\(([^)]*)\)/;
-
 
 /* JS */
 
@@ -53,7 +52,7 @@ class JS extends Abstract {
 
   }
 
-  async getFileData ( filePath ) {
+  async getFileData ( filePath ): Promise<TaskType[]> {
 
     const data = [],
           content = await File.read ( filePath );
@@ -75,28 +74,24 @@ class JS extends Abstract {
       if ( !matches.length ) return;
 
       matches.forEach ( match => {
+        let task: TaskType = {
+          todo: match[0],
+          owner: match[1].trim() || defaultOwner,
+          message: match[2],
+          code: line.slice ( 0, line.indexOf ( match[0] ) ),
+          rawLine,
+          line,
+          lineNr,
+          filePath,
+          root: parsedPath.root,
+          rootPath: parsedPath.rootPath,
+          relativePath: parsedPath.relativePath
+        };
 
-        data.push (
-          this.extractRegex(
-            this.extractRegex({
-                todo: match[0],
-                owner: match[1].trim() || defaultOwner,
-                message: match[2],
-                code: line.slice ( 0, line.indexOf ( match[0] ) ),
-                rawLine,
-                line,
-                lineNr,
-                filePath,
-                root: parsedPath.root,
-                rootPath: parsedPath.rootPath,
-                relativePath: parsedPath.relativePath
-              }, 
-              dateRegex, 0, 'dueDate'
-            ),
-            linkRegex, 1, 'externalURL'
-          )
-        );
-      
+        this.extractRegex(task, dateRegex, 0, 'dueDate');
+        this.extractRegex(task, linkRegex, 1, 'externalURL');
+
+        data.push (task);
       });
 
     });
@@ -106,7 +101,7 @@ class JS extends Abstract {
   }
 
   // Extract a regex from obj.message, store it in attribute name
-  extractRegex (obj, regex, group, attributeName) {
+  extractRegex (obj: TaskType, regex: RegExp, group: number, attributeName: string): TaskType {
 
     // Detect due date
     let match = regex.exec(obj.message);
