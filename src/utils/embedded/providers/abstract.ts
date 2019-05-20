@@ -20,7 +20,7 @@ class Abstract {
   filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher: vscode.FileSystemWatcher = undefined;
 
-  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter ) {
+  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByOwner = true, groupByFile = true, filter ) {
 
     rootPaths = _.castArray ( rootPaths );
 
@@ -42,7 +42,7 @@ class Abstract {
 
     }
 
-    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter );
+    return this.getTodos ( groupByRoot, groupByOwner, groupByFile, filter );
 
   }
 
@@ -120,7 +120,7 @@ class Abstract {
 
   async updateFilesData () {}
 
-  getTodos ( groupByRoot, groupByType, groupByFile, filter ) {
+  getTodos ( groupByRoot, groupByOwner, groupByFile, filter ) {
 
     if ( _.isEmpty ( this.filesData ) ) return;
 
@@ -143,7 +143,7 @@ class Abstract {
 
         if ( !todos[rootGroup] ) todos[rootGroup] = {};
 
-        const typeGroup = groupByType ? datum.type : '';
+        const typeGroup = groupByOwner ? datum.type : '';
 
         if ( !todos[rootGroup][typeGroup] ) todos[rootGroup][typeGroup] = {};
 

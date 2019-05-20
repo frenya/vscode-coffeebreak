@@ -19,20 +19,6 @@ class Item extends vscode.TreeItem {
 
   }
 
-  setTypeIcon ( type ) {
-
-    /*
-    const iconPath = Utils.view.getTypeIcon ( type );
-
-    if ( iconPath ) {
-
-      this.iconPath = iconPath;
-
-    }
-    */
-   
-  }
-
 }
 
 /* EXPORT */

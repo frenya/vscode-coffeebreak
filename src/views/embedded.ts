@@ -22,7 +22,7 @@ class Embedded extends View {
   expanded = true;
   filter: string | false = false;
   filterRe: RegExp | false = false;
-  filterType: string | false = false; // NOTE: Actually it's "owner"
+  filterOwner: string | false = false;
   filterDueDate: string | false = false;
   hideLinked = false;
   filePathRe = /^(?!~).*(?:\\|\/)/;
@@ -41,7 +41,7 @@ class Embedded extends View {
 
     await Utils.embedded.initProvider ();
 
-    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.isItemVisible.bind(this) );
+    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByOwner, this.config.embedded.view.groupByFile, this.isItemVisible.bind(this) );
 
   }
 
@@ -50,7 +50,7 @@ class Embedded extends View {
     if (this.hideLinked && obj.externalURL) return false;
 
     // Filter by type if applicable
-    if (this.filterType && obj.type !== this.filterType) return false;
+    if (this.filterOwner && obj.type !== this.filterOwner) return false;
 
     // Filter by due date if applicable
     if (this.filterDueDate && (!obj.dueDate || obj.dueDate > this.filterDueDate)) return false;
@@ -96,15 +96,11 @@ class Embedded extends View {
         const val = obj[key];
 
         if ( this.filePathRe.test ( key ) ) {
-
           const uri = Utils.view.getURI ( val[0] );
-
           return new File ( val, uri );
-
-        } else {
-
-          return new Group ( val, key, this.config.embedded.view.icons );
-
+        } 
+        else {
+          return new Group(val, key);
         }
 
       });

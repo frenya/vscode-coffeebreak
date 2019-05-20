@@ -74,19 +74,19 @@ function viewEmbeddedClearFilter () {
   ViewEmbedded.refresh ();
 }
 
-async function viewEmbeddedFilterByOwner () {
+async function viewEmbeddedFilterByOwner (type) {
 
-  const filter = await vscode.window.showInputBox ({ value: '@Franta' });
-  if (filter != null) viewEmbeddedFilterByType(filter || '<unassigned>');
-
-}
-
-async function viewEmbeddedFilterByType (type) {
+  if (type == null) {
+    // FIXME: Get value from config
+    type = await vscode.window.showInputBox ({ value: '@Franta' });
+    if (type == null) return;
+    else type = '<unassigned>';
+  }
 
   // Avoid unnecessary refreshes
-  if ( ViewEmbedded.filterType === type ) return;
+  if ( ViewEmbedded.filterOwner === type ) return;
 
-  ViewEmbedded.filterType =type;
+  ViewEmbedded.filterOwner =type;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-owner', !!type );
   if (type) {
     ViewEmbedded.expanded = true;
@@ -97,15 +97,15 @@ async function viewEmbeddedFilterByType (type) {
 }
 
 async function viewEmbeddedFilterMyTasks () {
-  viewEmbeddedFilterByType('@Franta');
+  viewEmbeddedFilterByOwner('@Franta');
 }
 
 async function viewEmbeddedFilterUnassignedTasks () {
-  viewEmbeddedFilterByType('<unassigned>');
+  viewEmbeddedFilterByOwner('<unassigned>');
 }
 
 async function viewEmbeddedFilterAllTasks () {
-  viewEmbeddedFilterByType(null);
+  viewEmbeddedFilterByOwner(null);
 }
 
 async function viewEmbeddedFilterByDate () {

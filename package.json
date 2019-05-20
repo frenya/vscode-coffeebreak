@@ -209,7 +209,7 @@
 					"description": "Group embedded todos by workspace root",
 					"default": true
 				},
-				"coffeebreak.embedded.file.groupByType": {
+				"coffeebreak.embedded.file.groupByOwner": {
 					"type": "boolean",
 					"description": "Group embedded todos by type",
 					"default": true
@@ -229,7 +229,7 @@
 					"description": "Group embedded todos by workspace root",
 					"default": true
 				},
-				"coffeebreak.embedded.view.groupByType": {
+				"coffeebreak.embedded.view.groupByOwner": {
 					"type": "boolean",
 					"description": "Group embedded todos by type",
 					"default": true

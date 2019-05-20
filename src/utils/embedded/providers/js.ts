@@ -62,10 +62,10 @@ class JS extends Abstract {
 
     const lines = content.split ( /\r?\n/ );
 
-    let defaultType = '<unassigned>';
+    let defaultOwner = '<unassigned>';
 
     const parsedPath = Folder.parsePath ( filePath );
-    if (parsedPath.relativePath.startsWith('@')) defaultType = path.basename(filePath, path.extname(filePath));
+    if (parsedPath.relativePath.startsWith('@')) defaultOwner = path.basename(filePath, path.extname(filePath));
 
     lines.forEach ( ( rawLine, lineNr ) => {
 
@@ -80,7 +80,7 @@ class JS extends Abstract {
           this.extractRegex(
             this.extractRegex({
                 todo: match[0],
-                type: match[1].trim() || defaultType,
+                type: match[1].trim() || defaultOwner,
                 message: match[2],
                 code: line.slice ( 0, line.indexOf ( match[0] ) ),
                 rawLine,
