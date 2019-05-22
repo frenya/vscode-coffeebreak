@@ -9,9 +9,7 @@ import Utils from '../utils';
 import { TaskType } from '../utils/embedded/providers/abstract';
 
 interface SyncConfiguration {
-  tags: string[];
   command: string;
-  commandParameters: string[];
   ownerFilter: string;
 }
 

@@ -199,46 +199,6 @@
 						"**/*.map"
 					]
 				},
-				"coffeebreak.embedded.file.wholeLine": {
-					"type": "boolean",
-					"description": "Show the whole line",
-					"default": true
-				},
-				"coffeebreak.embedded.file.groupByRoot": {
-					"type": "boolean",
-					"description": "Group embedded todos by workspace root",
-					"default": true
-				},
-				"coffeebreak.embedded.file.groupByOwner": {
-					"type": "boolean",
-					"description": "Group embedded todos by type",
-					"default": true
-				},
-				"coffeebreak.embedded.file.groupByFile": {
-					"type": "boolean",
-					"description": "Group embedded todos by file",
-					"default": false
-				},
-				"coffeebreak.embedded.view.wholeLine": {
-					"type": "boolean",
-					"description": "Show the whole line",
-					"default": false
-				},
-				"coffeebreak.embedded.view.groupByRoot": {
-					"type": "boolean",
-					"description": "Group embedded todos by workspace root",
-					"default": true
-				},
-				"coffeebreak.embedded.view.groupByOwner": {
-					"type": "boolean",
-					"description": "Group embedded todos by type",
-					"default": true
-				},
-				"coffeebreak.embedded.view.groupByFile": {
-					"type": "boolean",
-					"description": "Group embedded todos by file",
-					"default": false
-				},
 				"coffeebreak.embedded.view.expanded": {
 					"type": "boolean",
 					"description": "Start the tree in an expanded state",

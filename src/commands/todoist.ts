@@ -12,10 +12,11 @@ import * as UrlPattern from 'url-pattern';
 import * as rp from 'request-promise';
 
 interface TodoistConfiguration {
-	tags: string[];
-  command: string;
-  commandParameters: string[];
-  ownerFilter: string;
+  project_id: number;
+  priority: number;
+  labels: number[];
+  assigned_by_uid: number;
+  responsible_uid: number;
 }
 
 const TodoistTaskUrl = new UrlPattern('https\\://todoist.com/showTask?id=:id');
