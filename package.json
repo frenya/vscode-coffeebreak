@@ -250,17 +250,13 @@
 					"default": true
 				},
 				"coffeebreak.mentions": {
-					"type": "object",
-					"properties": {
-						"tags": {
-							"type": "array",
-							"description": "List of mentions",
-							"items": {
-								"type": "string",
-								"description": "User mention without the @ sign - <Username>"
-							}
-						}
-					}
+					"type": "array",
+					"description": "List of mentions",
+					"items": {
+						"type": "string",
+						"description": "User mention without the @ sign - <Username>"
+					},
+					"default": []
 				},
 				"coffeebreak.sync": {
 					"type": "object",

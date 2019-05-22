@@ -46,12 +46,12 @@ const Decorators = {
 			}
 		}, null, context.subscriptions);
 	
-		this.mentionTags = vscode.workspace.getConfiguration('coffeebreak.mentions').get('tags');
+		this.mentionTags = vscode.workspace.getConfiguration().get('coffeebreak.mentions');
 
 		vscode.languages.registerHoverProvider('markdown', {
 			provideHover(document, position, token) {
         if (!this.mentionTags) {
-          this.mentionTags = vscode.workspace.getConfiguration('coffeebreak.mentions').get('tags');
+          this.mentionTags = vscode.workspace.getConfiguration().get('coffeebreak.mentions');
         }
 
         const line = document.lineAt(position.line); 

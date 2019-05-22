@@ -12,15 +12,14 @@ async function createMention (mention) {
 
     // console.log(mention);
 
-    let config = vscode.workspace.getConfiguration('coffeebreak.mentions');
-    let tags = <string[]>config.get('tags');
+    let tags = <string[]>vscode.workspace.getConfiguration().get('coffeebreak.mentions');
 
     if (tags.includes(mention)) return;
     else tags.push(mention);
 
     // Update the config value
     // NOTE: we apparently must update the key that is defined in contributions in package.json, not just part of it
-    const result = vscode.workspace.getConfiguration().update('coffeebreak.mentions', { tags }, false);
+    const result = vscode.workspace.getConfiguration().update('coffeebreak.mentions', tags, false);
 
     vscode.window.showInformationMessage(`Added @${mention}`);
 
