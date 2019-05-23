@@ -4,28 +4,25 @@
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
 
-/* CONFIG */
+const myExtension = 'coffeebreak';
 
-const Config = {
+/*
+interface Configuration {
+  include: string[];
+  exclude: string[];
+  expanded: boolean;
+  mentions: string[];
+  sync: {
+    command: string;
+    ownerFilter: string;
+  };
+}
+*/
 
-  get ( extension = 'coffeebreak' ) {
+let config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(myExtension);
 
-    return vscode.workspace.getConfiguration ().get ( extension ) as any;
+vscode.workspace.onDidChangeConfiguration ( () => {
+  config = vscode.workspace.getConfiguration(myExtension);
+});
 
-  },
-
-  getKey ( key: string ) {
-
-    return _.get ( Config.get (), key ) as any;
-
-  },
-
-  check ( config ) { // Check if the configuration is valid
-
-    return;
-
-  }
-
-};
-
-export default Config;
+export default config;

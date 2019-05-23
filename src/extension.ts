@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
-import Config from './config';
+import config from './config';
 import Utils from './utils';
 import Decorators from './decorators';
 import ViewEmbedded from './views/embedded';
@@ -13,11 +13,7 @@ import { DateCompletionItemProvider } from './date_completion_item_provider';
 
 const activate = function ( context: vscode.ExtensionContext ) {
 
-  const config = Config.get ();
-
-  Config.check ( config );
-
-  ViewEmbedded.expanded = false; //config.embedded.view.expanded;
+  ViewEmbedded.expanded = config.get('expanded');
 
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!ViewEmbedded.filter );

@@ -2,7 +2,6 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import Config from './config';
 
 /* CONSTS */
 

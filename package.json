@@ -167,14 +167,14 @@
 			"type": "object",
 			"title": "Coffee Break",
 			"properties": {
-				"coffeebreak.embedded.include": {
+				"coffeebreak.include": {
 					"type": "array",
 					"description": "Globs to use for including files",
 					"default": [
 						"**/*.md"
 					]
 				},
-				"coffeebreak.embedded.exclude": {
+				"coffeebreak.exclude": {
 					"type": "array",
 					"description": "Globs to use for excluding files",
 					"default": [
@@ -199,14 +199,9 @@
 						"**/*.map"
 					]
 				},
-				"coffeebreak.embedded.view.expanded": {
+				"coffeebreak.expanded": {
 					"type": "boolean",
 					"description": "Start the tree in an expanded state",
-					"default": true
-				},
-				"coffeebreak.embedded.view.icons": {
-					"type": "boolean",
-					"description": "Show icons next to todos and types",
 					"default": true
 				},
 				"coffeebreak.mentions": {
@@ -218,20 +213,15 @@
 					},
 					"default": []
 				},
-				"coffeebreak.sync": {
-					"type": "object",
+				"coffeebreak.sync.command": {
 					"scope": "resource",
-					"description": "Task synchronization plugin settings",
-					"properties": {
-						"command": {
-							"type": "string",
-							"description": "Command to execute for each task"
-						},
-						"ownerFilter": {
-							"type": "string",
-							"description": "Regular expression used to filter tasks by owner"
-						}
-					}
+					"type": "string",
+					"description": "Command to execute for each task"
+				},
+				"coffeebreak.sync.ownerFilter": {
+					"scope": "resource",
+					"type": "string",
+					"description": "Regular expression used to filter tasks by owner"
 				},
 				"todoist-sync.defaults": {
 					"type": "object",

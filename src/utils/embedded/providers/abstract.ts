@@ -4,7 +4,7 @@
 import * as _ from 'lodash';
 import * as querystring from 'querystring';
 import * as vscode from 'vscode';
-import Config from '../../../config';
+import config from '../../../config';
 import EmbeddedView from '../../../views/embedded';
 import Folder from '../../folder';
 
@@ -41,10 +41,8 @@ class Abstract {
 
     rootPaths = _.castArray ( rootPaths );
 
-    const config = Config.get ();
-
-    this.include = config.embedded.include;
-    this.exclude = config.embedded.exclude;
+    this.include = config.get('include');
+    this.exclude = config.get('exclude');
 
     if ( !this.filesData || !_.isEqual ( this.rootPaths, rootPaths ) ) {
 

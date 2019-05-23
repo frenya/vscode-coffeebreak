@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
+import config from '../config';
 
 async function createMention (mention) {
 
@@ -12,14 +13,14 @@ async function createMention (mention) {
 
     // console.log(mention);
 
-    let tags = <string[]>vscode.workspace.getConfiguration().get('coffeebreak.mentions');
+    let mentions = <string[]>config.get('mentions');
 
-    if (tags.includes(mention)) return;
-    else tags.push(mention);
+    if (mentions.includes(mention)) return;
+    else mentions.push(mention);
 
     // Update the config value
     // NOTE: we apparently must update the key that is defined in contributions in package.json, not just part of it
-    const result = vscode.workspace.getConfiguration().update('coffeebreak.mentions', tags, false);
+    const result = config.update('mentions', mentions, false);
 
     vscode.window.showInformationMessage(`Added @${mention}`);
 
