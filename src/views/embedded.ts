@@ -22,7 +22,7 @@ class Embedded extends View {
   expanded = true;
   filter: string | false = false;
   filterRe: RegExp | false = false;
-  filterOwner: string | false = false;
+  filterOwner: string = '';
   filterDueDate: string | false = false;
   hideLinked = false;
   filePathRe = /^(?!~).*(?:\\|\/)/;

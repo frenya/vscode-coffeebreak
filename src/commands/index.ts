@@ -78,17 +78,16 @@ async function viewEmbeddedFilterByOwner (owner) {
 
   // tslint:disable-next-line:triple-equals
   if (owner == null) {
-    // FIXME: Get value from config
-    owner = await vscode.window.showInputBox ({ value: '@Franta' });
+    owner = await vscode.window.showInputBox ({ value: ViewEmbedded.filterOwner });
     // tslint:disable-next-line:triple-equals
     if (owner == null) return;
-    else owner = '<unassigned>';
+    else owner = owner || '<unassigned>';
   }
 
   // Avoid unnecessary refreshes
   if ( ViewEmbedded.filterOwner === owner ) return;
 
-  ViewEmbedded.filterOwner =owner;
+  ViewEmbedded.filterOwner = owner;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-owner', !!owner );
   if (owner) {
     ViewEmbedded.expanded = true;
