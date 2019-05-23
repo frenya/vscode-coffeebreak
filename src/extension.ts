@@ -13,6 +13,8 @@ import { DateCompletionItemProvider } from './date_completion_item_provider';
 
 const activate = function ( context: vscode.ExtensionContext ) {
 
+  config.watchChanges(context);
+
   ViewEmbedded.expanded = config.get('expanded');
 
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );

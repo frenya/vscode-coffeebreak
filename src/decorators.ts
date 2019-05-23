@@ -148,8 +148,8 @@ const Decorators = {
 
 	updateDecorations() {
 		// Sanity check
-		if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
-
+    if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
+    
 		// Decorate due dates
 		this.decorateMatches (
 			this.activeEditor,
@@ -167,7 +167,7 @@ const Decorators = {
 		);
 
 		// Decorate mentions
-		const mentionTags: string[] = config.get('mentions');
+    const mentionTags: string[] = config.get('mentions');
 		this.decorateMatches (
 			this.activeEditor,
 			mentionRegex,

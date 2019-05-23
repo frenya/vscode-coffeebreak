@@ -6,19 +6,6 @@ import * as vscode from 'vscode';
 
 const myExtension = 'coffeebreak';
 
-/*
-interface Configuration {
-  include: string[];
-  exclude: string[];
-  expanded: boolean;
-  mentions: string[];
-  sync: {
-    command: string;
-    ownerFilter: string;
-  };
-}
-*/
-
 let configuration: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(myExtension);
 
 let Config = {
@@ -36,11 +23,13 @@ let Config = {
 
   update(section: string, value: any, configurationTarget?: vscode.ConfigurationTarget | boolean): Thenable<void> {
     return configuration.update(section, value, configurationTarget);
+  },
+
+  watchChanges(context: vscode.ExtensionContext) {
+    vscode.workspace.onDidChangeConfiguration ( () => {
+      configuration = vscode.workspace.getConfiguration(myExtension);
+    }, null, context.subscriptions);
   }
 };
-
-vscode.workspace.onDidChangeConfiguration ( () => {
-  configuration = vscode.workspace.getConfiguration(myExtension);
-});
 
 export default Config;
