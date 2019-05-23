@@ -63,10 +63,6 @@
 				}
 			},
 			{
-				"command": "coffeebreak.viewEmbeddedFilterUnassignedTasks",
-				"title": "Show unassigned tasks"
-			},
-			{
 				"command": "coffeebreak.viewEmbeddedFilterAllTasks",
 				"title": "Clear owner filter",
 				"icon": {

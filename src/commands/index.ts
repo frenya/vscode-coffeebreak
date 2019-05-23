@@ -102,10 +102,6 @@ async function viewEmbeddedFilterMyTasks () {
   viewEmbeddedFilterByOwner('@Franta');
 }
 
-async function viewEmbeddedFilterUnassignedTasks () {
-  viewEmbeddedFilterByOwner('<unassigned>');
-}
-
 async function viewEmbeddedFilterAllTasks () {
   viewEmbeddedFilterByOwner('');
 }
@@ -208,7 +204,7 @@ export {
   viewEmbeddedFilter, viewEmbeddedClearFilter, 
   openTaskURL, newFile, 
   toggleTodo, toggleDone,
-  viewEmbeddedFilterMyTasks, viewEmbeddedFilterUnassignedTasks, viewEmbeddedFilterAllTasks, viewEmbeddedFilterByOwner,
+  viewEmbeddedFilterMyTasks, viewEmbeddedFilterAllTasks, viewEmbeddedFilterByOwner,
   viewEmbeddedDueToday, viewEmbeddedDueAnytime, viewEmbeddedFilterByDate,
   viewEmbeddedShowLinkedTasks, viewEmbeddedHideLinkedTasks,
   syncFile, todoistSync, updateToken,
