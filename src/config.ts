@@ -19,10 +19,10 @@ interface Configuration {
 }
 */
 
-let config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(myExtension);
+let configuration: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(myExtension);
 
 vscode.workspace.onDidChangeConfiguration ( () => {
-  config = vscode.workspace.getConfiguration(myExtension);
+  configuration = vscode.workspace.getConfiguration(myExtension);
 });
 
 export default config;
