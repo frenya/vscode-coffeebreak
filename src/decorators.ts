@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import Consts from './consts';
 import Todo from './views/items/todo';
 import Editor from './editor';
+import config from './config';
 
 const mentionRegex = /@[A-Z][a-zA-Z]*/g;
 	  
@@ -14,8 +15,6 @@ const Decorators = {
 	linkDecorator: undefined,
 
 	activeEditor: undefined,
-
-	mentionTags: [],
 
 	init (context: vscode.ExtensionContext) {
 		// Used for empty links
@@ -44,15 +43,15 @@ const Decorators = {
 			if (this.activeEditor && event.document === this.activeEditor.document) {
 				this.triggerUpdateDecorations();
 			}
-		}, null, context.subscriptions);
+    }, null, context.subscriptions);
+    
+    vscode.workspace.onDidChangeConfiguration(() => {
+      this.triggerUpdateDecorations();
+    }, null, context.subscriptions);
 	
-		this.mentionTags = vscode.workspace.getConfiguration().get('coffeebreak.mentions');
-
 		vscode.languages.registerHoverProvider('markdown', {
 			provideHover(document, position, token) {
-        if (!this.mentionTags) {
-          this.mentionTags = vscode.workspace.getConfiguration().get('coffeebreak.mentions');
-        }
+        const mentionTags: string[] = config.get('mentions');
 
         const line = document.lineAt(position.line); 
 			  // console.log(line.text, position.line, position.character);
@@ -71,7 +70,7 @@ const Decorators = {
 
 			  // console.log('Checking if ', mention, 'in', this.mentionTags, this);
 
-			  if (this.mentionTags.includes(mention)) return;
+			  if (mentionTags.includes(mention)) return;
 		  
 			  const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([mention]))}`);
 			  const contents = new vscode.MarkdownString(`[Click here to add *${mention}* ](${commandUri})`);
@@ -168,11 +167,12 @@ const Decorators = {
 		);
 
 		// Decorate mentions
+		const mentionTags: string[] = config.get('mentions');
 		this.decorateMatches (
 			this.activeEditor,
 			mentionRegex,
 			(mention) => {
-				const index = this.mentionTags.indexOf(mention.substr(1));
+				const index = mentionTags.indexOf(mention.substr(1));
 				if (index < 0) return 'missing';
 				return index === 0 ? 'me' : 'others';
 			},
