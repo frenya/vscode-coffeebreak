@@ -64,6 +64,7 @@ async function todoistSync (tasks: any[], uri: vscode.Uri) {
 
   // console.log('Synchronizing to Todoist', defaults, tasks, cmds);
 
+  console.log('Sending commands', JSON.stringify(cmds, null, 2));
   const response = await callTodoistSyncAPI(token, JSON.stringify(cmds));
 
   console.log('Got response from Todoist');
@@ -114,8 +115,6 @@ async function todoistSync (tasks: any[], uri: vscode.Uri) {
 }
 
 async function callTodoistSyncAPI (token, commands) {
-
-  console.log('Sending commands', commands);
 
   const options = {
     method: "GET",
