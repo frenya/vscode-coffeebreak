@@ -50,6 +50,13 @@ async function getToken () {
  */
 async function todoistSync (tasks: any[], uri: vscode.Uri) {
 
+  // Sanity check - this command should be called by CoffeeBreak extension with appropriate arguments
+  // missing arguments probably mean that the user has call the command directly
+  if (!tasks || !uri) {
+    vscode.window.showWarningMessage('Arguments are missing. Please, call the "Coffee Break: Synchronize file with external task manager" command!"');
+    return;
+  }
+
   // Make sure we have an authentication token
   const token = await getToken();
   if (!token) {
