@@ -24,6 +24,9 @@ const Consts = {
     todoBox: /^(\s*)([*+-]\s+\[ \]\s*)(.*)$/,
     todoDone: /^(\s*)([*+-]\s+\[[xX]\]\s*)(.*)$/,
     todoEmbedded: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)', 'g' ),  // FIXME: Not consistent with regexes above
+    mention: /@[A-Z][a-zA-Z]*/g,
+    date: /\d{4}-\d{2}-\d{2}/g,
+    emptyLink: /\[\]\([^)]*\)/g,
   }
 };
 

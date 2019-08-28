@@ -3,29 +3,35 @@ import Consts from './consts';
 import Todo from './views/items/todo';
 import Editor from './editor';
 import config from './config';
-
-const mentionRegex = /@[A-Z][a-zA-Z]*/g;
 	  
 const Decorators = {
 
 	timeout: undefined,
 
-	dateDecorators: {},
-	mentionDecorators: {},
-	linkDecorator: undefined,
+  decorators: {},
 
 	activeEditor: undefined,
 
 	init (context: vscode.ExtensionContext) {
-		// Used for empty links
-		this.linkDecorator = vscode.window.createTextEditorDecorationType({
+    // Used for empty links
+    // TODO: Deprecated, remove
+    this.registerGroupDecorator('link', {
 			light: {
 				color: '#bbb'
 			},
 			dark: {
 				color:  '#444'
 			}
-		});
+    });
+
+    this.registerGroupDecorator('missing', {
+      light: {
+        color: '#d03535'
+      },
+      dark: {
+        color:  '#d03535',
+      }
+    });
 
 		this.activeEditor = vscode.window.activeTextEditor;
 		if (this.activeEditor) {
@@ -48,8 +54,9 @@ const Decorators = {
     vscode.workspace.onDidChangeConfiguration(() => {
       this.triggerUpdateDecorations();
     }, null, context.subscriptions);
-	
-		vscode.languages.registerHoverProvider('markdown', {
+  
+    /*
+		vscode.languages.registerHoverProvider({ scheme: 'file', language: 'markdown' }, {
 			provideHover(document, position, token) {
         const mentionTags: string[] = config.get('mentions');
 
@@ -78,106 +85,107 @@ const Decorators = {
 			  // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
 			  // When creating trusted Markdown string, make sure to properly sanitize all the
 			  // input content so that only expected command URIs can be executed
-			  contents.isTrusted = true;
+			  contents.isTrusted = false;
 	  
 			  return new vscode.Hover(contents);
 			}
-		});
+    });
+    */
 	  	  
-	},
+  },
+  
+  registerGroupDecorator (group: string, style: Object) {
+    this.decorators[group] = {
+      type: vscode.window.createTextEditorDecorationType(style),
+      ranges: [],
+    };
+  },
 
-	getDateDecorator (dateColor) {
-		if (!this.dateDecorators[dateColor]) {
-			this.dateDecorators[dateColor] = vscode.window.createTextEditorDecorationType({
-				color: '#' + dateColor
-			});
+  applyGroupDecorator (group: string) {
+    const d = this.decorators[group];
+    this.activeEditor.setDecorations(d.type, d.ranges);
+  },
+
+	getDateDecorator (dateColor: string) {
+		if (!this.decorators[dateColor]) {
+      this.registerGroupDecorator(dateColor, { color: '#' + dateColor });
 		}
-		return this.dateDecorators[dateColor];
+		return this.decorators[dateColor];
 	},
 
 	getMentionDecorator (group) {
-		if (!this.mentionDecorators[group]) {
-			if (group === 'missing') {
-				this.mentionDecorators[group] = vscode.window.createTextEditorDecorationType({
-					// backgroundColor: group === 'me' ? '#112f77' : 'inherit',
-					// fontWeight: group === 'me' ? '800' : 'inherit',
-					light: {
-						color: '#d03535'
-					},
-					dark: {
-						color:  '#d03535',
-					}
-				});
-			}
-			else {
-				this.mentionDecorators[group] = vscode.window.createTextEditorDecorationType({
-					// backgroundColor: group === 'me' ? '#112f77' : 'inherit',
-					// fontWeight: group === 'me' ? '800' : 'inherit',
-					light: {
-						color: '#112f77'
-					},
-					dark: {
-						color:  '#21cadd',
-					}
-				});
-			}
+    // Lazy initialization of the decorator types
+		if (!this.decorators[group]) {
+      this.registerGroupDecorator(group, {
+        light: {
+          color: '#112f77'
+        },
+        dark: {
+          color:  '#21cadd',
+        }
+      });
 		}
-		return this.mentionDecorators[group];
+		return this.decorators[group];
 	},
 
+  getMissingMentionHoverMessage (mention) {
+    const username = mention.substr(1);
+    const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username]))}`);
+    const contents = new vscode.MarkdownString(`[Click here to add *${username}* ](${commandUri})`);
 
-	decorateMatches (editor, regEx, grouping, cb) {
+    // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
+    // When creating trusted Markdown string, make sure to properly sanitize all the
+    // input content so that only expected command URIs can be executed
+    contents.isTrusted = true;
+
+    return contents;
+  },
+
+	decorateMatches (regEx, callback) {
+    const editor = this.activeEditor;
 		const text = editor.document.getText();
-		let ranges = {};
+
+    // Sanity check
+    if (!callback) return;
 
 		let match;
 		while (match = regEx.exec(text)) {
 			const startPos = editor.document.positionAt(match.index);
-			const endPos = editor.document.positionAt(match.index + match[0].length);
-			const decoration = { range: new vscode.Range(startPos, endPos) };
-
-			const group = grouping ? grouping(match[0]) : 'default';
-			
-			if (!ranges[group]) ranges[group] = [];
-			ranges[group].push(decoration);
+      const endPos = editor.document.positionAt(match.index + match[0].length);
+      const range = new vscode.Range(startPos, endPos);
+      callback(match[0], range);
 		}
-
-		// console.log('Matched ranges', ranges);
-		Object.keys(ranges).forEach((group) => cb(ranges[group], group));
 	},
 
 	updateDecorations() {
 		// Sanity check
     if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
+
+    // Reset ranges
+    Object.keys(this.decorators).forEach(key => this.decorators[key].ranges = []);
     
 		// Decorate due dates
-		this.decorateMatches (
-			this.activeEditor,
-			/\d{4}-\d{2}-\d{2}/g,
-			Todo.getDateColor,		// Group by date color
-			(ranges, group) => this.activeEditor.setDecorations(this.getDateDecorator(group), ranges)
-		);
+		this.decorateMatches (Consts.regexes.date, (match, range) => {
+      const dateColor = Todo.getDateColor(match);
+      this.getDateDecorator(dateColor).ranges.push({ range });
+    });
 
 		// Decorate empty links, ungrouped
-		this.decorateMatches (
-			this.activeEditor,
-			/\[\]\([^)]*\)/g,
-			null,
-			(ranges) => this.activeEditor.setDecorations(this.linkDecorator, ranges)
-		);
+		this.decorateMatches (Consts.regexes.emptyLink, (match, range) => {
+      this.decorators.link.ranges.push({ range });
+    });
 
 		// Decorate mentions
     const mentionTags: string[] = config.get('mentions');
-		this.decorateMatches (
-			this.activeEditor,
-			mentionRegex,
-			(mention) => {
-				const index = mentionTags.indexOf(mention.substr(1));
-				if (index < 0) return 'missing';
-				return index === 0 ? 'me' : 'others';
-			},
-			(ranges, group) => this.activeEditor.setDecorations(this.getMentionDecorator(group), ranges)
-		);
+		this.decorateMatches (Consts.regexes.mention, (mention, range) => {
+      const index = mentionTags.indexOf(mention.substr(1));
+      let group = index < 0 ? 'missing' : 'others';
+      // TODO: Add hover with full name if available in config
+      let hoverMessage = group === 'missing' ? this.getMissingMentionHoverMessage(mention) : null;
+      this.getMentionDecorator(group).ranges.push({ range, hoverMessage });
+    });
+
+    Object.keys(this.decorators).forEach(group => this.applyGroupDecorator(group));
 	},
 
 	triggerUpdateDecorations() {
