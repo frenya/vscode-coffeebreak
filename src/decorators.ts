@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import Consts from './consts';
 import Todo from './views/items/todo';
 import Editor from './editor';
-import config from './config';
 	  
 const Decorators = {
 
@@ -128,10 +127,24 @@ const Decorators = {
 		return this.decorators[group];
 	},
 
-  getMissingMentionHoverMessage (mention) {
+  getMentionHoverMessage (mention, owner) {
     const username = mention.substr(1);
-    const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username]))}`);
-    const contents = new vscode.MarkdownString(`[Click here to add *${username}* ](${commandUri})`);
+    // const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username]))}`);
+    const contents = new vscode.MarkdownString(`# ${username}* ${owner.email || 'TODO: Add email'})`);
+
+    // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
+    // When creating trusted Markdown string, make sure to properly sanitize all the
+    // input content so that only expected command URIs can be executed
+    contents.isTrusted = true;
+
+    return contents;
+  },
+
+  getMissingMentionHoverMessage (mention, uri) {
+    const username = mention.substr(1);
+    const commandUri1 = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username]))}`);
+    const commandUri2 = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username, uri]))}`);
+    const contents = new vscode.MarkdownString(`Click here to add *${username}* to [workspace](${commandUri1}) or [project](${commandUri2})`);
 
     // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
     // When creating trusted Markdown string, make sure to properly sanitize all the
@@ -176,12 +189,11 @@ const Decorators = {
     });
 
 		// Decorate mentions
-    const mentionTags: string[] = config.get('mentions');
+    const mentionTags: object = vscode.workspace.getConfiguration('coffeebreak', this.activeEditor.document.uri).get('mentions');
 		this.decorateMatches (Consts.regexes.mention, (mention, range) => {
-      const index = mentionTags.indexOf(mention.substr(1));
-      let group = index < 0 ? 'missing' : 'others';
-      // TODO: Add hover with full name if available in config
-      let hoverMessage = group === 'missing' ? this.getMissingMentionHoverMessage(mention) : null;
+      const m = mentionTags[mention.substr(1)];
+      let group = m ? 'others' : 'missing';
+      let hoverMessage = group === 'missing' ? this.getMissingMentionHoverMessage(mention, this.activeEditor.document.uri) : this.getMentionHoverMessage(mention, m);
       this.getMentionDecorator(group).ranges.push({ range, hoverMessage });
     });
 

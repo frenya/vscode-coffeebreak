@@ -2,7 +2,7 @@ import { CompletionItemProvider, TextDocument, Position, CancellationToken, Comp
 
 export class HashTagsCompletionItemProvider implements CompletionItemProvider {
 	public provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionItem[] | CompletionList> {
-		const configuration = workspace.getConfiguration().get<string[]>('coffeebreak.mentions');
+		const configuration = workspace.getConfiguration('coffeebreak', document.uri).get<object>('mentions');
 
 		if (!configuration) {
 			return;
@@ -10,7 +10,7 @@ export class HashTagsCompletionItemProvider implements CompletionItemProvider {
 
 		const items: CompletionItem[] = [];
 
-		for (let tag of configuration) {
+		for (let tag of Object.keys(configuration)) {
 			items.push(new CompletionItem(tag, CompletionItemKind.Keyword));
 		}
 

@@ -163,6 +163,10 @@
       "type": "object",
       "title": "Coffee Break",
       "properties": {
+        "coffeebreak.emails": {
+          "type": "array",
+          "description": "My email addresses"
+        },
         "coffeebreak.include": {
           "type": "array",
           "description": "Globs to use for including files",
@@ -201,13 +205,9 @@
           "default": true
         },
         "coffeebreak.mentions": {
-          "type": "array",
-          "description": "List of mentions",
-          "items": {
-            "type": "string",
-            "description": "User mention without the @ sign - <Username>"
-          },
-          "default": []
+          "type": "object",
+          "scope": "resource",
+          "description": "Object with user mentions. Keys are the usernames, values are objects with user details."
         },
         "coffeebreak.sync.command": {
           "scope": "resource",
