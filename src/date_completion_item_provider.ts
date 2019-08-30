@@ -2,7 +2,7 @@ var moment = require('moment');
 import { CompletionItemProvider, TextDocument, Position, CancellationToken, CompletionItem, CompletionContext, ProviderResult, CompletionList, workspace, CompletionItemKind, Range, TextEdit } from "vscode";
 
 export class DateCompletionItemProvider implements CompletionItemProvider {
-	public provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionItem[] | CompletionList> {
+  public provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionItem[] | CompletionList> {
         const items: CompletionItem[] = [];
         
         // First check that double slash was entered
@@ -32,6 +32,6 @@ export class DateCompletionItemProvider implements CompletionItemProvider {
         }
             
         // console.log(items);
-		return items;
-	}
+    return items;
+  }
 }

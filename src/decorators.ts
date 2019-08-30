@@ -2,25 +2,25 @@ import * as vscode from 'vscode';
 import Consts from './consts';
 import Todo from './views/items/todo';
 import Editor from './editor';
-	  
+    
 const Decorators = {
 
-	timeout: undefined,
+  timeout: undefined,
 
   decorators: {},
 
-	activeEditor: undefined,
+  activeEditor: undefined,
 
-	init (context: vscode.ExtensionContext) {
+  init (context: vscode.ExtensionContext) {
     // Used for empty links
     // TODO: Deprecated, remove
     this.registerGroupDecorator('link', {
-			light: {
-				color: '#bbb'
-			},
-			dark: {
-				color:  '#444'
-			}
+      light: {
+        color: '#bbb'
+      },
+      dark: {
+        color:  '#444'
+      }
     });
 
     this.registerGroupDecorator('missing', {
@@ -32,22 +32,22 @@ const Decorators = {
       }
     });
 
-		this.activeEditor = vscode.window.activeTextEditor;
-		if (this.activeEditor) {
-			this.triggerUpdateDecorations();
-		}
-	
-		vscode.window.onDidChangeActiveTextEditor(editor => {
-			this.activeEditor = editor;
-			if (editor) {
-				this.triggerUpdateDecorations();
-			}
-		}, null, context.subscriptions);
-	
-		vscode.workspace.onDidChangeTextDocument(event => {
-			if (this.activeEditor && event.document === this.activeEditor.document) {
-				this.triggerUpdateDecorations();
-			}
+    this.activeEditor = vscode.window.activeTextEditor;
+    if (this.activeEditor) {
+      this.triggerUpdateDecorations();
+    }
+  
+    vscode.window.onDidChangeActiveTextEditor(editor => {
+      this.activeEditor = editor;
+      if (editor) {
+        this.triggerUpdateDecorations();
+      }
+    }, null, context.subscriptions);
+  
+    vscode.workspace.onDidChangeTextDocument(event => {
+      if (this.activeEditor && event.document === this.activeEditor.document) {
+        this.triggerUpdateDecorations();
+      }
     }, null, context.subscriptions);
     
     vscode.workspace.onDidChangeConfiguration(() => {
@@ -55,42 +55,42 @@ const Decorators = {
     }, null, context.subscriptions);
   
     /*
-		vscode.languages.registerHoverProvider({ scheme: 'file', language: 'markdown' }, {
-			provideHover(document, position, token) {
+    vscode.languages.registerHoverProvider({ scheme: 'file', language: 'markdown' }, {
+      provideHover(document, position, token) {
         const mentionTags: string[] = config.get('mentions');
 
         const line = document.lineAt(position.line); 
-			  // console.log(line.text, position.line, position.character);
-	  
-			  let match;
-			  let mention = null;
-			  while (match = mentionRegex.exec(line.text)) {
-				const startPos = new vscode.Position(position.line, match.index + 1);
-				const endPos = startPos.translate(0, match[0].length - 1);
-				const range = new vscode.Range(startPos, endPos);
-				// console.log('Checking range', range);
-				if (range.contains(position)) mention = document.getText(range);
-			  }
-	  
-			  if (!mention) return;
+        // console.log(line.text, position.line, position.character);
+    
+        let match;
+        let mention = null;
+        while (match = mentionRegex.exec(line.text)) {
+        const startPos = new vscode.Position(position.line, match.index + 1);
+        const endPos = startPos.translate(0, match[0].length - 1);
+        const range = new vscode.Range(startPos, endPos);
+        // console.log('Checking range', range);
+        if (range.contains(position)) mention = document.getText(range);
+        }
+    
+        if (!mention) return;
 
-			  // console.log('Checking if ', mention, 'in', this.mentionTags, this);
+        // console.log('Checking if ', mention, 'in', this.mentionTags, this);
 
-			  if (mentionTags.includes(mention)) return;
-		  
-			  const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([mention]))}`);
-			  const contents = new vscode.MarkdownString(`[Click here to add *${mention}* ](${commandUri})`);
-	  
-			  // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
-			  // When creating trusted Markdown string, make sure to properly sanitize all the
-			  // input content so that only expected command URIs can be executed
-			  contents.isTrusted = false;
-	  
-			  return new vscode.Hover(contents);
-			}
+        if (mentionTags.includes(mention)) return;
+      
+        const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([mention]))}`);
+        const contents = new vscode.MarkdownString(`[Click here to add *${mention}* ](${commandUri})`);
+    
+        // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
+        // When creating trusted Markdown string, make sure to properly sanitize all the
+        // input content so that only expected command URIs can be executed
+        contents.isTrusted = false;
+    
+        return new vscode.Hover(contents);
+      }
     });
     */
-	  	  
+        
   },
   
   registerGroupDecorator (group: string, style: Object) {
@@ -105,16 +105,16 @@ const Decorators = {
     this.activeEditor.setDecorations(d.type, d.ranges);
   },
 
-	getDateDecorator (dateColor: string) {
-		if (!this.decorators[dateColor]) {
+  getDateDecorator (dateColor: string) {
+    if (!this.decorators[dateColor]) {
       this.registerGroupDecorator(dateColor, { color: '#' + dateColor });
-		}
-		return this.decorators[dateColor];
-	},
+    }
+    return this.decorators[dateColor];
+  },
 
-	getMentionDecorator (group) {
+  getMentionDecorator (group) {
     // Lazy initialization of the decorator types
-		if (!this.decorators[group]) {
+    if (!this.decorators[group]) {
       this.registerGroupDecorator(group, {
         light: {
           color: '#112f77'
@@ -123,9 +123,9 @@ const Decorators = {
           color:  '#21cadd',
         }
       });
-		}
-		return this.decorators[group];
-	},
+    }
+    return this.decorators[group];
+  },
 
   getMentionHoverMessage (mention, owner, uri) {
 
@@ -162,43 +162,43 @@ const Decorators = {
     return contents;
   },
 
-	decorateMatches (regEx, callback) {
+  decorateMatches (regEx, callback) {
     const editor = this.activeEditor;
-		const text = editor.document.getText();
+    const text = editor.document.getText();
 
     // Sanity check
     if (!callback) return;
 
-		let match;
-		while (match = regEx.exec(text)) {
-			const startPos = editor.document.positionAt(match.index);
+    let match;
+    while (match = regEx.exec(text)) {
+      const startPos = editor.document.positionAt(match.index);
       const endPos = editor.document.positionAt(match.index + match[0].length);
       const range = new vscode.Range(startPos, endPos);
       callback(match[0], range);
-		}
-	},
+    }
+  },
 
-	updateDecorations() {
-		// Sanity check
+  updateDecorations() {
+    // Sanity check
     if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
 
     // Reset ranges
     Object.keys(this.decorators).forEach(key => this.decorators[key].ranges = []);
     
-		// Decorate due dates
-		this.decorateMatches (Consts.regexes.date, (match, range) => {
+    // Decorate due dates
+    this.decorateMatches (Consts.regexes.date, (match, range) => {
       const dateColor = Todo.getDateColor(match);
       this.getDateDecorator(dateColor).ranges.push({ range });
     });
 
-		// Decorate empty links, ungrouped
-		this.decorateMatches (Consts.regexes.emptyLink, (match, range) => {
+    // Decorate empty links, ungrouped
+    this.decorateMatches (Consts.regexes.emptyLink, (match, range) => {
       this.decorators.link.ranges.push({ range });
     });
 
-		// Decorate mentions
+    // Decorate mentions
     const mentionTags: object = vscode.workspace.getConfiguration('coffeebreak', this.activeEditor.document.uri).get('mentions');
-		this.decorateMatches (Consts.regexes.mention, (mention, range) => {
+    this.decorateMatches (Consts.regexes.mention, (mention, range) => {
       const m = mentionTags[mention.substr(1)];
       let group = m ? 'others' : 'missing';
       let hoverMessage = group === 'missing' ? this.getMissingMentionHoverMessage(mention, this.activeEditor.document.uri) : this.getMentionHoverMessage(mention, m, this.activeEditor.document.uri);
@@ -206,15 +206,15 @@ const Decorators = {
     });
 
     Object.keys(this.decorators).forEach(group => this.applyGroupDecorator(group));
-	},
+  },
 
-	triggerUpdateDecorations() {
-		if (this.timeout) {
-			clearTimeout(this.timeout);
-			this.timeout = undefined;
-		}
-		this.timeout = setTimeout(() => this.updateDecorations(), 300);
-	}
+  triggerUpdateDecorations() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = undefined;
+    }
+    this.timeout = setTimeout(() => this.updateDecorations(), 300);
+  }
 
 };
 
