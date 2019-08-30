@@ -157,6 +157,10 @@
       {
         "command": "coffeebreak.createMention",
         "title": "Coffee Break: Add mention"
+      },
+      {
+        "command": "coffeebreak.addMentionDetail",
+        "title": "Coffee Break: Add mention detail"
       }
     ],
     "configuration": {

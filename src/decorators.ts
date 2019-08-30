@@ -127,10 +127,18 @@ const Decorators = {
 		return this.decorators[group];
 	},
 
-  getMentionHoverMessage (mention, owner) {
+  getMentionHoverMessage (mention, owner, uri) {
+
     const username = mention.substr(1);
-    // const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username]))}`);
-    const contents = new vscode.MarkdownString(`# ${username}* ${owner.email || 'TODO: Add email'})`);
+
+    const detailLine = (attribute, title = null) => {
+      if (owner[attribute]) return owner[attribute];
+
+      const commandUri = vscode.Uri.parse(`command:coffeebreak.addMentionDetail?${encodeURIComponent(JSON.stringify([username, attribute, uri]))}`);
+      return `[Add ${title || attribute}](${commandUri})`;
+    };
+
+    const contents = new vscode.MarkdownString(`**${username}**\n\n* ${detailLine('fullname', 'full name')}\n* ${detailLine('email')}`);
 
     // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
     // When creating trusted Markdown string, make sure to properly sanitize all the
@@ -193,7 +201,7 @@ const Decorators = {
 		this.decorateMatches (Consts.regexes.mention, (mention, range) => {
       const m = mentionTags[mention.substr(1)];
       let group = m ? 'others' : 'missing';
-      let hoverMessage = group === 'missing' ? this.getMissingMentionHoverMessage(mention, this.activeEditor.document.uri) : this.getMentionHoverMessage(mention, m);
+      let hoverMessage = group === 'missing' ? this.getMissingMentionHoverMessage(mention, this.activeEditor.document.uri) : this.getMentionHoverMessage(mention, m, this.activeEditor.document.uri);
       this.getMentionDecorator(group).ranges.push({ range, hoverMessage });
     });
 
