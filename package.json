@@ -366,7 +366,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
+    "url": "https://github.com/frenya/vscode-coffeebreak"
   },
   "keywords": [
     "vscode",
