@@ -67,4 +67,13 @@ async function addMentionDetail (mention, attribute, uri = null) {
 
 }
 
+export const isItMyself = (config, username) => {
+  const mentions = config.get('mentions');
+  const m = mentions[username] || {};
+  const myEmails = Config(null).get<string[]>('emails') || [];
+  
+  // No emails means nothing to work with
+  return !!m.email && (myEmails.indexOf(m.email) >= 0);
+};
+
 export { createMention, addMentionDetail };

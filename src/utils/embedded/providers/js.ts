@@ -3,11 +3,14 @@
 
 import * as _ from 'lodash';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import stringMatches from 'string-matches';
+import Config from '../../../config';
 import Consts from '../../../consts';
 import File from '../../file';
 import Folder from '../../folder';
 import Abstract, { pathNormalizer, TaskType } from './abstract';
+import { isItMyself } from '../../../commands/mentions';
 
 const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
 const linkRegex = Consts.regexes.emptyLink;
@@ -61,6 +64,8 @@ class JS extends Abstract {
 
     const lines = content.split ( /\r?\n/ );
 
+    const fileUri = vscode.Uri.file(filePath);
+    const config = Config(fileUri);
     let defaultOwner = '<unassigned>';
 
     const parsedPath = Folder.parsePath ( filePath );
@@ -74,9 +79,12 @@ class JS extends Abstract {
       if ( !matches.length ) return;
 
       matches.forEach ( match => {
+        let owner = match[1].trim();
+        let username = owner.substr(1);
         let task: TaskType = {
           todo: match[0],
-          owner: match[1].trim() || defaultOwner,
+          owner: owner || defaultOwner,
+          myself: false,
           message: match[2],
           code: line.slice ( 0, line.indexOf ( match[0] ) ),
           rawLine,
@@ -90,6 +98,9 @@ class JS extends Abstract {
 
         this.extractRegex(task, dateRegex, 0, 'dueDate');
         this.extractRegex(task, linkRegex, 1, 'externalURL');
+
+        // Detect "my" tasks
+        task.myself = isItMyself(config, username);
 
         data.push (task);
       });

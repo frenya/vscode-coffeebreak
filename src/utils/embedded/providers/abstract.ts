@@ -15,6 +15,7 @@ export const pathNormalizer = filePath => filePath.replace ( /\\/g, '/' ).normal
 export interface TaskType {
   todo: string;
   owner: string;
+  myself: boolean;
   message: string;
   code: string;
   rawLine: string;
