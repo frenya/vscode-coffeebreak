@@ -12,6 +12,34 @@ interface SyncConfiguration {
   command: string;
 }
 
+async function extractMyTasks (fileName) {
+
+  // Get the tasks
+  await Utils.embedded.initProvider ();
+  await Utils.embedded.provider.get ( undefined, true, true, false, null );
+
+  const filesData = Utils.embedded.provider.filesData;
+  return filesData[fileName].filter(t => t.sync);
+
+}
+
+function externalLinkEdits (textDocument, tasks) {
+  // Prepare edits - add url to new tasks
+  let edits = [];
+
+  tasks.forEach(t => {
+    const line = textDocument.lineAt(t.lineNr);
+
+    // Add link to task.externalURL if necessary
+    if (!t.externalURL) return;
+    if (line.text.indexOf(t.externalURL) >= 0) return; // Already present
+
+    edits.push(vscode.TextEdit.insert(line.range.end, ` [](${t.externalURL})`));
+  });
+
+  return edits; 
+}
+
 
 async function syncFile () {
 
@@ -21,74 +49,57 @@ async function syncFile () {
 
   const textDocument = textEditor.document;
 
-  // console.log(textDocument);
-  // console.log(textEditor.selections);
-  // console.log(lines);
-
   // Get the synchronization config, quit if not present
-  const config = vscode.workspace.getConfiguration('coffeebreak', textDocument.uri).get<SyncConfiguration>('sync');
-  // console.log(config);
-  if (!config.command) return;
+  const { command, ...options } = vscode.workspace.getConfiguration('coffeebreak', textDocument.uri).get<SyncConfiguration>('sync');
 
-  // Get the tasks
-  await Utils.embedded.initProvider ();
-  await Utils.embedded.provider.get ( undefined, true, true, false, null );
-
-  const filesData = Utils.embedded.provider.filesData;
-  const tasks: TaskType[] = filesData[textDocument.fileName].filter(t => t.myself);
-  // console.log('Tasks:', tasks);
-
-  // Sanity check
+  // Get workspace owner's tasks, quit if none found
+  const tasks: TaskType[] = await extractMyTasks(textDocument.fileName);
   if (!tasks.length) {
-    vscode.window.showWarningMessage('No own tasks found. Check FAQ for possible reasons.'); // TODO: Add link to FAQ where own task filtering is explained
+    // TODO: Add link to FAQ where own task filtering is explained
+    vscode.window.showWarningMessage('No own tasks found. Check FAQ for possible reasons.');
     return;
   }
 
-  try {
-    let result: TaskType[] = await vscode.commands.executeCommand(config.command, tasks, textDocument.uri);
-    console.log('Sync result', result);
+  // Group the tasks based on the sync command
+  const syncCommandLists = _.groupBy(tasks, t => t.sync.command || command);
+  console.log(syncCommandLists);
 
-    // Sanity check
-    if (!result) throw new Error('No response from sync plugin');
-  
-    // Prepare edits - add url to new tasks
-    let edits = [];
-  
-    result.forEach ( task => {
-      const line = textDocument.lineAt(task.lineNr);
-  
-      // Add link to task.externalURL if necessary
-      if (!task.externalURL) return;
-      if (line.text.indexOf(task.externalURL) >= 0) return; // Already present
-  
-      edits.push(vscode.TextEdit.insert(line.range.end, ` [](${task.externalURL})`));
-    });
-  
-    // console.log(edits);
-    if (edits.length) {
+  // console.log('Tasks:', tasks);
+  // console.log(filesData[textDocument.fileName]);
+
+  try {
+    await Promise.all(Object.keys(syncCommandLists).map(async cmd => {
+      // Sanity check
+      if (!cmd) return;
+
+      let result: TaskType[] = await vscode.commands.executeCommand(cmd, syncCommandLists[cmd], textDocument.uri, options);
+      if (!result) throw new Error('No response from sync plugin');
+      else console.log('Got result', result);
+
+      // Create necessary edit operations to add the external links to tasks
+      const edits = externalLinkEdits(textDocument, result);
       await Editor.edits.apply(textEditor, edits);
-      await textEditor.document.save();
-    }
-  
+    }));
+
+    await textEditor.document.save();
   }
   catch (e) {
     console.error(e);
     vscode.window.showErrorMessage('Synchronization failed with ' + e.toString());
   }
 
-  return;
-
 }
 
 /**
- * Push a list of tasks into Todoist
+ * Displan JSON window with all the tasks
  * 
- * @param tasks Array of task objects to synchronize to Todoist
- * @param uri URI of the file that is being synchronized, used to pull local sync config
+ * @param tasks Array of task objects
+ * @param uri URI of the file that is being synchronized
+ * @param options Extra data for the sync
  * @returns An array of newly created tasks with their id's filled
  */
-async function showTasks (tasks: any[], uri: vscode.Uri) {
-  const content = JSON.stringify(tasks, null, 2);
+async function showTasks (tasks: any[], uri: vscode.Uri, options: object) {
+  const content = JSON.stringify(options) + '\n' + JSON.stringify(tasks, null, 2);
   vscode.workspace.openTextDocument({ content, language: 'json' })
     .then((doc: vscode.TextDocument) => vscode.window.showTextDocument(doc, 1, false));
   return tasks;

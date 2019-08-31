@@ -218,10 +218,16 @@
           "scope": "resource",
           "description": "Object with user mentions. Keys are the usernames, values are objects with user details."
         },
-        "coffeebreak.sync.command": {
+        "coffeebreak.sync": {
           "scope": "resource",
-          "type": "string",
-          "description": "Command to execute for each task"
+          "type": "object",
+          "description": "External sync configuration",
+          "properties": {
+            "command": {
+              "type": "string",
+              "description": "Command to execute for each task"
+            }
+          }
         },
         "todoist-sync.defaults": {
           "type": "object",
