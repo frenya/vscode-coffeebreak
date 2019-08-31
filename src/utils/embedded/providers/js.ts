@@ -10,7 +10,7 @@ import Consts from '../../../consts';
 import File from '../../file';
 import Folder from '../../folder';
 import Abstract, { pathNormalizer, TaskType } from './abstract';
-import { isItMyself } from '../../../commands/mentions';
+import { isItMyself, mySyncSettings } from '../../../commands/mentions';
 
 const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
 const linkRegex = Consts.regexes.emptyLink;
@@ -80,7 +80,7 @@ class JS extends Abstract {
 
       matches.forEach ( match => {
         let owner = match[1].trim();
-        let username = owner.substr(1);
+        let username = owner.substr(1) || defaultOwner;
         let task: TaskType = {
           todo: match[0],
           owner: owner || defaultOwner,
@@ -100,7 +100,9 @@ class JS extends Abstract {
         this.extractRegex(task, linkRegex, 1, 'externalURL');
 
         // Detect "my" tasks
-        task.myself = isItMyself(config, username);
+        task.myself = isItMyself(config, username); // TODO: Maybe useless, could be replaced with !!task.sync
+        task.sync = mySyncSettings(config, username);
+
 
         data.push (task);
       });

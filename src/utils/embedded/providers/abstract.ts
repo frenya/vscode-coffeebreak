@@ -27,6 +27,9 @@ export interface TaskType {
   relativePath: string;
   dueDate?: string;
   externalURL?: string;
+  sync?: {
+    command?: string;
+  };
 }
 
 
