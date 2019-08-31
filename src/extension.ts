@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
-import config from './config';
+import Config from './config';
 import Utils from './utils';
 import Decorators from './decorators';
 import ViewEmbedded from './views/embedded';
@@ -14,9 +14,7 @@ var regexp = require('markdown-it-regexp');
 
 const activate = function ( context: vscode.ExtensionContext ) {
 
-  config.watchChanges(context);
-
-  ViewEmbedded.expanded = config.get('expanded');
+  ViewEmbedded.expanded = Config(null).get('expanded');
 
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!ViewEmbedded.filter );
@@ -53,7 +51,6 @@ const activate = function ( context: vscode.ExtensionContext ) {
   return {
     extendMarkdownIt: function (md) {
       return md.use(regexp(/@(\w+)/, parser));
-      // return md.use((md, options) => console.log('Markdown-it extension', md.core, options));
     }
   };
 };

@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import Config from './config';
 import Consts from './consts';
 import Todo from './views/items/todo';
 import Editor from './editor';
@@ -182,6 +183,8 @@ const Decorators = {
     // Sanity check
     if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
 
+    const uri = this.activeEditor.document.uri;
+
     // Reset ranges
     Object.keys(this.decorators).forEach(key => this.decorators[key].ranges = []);
     
@@ -197,11 +200,13 @@ const Decorators = {
     });
 
     // Decorate mentions
-    const mentionTags: object = vscode.workspace.getConfiguration('coffeebreak', this.activeEditor.document.uri).get('mentions');
+    const mentionTags: object = Config(uri).get('mentions');
     this.decorateMatches (Consts.regexes.mention, (mention, range) => {
       const m = mentionTags[mention.substr(1)];
       let group = m ? 'others' : 'missing';
-      let hoverMessage = group === 'missing' ? this.getMissingMentionHoverMessage(mention, this.activeEditor.document.uri) : this.getMentionHoverMessage(mention, m, this.activeEditor.document.uri);
+      let hoverMessage = group === 'missing'
+        ? this.getMissingMentionHoverMessage(mention, uri)
+        : this.getMentionHoverMessage(mention, m, uri);
       this.getMentionDecorator(group).ranges.push({ range, hoverMessage });
     });
 

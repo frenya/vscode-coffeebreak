@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
+import Config from '../config';
 
 interface InspectValue {
   key: string;
@@ -16,7 +17,7 @@ async function createMention (mention, uri = null) {
 
   const project = !!uri;
   
-  const config = vscode.workspace.getConfiguration('coffeebreak', uri);
+  const config = Config(uri);
   if (!mention) {
       mention = await vscode.window.showInputBox ({ placeHolder: 'Enter username without the @ sign ...' });
   }
@@ -40,7 +41,7 @@ async function addMentionDetail (mention, attribute, uri = null) {
 
   console.log(mention, attribute, uri);
 
-  const config = vscode.workspace.getConfiguration('coffeebreak', uri);
+  const config = Config(uri);
   const attributeValue = await vscode.window.showInputBox ({ placeHolder: `Enter value for ${attribute} ...`});
 
   const value = <InspectValue>config.inspect('mentions');

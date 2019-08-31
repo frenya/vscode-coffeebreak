@@ -1,8 +1,9 @@
 import { CompletionItemProvider, TextDocument, Position, CancellationToken, CompletionItem, CompletionContext, ProviderResult, CompletionList, workspace, CompletionItemKind } from "vscode";
+import Config from './config';
 
 export class HashTagsCompletionItemProvider implements CompletionItemProvider {
   public provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken, context: CompletionContext): ProviderResult<CompletionItem[] | CompletionList> {
-    const configuration = workspace.getConfiguration('coffeebreak', document.uri).get<object>('mentions');
+    const configuration = Config(document.uri).get<object>('mentions');
 
     if (!configuration) {
       return;
