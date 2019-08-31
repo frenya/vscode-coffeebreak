@@ -20,17 +20,8 @@ const Decorators = {
     this.registerGroupDecorator('link', styles.syncLink);
     this.registerGroupDecorator('missing', styles.missingMention);
 
-    this.activeEditor = vscode.window.activeTextEditor;
-    if (this.activeEditor) {
-      this.triggerUpdateDecorations();
-    }
-  
-    vscode.window.onDidChangeActiveTextEditor(editor => {
-      this.activeEditor = editor;
-      if (editor) {
-        this.triggerUpdateDecorations();
-      }
-    }, null, context.subscriptions);
+    this.setEditor(vscode.window.activeTextEditor);
+    vscode.window.onDidChangeActiveTextEditor(editor => this.setEditor(editor), null, context.subscriptions);
   
     vscode.workspace.onDidChangeTextDocument(event => {
       if (this.activeEditor && event.document === this.activeEditor.document) {
@@ -41,46 +32,15 @@ const Decorators = {
     vscode.workspace.onDidChangeConfiguration(() => {
       this.triggerUpdateDecorations();
     }, null, context.subscriptions);
-  
-    /*
-    vscode.languages.registerHoverProvider({ scheme: 'file', language: 'markdown' }, {
-      provideHover(document, position, token) {
-        const mentionTags: string[] = config.get('mentions');
-
-        const line = document.lineAt(position.line); 
-        // console.log(line.text, position.line, position.character);
-    
-        let match;
-        let mention = null;
-        while (match = mentionRegex.exec(line.text)) {
-        const startPos = new vscode.Position(position.line, match.index + 1);
-        const endPos = startPos.translate(0, match[0].length - 1);
-        const range = new vscode.Range(startPos, endPos);
-        // console.log('Checking range', range);
-        if (range.contains(position)) mention = document.getText(range);
-        }
-    
-        if (!mention) return;
-
-        // console.log('Checking if ', mention, 'in', this.mentionTags, this);
-
-        if (mentionTags.includes(mention)) return;
-      
-        const commandUri = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([mention]))}`);
-        const contents = new vscode.MarkdownString(`[Click here to add *${mention}* ](${commandUri})`);
-    
-        // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
-        // When creating trusted Markdown string, make sure to properly sanitize all the
-        // input content so that only expected command URIs can be executed
-        contents.isTrusted = false;
-    
-        return new vscode.Hover(contents);
-      }
-    });
-    */
-        
   },
   
+  setEditor (editor: vscode.TextEditor) {
+    this.activeEditor = editor;
+    if (editor) {
+      this.triggerUpdateDecorations();
+    }
+  },
+
   registerGroupDecorator (group: string, style: Object) {
     this.decorators[group] = {
       type: vscode.window.createTextEditorDecorationType(style),
