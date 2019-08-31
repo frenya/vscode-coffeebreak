@@ -36,10 +36,13 @@ async function syncFile () {
 
   const filesData = Utils.embedded.provider.filesData;
   const tasks: TaskType[] = filesData[textDocument.fileName].filter(t => t.myself);
-  console.log('Tasks:', tasks);
+  // console.log('Tasks:', tasks);
 
   // Sanity check
-  if (!tasks.length) return;
+  if (!tasks.length) {
+    vscode.window.showWarningMessage('No own tasks found. Check FAQ for possible reasons.'); // TODO: Add link to FAQ where own task filtering is explained
+    return;
+  }
 
   try {
     let result: TaskType[] = await vscode.commands.executeCommand(config.command, tasks, textDocument.uri);
