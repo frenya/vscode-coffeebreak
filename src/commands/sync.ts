@@ -10,7 +10,6 @@ import { TaskType } from '../utils/embedded/providers/abstract';
 
 interface SyncConfiguration {
   command: string;
-  ownerFilter: string;
 }
 
 
@@ -31,14 +30,12 @@ async function syncFile () {
   // console.log(config);
   if (!config.command) return;
 
-  const ownerFilter = new RegExp(config.ownerFilter);
-
   // Get the tasks
   await Utils.embedded.initProvider ();
   await Utils.embedded.provider.get ( undefined, true, true, false, null );
 
   const filesData = Utils.embedded.provider.filesData;
-  const tasks: TaskType[] = filesData[textDocument.fileName].filter(t => ownerFilter.test(t.owner));
+  const tasks: TaskType[] = filesData[textDocument.fileName].filter(t => t.myself);
   console.log('Tasks:', tasks);
 
   // Sanity check
@@ -80,9 +77,25 @@ async function syncFile () {
 
 }
 
+/**
+ * Push a list of tasks into Todoist
+ * 
+ * @param tasks Array of task objects to synchronize to Todoist
+ * @param uri URI of the file that is being synchronized, used to pull local sync config
+ * @returns An array of newly created tasks with their id's filled
+ */
+async function showTasks (tasks: any[], uri: vscode.Uri) {
+  const content = JSON.stringify(tasks, null, 2);
+  vscode.workspace.openTextDocument({ content, language: 'json' })
+    .then((doc: vscode.TextDocument) => vscode.window.showTextDocument(doc, 1, false));
+  return tasks;
+}
+
+
+
   /*
   if ( !lines.length ) return;
 
   */
 
-export { syncFile };
+export { syncFile, showTasks };

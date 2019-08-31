@@ -147,6 +147,10 @@
         "title": "Coffee Break: Synchronize file with external task manager"
       },
       {
+        "command": "coffeebreak.showTasks",
+        "title": "Coffee Break: Dummy synchronization command, opens a new JSON file with the data"
+      },
+      {
         "command": "coffeebreak.todoistSync",
         "title": "Coffee Break: Sync to Todoist"
       },
@@ -169,7 +173,8 @@
       "properties": {
         "coffeebreak.emails": {
           "type": "array",
-          "description": "My email addresses"
+          "description": "My email addresses",
+          "default": []
         },
         "coffeebreak.include": {
           "type": "array",
@@ -217,11 +222,6 @@
           "scope": "resource",
           "type": "string",
           "description": "Command to execute for each task"
-        },
-        "coffeebreak.sync.ownerFilter": {
-          "scope": "resource",
-          "type": "string",
-          "description": "Regular expression used to filter tasks by owner"
         },
         "todoist-sync.defaults": {
           "type": "object",
