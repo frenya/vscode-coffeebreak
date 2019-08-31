@@ -151,14 +151,6 @@
         "title": "Coffee Break: Dummy synchronization command, opens a new JSON file with the data"
       },
       {
-        "command": "coffeebreak.todoistSync",
-        "title": "Coffee Break: Sync to Todoist"
-      },
-      {
-        "command": "coffeebreak.updateToken",
-        "title": "Coffee Break: Update Todoist token"
-      },
-      {
         "command": "coffeebreak.createMention",
         "title": "Coffee Break: Add mention"
       },
@@ -226,36 +218,6 @@
             "command": {
               "type": "string",
               "description": "Command to execute for each task"
-            }
-          }
-        },
-        "todoist-sync.defaults": {
-          "type": "object",
-          "scope": "resource",
-          "description": "Additional parameters to pass to the Todoist API",
-          "properties": {
-            "project_id": {
-              "type": "integer",
-              "description": "The id of the project to add the task to. By default the task is added to the user’s Inbox project."
-            },
-            "priority": {
-              "type": "integer",
-              "description": "The priority of the task (a number between 1 and 4, 4 for very urgent and 1 for natural)"
-            },
-            "labels": {
-              "type": "array",
-              "description": "The tasks labels (a list of label ids)",
-              "items": {
-                "type": "number"
-              }
-            },
-            "assigned_by_uid": {
-              "type": "integer",
-              "description": "The id of user who assigns the current task. This makes sense for shared projects only. Accepts 0 or any user id from the list of project collaborators. If this value is unset or invalid, it will be automatically setup to your uid."
-            },
-            "responsible_uid": {
-              "type": "integer",
-              "description": "The id of user who is responsible for accomplishing the current task. This makes sense for shared projects only. Accepts any user id from the list of project collaborators or null or an empty string to unset."
             }
           }
         }
@@ -424,10 +386,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "pify": "^4.0.1",
-    "request-promise": "^4.2.4",
-    "string-matches": "^1.1.3",
-    "url-pattern": "^1.0.3",
-    "uuid": "^3.3.2"
+    "string-matches": "^1.1.3"
   },
   "extensionDependencies": [
     "yzhang.markdown-all-in-one"

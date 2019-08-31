@@ -10,7 +10,6 @@ import Utils from '../utils';
 import ViewEmbedded from '../views/embedded';
 
 import { toggleTodo, toggleDone } from './toggle';
-import { todoistSync, updateToken } from './todoist';
 import { syncFile, showTasks } from './sync';
 import { createMention, addMentionDetail } from './mentions';
 
@@ -217,7 +216,7 @@ export {
   viewEmbeddedFilterMyTasks, viewEmbeddedFilterAllTasks, viewEmbeddedFilterByOwner,
   viewEmbeddedDueToday, viewEmbeddedDueAnytime, viewEmbeddedFilterByDate,
   viewEmbeddedShowLinkedTasks, viewEmbeddedHideLinkedTasks,
-  syncFile, showTasks, todoistSync, updateToken,
+  syncFile, showTasks,
   createMention, addMentionDetail,
   createCommandUrl,
 };
