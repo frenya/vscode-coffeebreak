@@ -19,7 +19,10 @@ async function createMention (mention, uri = null) {
   
   const config = Config(uri);
   if (!mention) {
-      mention = await vscode.window.showInputBox ({ placeHolder: 'Enter username without the @ sign ...' });
+    mention = await vscode.window.showInputBox ({ placeHolder: 'Enter username without the @ sign ...' });
+    // Sanity check (null means Esc was pressed)
+    // tslint:disable-next-line:triple-equals
+    if (mention == null) return;
   }
 
   const value = <InspectValue>config.inspect('mentions');
@@ -43,6 +46,9 @@ async function addMentionDetail (mention, attribute, uri = null) {
 
   const config = Config(uri);
   const attributeValue = await vscode.window.showInputBox ({ placeHolder: `Enter value for ${attribute} ...`});
+  // Sanity check (null means Esc was pressed)
+  // tslint:disable-next-line:triple-equals
+  if (attributeValue == null) return;
 
   const value = <InspectValue>config.inspect('mentions');
   const project = !!(value.workspaceFolderValue && value.workspaceFolderValue[mention]);
