@@ -10,7 +10,7 @@ import Folder from '../../folder';
 import Abstract, { pathNormalizer, TaskType } from './abstract';
 
 const dateRegex = /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
-const linkRegex = /\[\]\(([^)]*)\)/;
+const linkRegex = Consts.regexes.emptyLink;
 
 /* JS */
 
