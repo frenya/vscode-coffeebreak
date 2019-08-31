@@ -8,6 +8,7 @@ import Decorators from './decorators';
 import ViewEmbedded from './views/embedded';
 import { HashTagsCompletionItemProvider } from './hashtags_completion_item_provider';
 import { DateCompletionItemProvider } from './date_completion_item_provider';
+var regexp = require('markdown-it-regexp');
 
 /* ACTIVATE */
 
@@ -42,8 +43,19 @@ const activate = function ( context: vscode.ExtensionContext ) {
   context.subscriptions.push(vscode.languages.registerCompletionItemProvider(selector, dateCompletionItemProvider, '/'));
 
   // Init commands
-  return Utils.init.commands ( context );
+  Utils.init.commands ( context );
 
+  function parser(match, utils) {
+    // TODO: Check for full name in the mentions directory
+    return match[1];
+  }
+
+  return {
+    extendMarkdownIt: function (md) {
+      return md.use(regexp(/@(\w+)/, parser));
+      // return md.use((md, options) => console.log('Markdown-it extension', md.core, options));
+    }
+  };
 };
 
 /* EXPORT */

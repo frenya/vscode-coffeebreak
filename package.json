@@ -252,7 +252,6 @@
               "description": "The id of user who is responsible for accomplishing the current task. This makes sense for shared projects only. Accepts any user id from the list of project collaborators or null or an empty string to unset."
             }
           }
-
         }
       }
     },
@@ -273,6 +272,7 @@
         "when": "editorTextFocus && editorLangId == markdown"
       }
     ],
+    "markdown.markdownItPlugins": true,
     "views": {
       "todo": [
         {
@@ -414,6 +414,7 @@
     "find-up": "^3.0.0",
     "globby": "^9.2.0",
     "lodash": "^4.17.11",
+    "markdown-it-regexp": "^0.4.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "pify": "^4.0.1",
