@@ -11,6 +11,7 @@ import * as uuid from 'uuid';
 import * as UrlPattern from 'url-pattern';
 import * as rp from 'request-promise';
 
+/*
 interface TodoistConfiguration {
   project_id: number;
   priority: number;
@@ -18,6 +19,7 @@ interface TodoistConfiguration {
   assigned_by_uid: number;
   responsible_uid: number;
 }
+*/
 
 const TodoistTaskUrl = new UrlPattern('https\\://todoist.com/showTask?id=:id');
 
