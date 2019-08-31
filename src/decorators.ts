@@ -1,9 +1,12 @@
 import * as vscode from 'vscode';
 import Config from './config';
 import Consts from './consts';
+import { createCommandUrl } from './commands';
 import Todo from './views/items/todo';
 import Editor from './editor';
-    
+
+import styles from './styles';
+
 const Decorators = {
 
   timeout: undefined,
@@ -14,24 +17,8 @@ const Decorators = {
 
   init (context: vscode.ExtensionContext) {
     // Used for empty links
-    // TODO: Deprecated, remove
-    this.registerGroupDecorator('link', {
-      light: {
-        color: '#bbb'
-      },
-      dark: {
-        color:  '#444'
-      }
-    });
-
-    this.registerGroupDecorator('missing', {
-      light: {
-        color: '#d03535'
-      },
-      dark: {
-        color:  '#d03535',
-      }
-    });
+    this.registerGroupDecorator('link', styles.syncLink);
+    this.registerGroupDecorator('missing', styles.missingMention);
 
     this.activeEditor = vscode.window.activeTextEditor;
     if (this.activeEditor) {
@@ -116,14 +103,7 @@ const Decorators = {
   getMentionDecorator (group) {
     // Lazy initialization of the decorator types
     if (!this.decorators[group]) {
-      this.registerGroupDecorator(group, {
-        light: {
-          color: '#112f77'
-        },
-        dark: {
-          color:  '#21cadd',
-        }
-      });
+      this.registerGroupDecorator(group, styles.mention);
     }
     return this.decorators[group];
   },
@@ -139,21 +119,16 @@ const Decorators = {
       return `[Add ${title || attribute}](${commandUri})`;
     };
 
-    const contents = new vscode.MarkdownString(`**${username}**\n\n* ${detailLine('fullname', 'full name')}\n* ${detailLine('email')}`);
+    let contents = null;
 
-    // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
-    // When creating trusted Markdown string, make sure to properly sanitize all the
-    // input content so that only expected command URIs can be executed
-    contents.isTrusted = true;
-
-    return contents;
-  },
-
-  getMissingMentionHoverMessage (mention, uri) {
-    const username = mention.substr(1);
-    const commandUri1 = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username]))}`);
-    const commandUri2 = vscode.Uri.parse(`command:coffeebreak.createMention?${encodeURIComponent(JSON.stringify([username, uri]))}`);
-    const contents = new vscode.MarkdownString(`Click here to add *${username}* to [workspace](${commandUri1}) or [project](${commandUri2})`);
+    if (owner) {
+      contents = new vscode.MarkdownString(`**${username}**\n\n* ${detailLine('fullname', 'full name')}\n* ${detailLine('email')}`);
+    }
+    else {
+      const commandUri1 = createCommandUrl('createMention', username);
+      const commandUri2 = createCommandUrl('createMention', username, uri);
+      contents = new vscode.MarkdownString(`Click here to add *${username}* to [workspace](${commandUri1}) or [project](${commandUri2})`);
+    }
 
     // To enable command URIs in Markdown content, you must set the `isTrusted` flag.
     // When creating trusted Markdown string, make sure to properly sanitize all the
@@ -204,9 +179,7 @@ const Decorators = {
     this.decorateMatches (Consts.regexes.mention, (mention, range) => {
       const m = mentionTags[mention.substr(1)];
       let group = m ? 'others' : 'missing';
-      let hoverMessage = group === 'missing'
-        ? this.getMissingMentionHoverMessage(mention, uri)
-        : this.getMentionHoverMessage(mention, m, uri);
+      let hoverMessage = this.getMentionHoverMessage(mention, m, uri);
       this.getMentionDecorator(group).ranges.push({ range, hoverMessage });
     });
 

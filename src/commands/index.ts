@@ -196,6 +196,17 @@ async function newFile () {
   });
 }
 
+/**
+ * Returns a command url usable in Markdown strings.
+ * 
+ * @param commandName Second part of the command name, will be prefixed with coffeebreak.
+ * @param params Array of arguments. They will be url encoded.
+ */
+const createCommandUrl = (commandName, ...params) => {
+  const encodedParams = encodeURIComponent(JSON.stringify(params));
+  return vscode.Uri.parse(`command:coffeebreak.${commandName}?${encodedParams}`);
+};
+
 /* EXPORT */
 
 export {
@@ -207,5 +218,6 @@ export {
   viewEmbeddedDueToday, viewEmbeddedDueAnytime, viewEmbeddedFilterByDate,
   viewEmbeddedShowLinkedTasks, viewEmbeddedHideLinkedTasks,
   syncFile, todoistSync, updateToken,
-  createMention, addMentionDetail
+  createMention, addMentionDetail,
+  createCommandUrl,
 };
