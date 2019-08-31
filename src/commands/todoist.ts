@@ -48,7 +48,7 @@ async function getToken () {
  * @param uri URI of the file that is being synchronized, used to pull local sync config
  * @returns An array of newly created tasks with their id's filled
  */
-async function todoistSync (tasks: any[], uri: vscode.Uri) {
+async function todoistSync (tasks: any[], uri: vscode.Uri, options: object = {}) {
 
   // Sanity check - this command should be called by CoffeeBreak extension with appropriate arguments
   // missing arguments probably mean that the user has call the command directly
@@ -63,9 +63,6 @@ async function todoistSync (tasks: any[], uri: vscode.Uri) {
     throw new Error('No Todoist token available');
   }
   // else console.log(token);
-
-  // Get the local config
-  const defaults = vscode.workspace.getConfiguration('todoist-sync', uri).get<TodoistConfiguration>('defaults');
 
   const cmds = tasks.map(constructTodoistCommand);
 
@@ -94,7 +91,8 @@ async function todoistSync (tasks: any[], uri: vscode.Uri) {
 
   function constructTodoistCommand (task) {
     const documentLink = ` vscode://file/${encodeURIComponent(task.filePath)}:${task.lineNr+1} ((☰))`;
-    let args = Object.assign({}, defaults || {}, {
+    const { command, ...taskOptions } = task.sync;
+    let args = Object.assign({}, options, taskOptions, {
       content: task.message.trim() + documentLink,
       date_string: task.dueDate,
       auto_parse_labels: false
