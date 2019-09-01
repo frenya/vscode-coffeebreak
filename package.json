@@ -365,8 +365,8 @@
     "tslint": "^5.12.1",
     "typescript": "^3.3.1",
     "vscode": "^1.1.28",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1"
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
   },
   "keywords": [
     "vscode",
@@ -383,7 +383,7 @@
     "diff": "^3.5.0",
     "find-up": "^3.0.0",
     "globby": "^9.2.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "markdown-it-regexp": "^0.4.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
