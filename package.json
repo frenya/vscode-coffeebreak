@@ -3,7 +3,7 @@
   "displayName": "Coffee Break",
   "description": "Meeting minutes plugin for VSCode",
   "icon": "resources/logo/CoffeeBreak.png",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "engines": {
     "vscode": "^1.33.0"
