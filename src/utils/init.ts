@@ -12,7 +12,7 @@ const Init = {
 
   commands ( context: vscode.ExtensionContext ) {
 
-    const {commands} = vscode.extensions.getExtension ( 'frenya.vscode-coffee-break' ).packageJSON.contributes;
+    const {commands} = vscode.extensions.getExtension ( 'frenya.vscode-coffeebreak' ).packageJSON.contributes;
 
     commands.forEach ( ({ command, title }) => {
 
