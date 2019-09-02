@@ -97,7 +97,7 @@ async function viewEmbeddedFilterByOwner (owner) {
 }
 
 async function viewEmbeddedFilterMyTasks () {
-  viewEmbeddedFilterByOwner('@Franta');
+  viewEmbeddedFilterByOwner('<me>');
 }
 
 async function viewEmbeddedFilterAllTasks () {
