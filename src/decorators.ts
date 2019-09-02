@@ -114,6 +114,11 @@ const Decorators = {
     }
   },
 
+  lineIsIncompleteTask (range: vscode.Range) {
+    const line = this.activeEditor.document.lineAt(range.start.line);
+    return !!line && Consts.regexes.todoEmbedded.test(line.text);
+  },
+
   updateDecorations() {
     // Sanity check
     if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
@@ -126,7 +131,9 @@ const Decorators = {
     // Decorate due dates
     this.decorateMatches (Consts.regexes.date, (match, range) => {
       const dateColor = Todo.getDateColor(match);
-      this.getDateDecorator(dateColor).ranges.push({ range });
+      if (this.lineIsIncompleteTask(range)) {
+        this.getDateDecorator(dateColor).ranges.push({ range });
+      }
     });
 
     // Decorate empty links, ungrouped
