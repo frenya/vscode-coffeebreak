@@ -25,7 +25,6 @@ class Embedded extends View {
   filterOwner: string = '';
   filterDueDate: string | false = false;
   hideLinked = false;
-  filePathRe = /^(?!~).*(?:\\|\/)/;
 
   getTreeItem ( item: Item ): vscode.TreeItem {
 
@@ -82,34 +81,14 @@ class Embedded extends View {
     // Collapse unnecessary groups
     while ( obj && '' in obj ) obj = obj[''];
 
-    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos found' )];
+    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos match filter criteria' )];
 
     if ( _.isArray ( obj ) ) {
-
-      return obj.map ( obj => {
-
-        return new Todo ( obj, obj.message, true );
-
-      });
-
-    } else if ( _.isObject ( obj ) ) {
-
+      return obj.map(obj => new Todo ( obj, obj.message, true ));
+    }
+    else if ( _.isObject ( obj ) ) {
       const keys = Object.keys ( obj ).sort ();
-
-      return keys.map ( key => {
-
-        const val = obj[key];
-
-        if ( this.filePathRe.test ( key ) ) {
-          const uri = Utils.view.getURI ( val[0] );
-          return new File ( val, uri );
-        } 
-        else {
-          return new Group(val, key);
-        }
-
-      });
-
+      return keys.map ( key => new Group(obj[key], key));
     }
 
   }
