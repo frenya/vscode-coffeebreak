@@ -169,6 +169,14 @@ class Abstract {
 
         if ( !todos[rootGroup][ownerGroup][filePathGroup] ) todos[rootGroup][ownerGroup][filePathGroup] = [];
 
+        // Use labels to add the task to other folders too
+        if (datum.label) {
+          if ( !todos[datum.label] ) todos[datum.label] = {};
+          if ( !todos[datum.label][ownerGroup] ) todos[datum.label][ownerGroup] = {};
+          if ( !todos[datum.label][ownerGroup][filePathGroup] ) todos[datum.label][ownerGroup][filePathGroup] = [];
+          todos[datum.label][ownerGroup][filePathGroup].push ( datum );
+        }
+
         todos[rootGroup][ownerGroup][filePathGroup].push ( datum );
 
       });

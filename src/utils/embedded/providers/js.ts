@@ -98,6 +98,7 @@ class JS extends Abstract {
 
         this.extractRegex(task, dateRegex, 0, 'dueDate');
         this.extractRegex(task, linkRegex, 1, 'externalURL');
+        this.extractRegex(task, Consts.regexes.label, 1, 'label');
 
         // Detect "my" tasks
         task.myself = isItMyself(config, username); // TODO: Maybe useless, could be replaced with !!task.sync
