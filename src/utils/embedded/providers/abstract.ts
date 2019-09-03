@@ -41,7 +41,7 @@ class Abstract {
   filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher: vscode.FileSystemWatcher = undefined;
 
-  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByOwner = true, groupByFile = true, filter ) {
+  async get ( rootPaths = Folder.getAllRootPaths (), filter ) {
 
     rootPaths = _.castArray ( rootPaths );
 
@@ -62,7 +62,7 @@ class Abstract {
 
     }
 
-    return this.getTodos ( groupByRoot, groupByOwner, groupByFile, filter );
+    return this.getTodos ( filter );
 
   }
 
@@ -140,45 +140,34 @@ class Abstract {
 
   async updateFilesData () {}
 
-  getTodos ( groupByRoot, groupByOwner, groupByFile, filter ) {
+  getTodos ( filter ) {
 
     if ( _.isEmpty ( this.filesData ) ) return;
 
-    const todos = {}, // { [ROOT] { [TYPE] => { [FILEPATH] => [DATA] } } }
+    const todos = {}, // { [ROOT] { [TYPE] => [DATA] } }
           filePaths = Object.keys ( this.filesData );
 
+    const addTodo = (todo, root, owner) => {
+      if (!todos[root]) todos[root] = {};
+      if (!todos[root][owner]) todos[root][owner] = [];
+      todos[root][owner].push(todo);
+    };
+
     filePaths.map(pathNormalizer).forEach ( filePath => {
-
+      // Get the tasks in a file, return if empty
       const data = this.filesData[filePath];
-
       if ( !data || !data.length ) return;
 
-      const filePathGroup = groupByFile ? filePath : '';
-
       data.forEach ( datum => {
-
         if ( filter && !filter(datum) ) return;
 
-        const rootGroup = groupByRoot ? datum.root : '';
-
-        if ( !todos[rootGroup] ) todos[rootGroup] = {};
-
-        const ownerGroup = groupByOwner ? datum.owner : '';
-
-        if ( !todos[rootGroup][ownerGroup] ) todos[rootGroup][ownerGroup] = {};
-
-        if ( !todos[rootGroup][ownerGroup][filePathGroup] ) todos[rootGroup][ownerGroup][filePathGroup] = [];
+        addTodo(datum, datum.root || '', datum.owner || '');
 
         // Use labels to add the task to other folders too
         if (datum.label) {
+          addTodo(datum, datum.label, datum.owner || '');
           if ( !todos[datum.label] ) todos[datum.label] = {};
-          if ( !todos[datum.label][ownerGroup] ) todos[datum.label][ownerGroup] = {};
-          if ( !todos[datum.label][ownerGroup][filePathGroup] ) todos[datum.label][ownerGroup][filePathGroup] = [];
-          todos[datum.label][ownerGroup][filePathGroup].push ( datum );
         }
-
-        todos[rootGroup][ownerGroup][filePathGroup].push ( datum );
-
       });
 
     });

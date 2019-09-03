@@ -41,7 +41,7 @@ class Embedded extends View {
 
     await Utils.embedded.initProvider ();
 
-    return await Utils.embedded.provider.get ( undefined, true, true, false, this.isItemVisible.bind(this) );
+    return await Utils.embedded.provider.get ( undefined, this.isItemVisible.bind(this) );
 
   }
 
