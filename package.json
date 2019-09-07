@@ -256,8 +256,8 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "todo",
-          "title": "Todo",
+          "id": "coffeebreak",
+          "title": "Coffee Break",
           "icon": "resources/icons/coffee_break.svg"
         }
       ]
@@ -376,7 +376,10 @@
     "todos",
     "tasks",
     "meeting",
-    "minutes"
+    "minutes",
+    "project",
+    "management",
+    "productivity"
   ],
   "dependencies": {
     "absolute": "0.0.1",

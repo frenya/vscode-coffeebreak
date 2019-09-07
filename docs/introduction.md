@@ -13,7 +13,7 @@ Coffee Break is also ready for a multi-user collaboration over a shared folder. 
 
 # Taking notes
 
-Write your notes in Markdown and store them in .md files. For more information on Markdown, please visit [Markdown Guide](https://www.markdownguide.org/)
+Write your notes in Markdown and store them in .md files. For more information on Markdown, please visit [Markdown Guide](https://www.markdownguide.org/){:target="_blank"}
 
 To see your note rendered as HTML, simply use the Markdown Preview functionality of VS Code.
 
@@ -55,7 +55,7 @@ For more information see [Configuration](../configuration)
 
 Coffee Break has been prepared for synchronization to an external task manager. Currently, the following sync plugins are available:
 
-- [Coffee Break: Todoist Sync](https://marketplace.visualstudio.com/items?itemName=frenya.vscode-coffeebreak-todoist)
+- [Coffee Break: Todoist Sync](https://marketplace.visualstudio.com/items?itemName=frenya.vscode-coffeebreak-todoist){:target="_blank"}
 
 Make sure you follow the plugin's configuration instructions before running the sync.
 
