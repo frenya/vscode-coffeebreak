@@ -4,7 +4,7 @@
 # IMPORTANT: Set the URL of your site.
 # Set to https://<username>.github.io when hosting on GitHub Pages
 # (unless you are using a custom domain).
-url:                   https://domain.tld
+url:                   https://meetcoffeebreak.net
 
 # IMPORTANT: Set The "base URL" of your site.
 # When your site sits in a subdirectory, set to /<name of directory>
@@ -50,7 +50,7 @@ menu:
   - title:             Installation
     url:               /install/
   - title:             Documentation
-    url:               /introduction/
+    url:               /
   - title:             Advanced Tips
     url:               /advanced/
   - title:             Plugin Development
