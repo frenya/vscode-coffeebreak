@@ -11,6 +11,8 @@ You can store your notes on any cloud filesystem (Dropbox, Google Drive, etc.) a
 
 Coffee Break is also ready for a multi-user collaboration over a shared folder.
 
+You can find full documentation at [meetcoffeebreak.net](http://meetcoffeebreak.net/introduction/)
+
 # Taking notes
 
 Write your notes in Markdown and store them in .md files. For more information on Markdown, please visit [Markdown Guide](https://www.markdownguide.org/)
@@ -49,7 +51,7 @@ Choose the multi-notebook setting when dealing with a more complex scenarios, e.
 
 Note: When switching from a single notebook setup to multi notebook, your configuration will not be migrated. It is however stored as JSON and it is very easy to manually move the settings from the .vscode/settings.json file to the appropriate *.code-workspace file.
 
-For more information see [CONFIGURATION.md](./CONFIGURATION.md)
+For more information see [Configuration](http://meetcoffeebreak.net/configuration)
 
 ## External sync
 

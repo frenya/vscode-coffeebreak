@@ -3,7 +3,7 @@
 Sync plugins are just plain old VSCode extensions that provide command(s) handling the task sync.
 Currently, the following sync plugins are available:
 
-- [Coffee Break: Todoist Sync](https://marketplace.visualstudio.com/items?itemName=frenya.vscode-coffeebreak-todoist)[^1]
+- [Coffee Break: Todoist Sync](https://marketplace.visualstudio.com/items?itemName=frenya.vscode-coffeebreak-todoist){:target="_blank"}[^1]
 
 [^1]: The Todoist Sync plugin is a VSCode extension that has been developed by me and can serve as a basis for your own plugin synchronizing to a different task manager.
 
