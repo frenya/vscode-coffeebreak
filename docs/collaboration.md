@@ -26,10 +26,7 @@ This is the **shared notebook configuration** stored in `Manhattan/.vscode/setti
 
 The notebook is filled with notes and meeting minutes. Now, obviously, Alice would like to primarily see her own tasks in the Coffee Break side panel and so would Bob. Fortunately, this is very easy to achieve with the following **workspace** configurations:
 
-<table>
-<tr><th>Alice</th><th>Bob</th></tr>
-<tr>
-<td>
+**Alice:**
 
 ```json
 {
@@ -41,8 +38,7 @@ The notebook is filled with notes and meeting minutes. Now, obviously, Alice wou
 }
 ```
 
-</td>
-<td>
+**Bob:**
 
 ```json
 {
@@ -53,10 +49,6 @@ The notebook is filled with notes and meeting minutes. Now, obviously, Alice wou
   ...
 }
 ```
-
-</td>
-
-</tr></table>
 
 Since the workspace configrations are stored outside the shared notebook folder, each user can have a different one.
 

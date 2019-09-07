@@ -47,10 +47,14 @@ author:
 
 # Add links to the sidebar.
 menu:
+  - title:             Installation
+    url:               /install/
   - title:             Documentation
-    url:               /docs/
-  - title:             About
-    url:               /about/
+    url:               /introduction/
+  - title:             Advanced Tips
+    url:               /advanced/
+  - title:             Plugin Development
+    url:               /plugins/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
@@ -247,6 +251,7 @@ exclude:
   - _js
   - _plugins
   - .sass-cache
+  - docs_orig
 include:
   - LICENSE.md
   - .well-known

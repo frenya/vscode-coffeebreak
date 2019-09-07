@@ -12,6 +12,7 @@ Run Visual Studio Code and install the Coffee Break extension by doing the follo
 - search for Coffee Break
 - tap the Install button
 
-![Search](resources/doc/extension_search.png)
+![Search](../assets/img/docs/extension_search.png)
 
 NOTE: The extension "Markdown All In One" will be installed as well. It greatly improves Markdown writing in VS Code.
+
