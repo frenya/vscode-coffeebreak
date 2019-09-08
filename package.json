@@ -246,7 +246,7 @@
     ],
     "markdown.markdownItPlugins": true,
     "views": {
-      "todo": [
+      "coffeebreak": [
         {
           "id": "coffeebreak.views.coffeeBreak",
           "name": "Coffee Break"
