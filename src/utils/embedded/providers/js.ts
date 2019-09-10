@@ -74,7 +74,7 @@ class JS extends Abstract {
     lines.forEach ( ( rawLine, lineNr ) => {
 
       const line = _.trimStart ( rawLine ),
-            matches = stringMatches ( line, Consts.regexes.todoEmbedded );
+            matches = stringMatches ( line, Consts.regexes.todoEmbeddedGlobal );
 
       if ( !matches.length ) return;
 

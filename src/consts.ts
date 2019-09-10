@@ -23,7 +23,8 @@ const Consts = {
     todo: /^(\s*)([*+-]\s+\[[ xX]\]\s*)(.*)$/,
     todoBox: /^(\s*)([*+-]\s+\[ \]\s*)(.*)$/,
     todoDone: /^(\s*)([*+-]\s+\[[xX]\]\s*)(.*)$/,
-    todoEmbedded: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)', 'g' ),  // FIXME: Not consistent with regexes above
+    todoEmbedded: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)'),  // FIXME: Not consistent with regexes above
+    todoEmbeddedGlobal: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)', 'g' ),  // FIXME: Not consistent with regexes above
     mention: /@[A-Z][a-zA-Z]*/g,
     label: /#(\w+)/g,
     // NOTE: This is the regex used in task extraction
