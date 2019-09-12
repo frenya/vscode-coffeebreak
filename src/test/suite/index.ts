@@ -49,6 +49,7 @@ export function run(): Promise<void> {
           mocks.tearDown();
           // Report coverage results
           if (coverageRunner) coverageRunner.reportCoverage();
+          else console.warn('No coverage runner');
 
           if (failures > 0) {
             e(new Error(`${failures} tests failed.`));
