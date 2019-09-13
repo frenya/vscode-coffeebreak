@@ -121,7 +121,7 @@ const Decorators = {
 
   updateDecorations() {
     // Sanity check
-    if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
+    if (!Editor.isSupported(this.activeEditor)) return;
 
     const uri = this.activeEditor.document.uri;
 

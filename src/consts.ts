@@ -1,8 +1,4 @@
 
-/* IMPORT */
-
-import * as _ from 'lodash';
-
 /* CONSTS */
 
 const Consts = {
