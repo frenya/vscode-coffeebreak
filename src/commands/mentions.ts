@@ -13,9 +13,10 @@ interface InspectValue {
   workspaceValue: any;
 }
 
-async function createMention (mention, uri = null) {
+async function createMention (mention, path = null) {
 
-  const project = !!uri;
+  const project = !!path;
+  const uri = vscode.Uri.file(path);
   
   const config = Config(uri);
   if (!mention) {
@@ -40,8 +41,9 @@ async function createMention (mention, uri = null) {
 
 }
 
-async function addMentionDetail (mention, attribute, uri = null) {
+async function addMentionDetail (mention, attribute, path = null) {
 
+  const uri = vscode.Uri.file(path);
   console.log(mention, attribute, uri);
 
   const config = Config(uri);

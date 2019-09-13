@@ -75,7 +75,7 @@ const Decorators = {
     const detailLine = (attribute, title = null) => {
       if (owner[attribute]) return owner[attribute];
 
-      const commandUri = vscode.Uri.parse(`command:coffeebreak.addMentionDetail?${encodeURIComponent(JSON.stringify([username, attribute, uri]))}`);
+      const commandUri = createCommandUrl('addMentionDetail', username, attribute, uri.path);
       return `[Add ${title || attribute}](${commandUri})`;
     };
 
@@ -86,7 +86,7 @@ const Decorators = {
     }
     else {
       const commandUri1 = createCommandUrl('createMention', username);
-      const commandUri2 = createCommandUrl('createMention', username, uri);
+      const commandUri2 = createCommandUrl('createMention', username, uri.path);
       contents = new vscode.MarkdownString(`Click here to add *${username}* to [workspace](${commandUri1}) or [project](${commandUri2})`);
     }
 
