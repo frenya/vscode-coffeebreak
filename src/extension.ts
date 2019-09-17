@@ -3,11 +3,13 @@
 
 import * as vscode from 'vscode';
 import Config from './config';
+import Consts from './consts';
 import Utils from './utils';
 import Decorators from './decorators';
 import ViewEmbedded from './views/embedded';
 import { HashTagsCompletionItemProvider } from './hashtags_completion_item_provider';
 import { DateCompletionItemProvider } from './date_completion_item_provider';
+import { getFullname } from './commands/mentions';
 var regexp = require('markdown-it-regexp');
 
 /* ACTIVATE */
@@ -48,12 +50,12 @@ const activate = function ( context: vscode.ExtensionContext ) {
 
   function parser(match, utils) {
     // TODO: Check for full name in the mentions directory
-    return match[1];
+    return getFullname(match[1], vscode.window.activeTextEditor.document.uri);
   }
 
   return {
     extendMarkdownIt: function (md) {
-      return md.use(regexp(/@(\w+)/, parser));
+      return md.use(regexp(Consts.regexes.mention, parser));
     }
   };
 };

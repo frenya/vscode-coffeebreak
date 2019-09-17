@@ -88,4 +88,11 @@ export const mySyncSettings = (config, username) => {
   return isMyself ? m.sync || {} : null;
 };
 
+export const getFullname = (username, uri) => {
+  const config = Config(uri);
+  const mentions = config.get('mentions') || {};
+  const mention = mentions[username] || {};
+  return  mention.fullname || username;
+};
+
 export { createMention, addMentionDetail };

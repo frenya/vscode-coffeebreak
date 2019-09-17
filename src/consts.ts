@@ -21,7 +21,8 @@ const Consts = {
     todoDone: /^(\s*)([*+-]\s+\[[xX]\]\s*)(.*)$/,
     todoEmbedded: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)'),  // FIXME: Not consistent with regexes above
     todoEmbeddedGlobal: new RegExp ('(?:-\\s*\\[ \\])(?:( (?:@[^\\s]*)?))(.*)', 'g' ),  // FIXME: Not consistent with regexes above
-    mention: /@[A-Z][a-zA-Z]*/g,
+    mention: /@([A-Z][a-zA-Z]*)/,
+    mentionGlobal: /@([A-Z][a-zA-Z]*)/g,
     label: /#(\w+)/g,
     // NOTE: This is the regex used in task extraction
     // date: /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;

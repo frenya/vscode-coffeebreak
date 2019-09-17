@@ -143,7 +143,7 @@ const Decorators = {
 
     // Decorate mentions
     const mentionTags: object = Config(uri).get('mentions');
-    this.decorateMatches (Consts.regexes.mention, (mention, range) => {
+    this.decorateMatches (Consts.regexes.mentionGlobal, (mention, range) => {
       const m = mentionTags[mention.substr(1)];
       let group = m ? 'others' : 'missing';
       let hoverMessage = this.getMentionHoverMessage(mention, m, uri);
