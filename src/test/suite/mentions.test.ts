@@ -8,7 +8,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 import Config from '../../config';
-import { isItMyself, mySyncSettings } from '../../commands/mentions';
+import { isItMyself, mySyncSettings, getFullname } from '../../commands/mentions';
 
 const uri = vscode.Uri.file(path.resolve(__dirname, '../../../demo/New Datacenter/Kick-off.md'));
 
@@ -131,6 +131,20 @@ suite('Adding mentions', () => {
   
 });
 
+suite('Full names', () => {
+
+  test('should resolve workspace full name', async () => {
+    assert.equal(getFullname('Frenya', null), 'Frantisek Vymazal');
+    assert.equal(getFullname('Frank', null), 'Frank');
+  });
+  
+  test('should resolve folder full name', async () => {
+    assert.equal(getFullname('Frenya', uri), 'Frantisek Vymazal');
+    assert.equal(getFullname('Frank', uri), 'Frantisek Vymazal');
+    assert.equal(getFullname('Frantisek', uri), 'Frantisek');
+  });
+  
+});
 
 // Fixtures
 const defaultWorkspaceMentions = {
