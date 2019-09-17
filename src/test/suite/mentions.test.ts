@@ -82,7 +82,10 @@ suite('Adding mentions', () => {
     folderConfig = Config(uri);
 
     // Stub the showInputBox method
-    showInputBoxStub = sinon.stub(vscode.window, 'showInputBox').resolves('Sheldon Cooper');
+    showInputBoxStub = sinon.stub(vscode.window, 'showInputBox');
+    showInputBoxStub.onFirstCall().resolves(null);
+    showInputBoxStub.onSecondCall().resolves('Test');
+    showInputBoxStub.resolves('Sheldon Cooper');
   });
   
   after(() => {
@@ -91,21 +94,50 @@ suite('Adding mentions', () => {
     Config(uri).update('mentions', defaultFolderMentions);
   });
 
-  test('should add mention to folder', async () => {
-    await vscode.commands.executeCommand('coffeebreak.createMention', 'FMention', uri.path);
+  test('should add empty mention to folder', async () => {
+    // First call simulates user pressing Esc (showInputBoxStub returns null)
+    await vscode.commands.executeCommand('coffeebreak.createMention', null, uri.path);
+    assert.deepEqual(Config(uri).get('mentions'), {
+      ...defaultFolderMentions,
+      ...defaultWorkspaceMentions
+    });
+
+    // Second call simulates user entering a name (showInputBoxStub returns "Test")
+    await vscode.commands.executeCommand('coffeebreak.createMention', null, uri.path);
     assert.deepEqual(Config(uri).get('mentions'), {
       ...defaultFolderMentions,
       ...defaultWorkspaceMentions,
-      'FMention': {}
+      'Test': {}
+    });
+  });
+  
+  test('should add mention to folder', async () => {
+    await vscode.commands.executeCommand('coffeebreak.createMention', 'Sheldon', uri.path);
+    assert.deepEqual(Config(uri).get('mentions'), {
+      ...defaultFolderMentions,
+      ...defaultWorkspaceMentions,
+      'Test': {},
+      'Sheldon': {}
+    });
+  });
+  
+  test('should ignore second addition of the same mention', async () => {
+    await vscode.commands.executeCommand('coffeebreak.createMention', 'Sheldon', uri.path);
+    assert.deepEqual(Config(uri).get('mentions'), {
+      ...defaultFolderMentions,
+      ...defaultWorkspaceMentions,
+      'Test': {},
+      'Sheldon': {}
     });
   });
   
   test('should add mention detail to folder', async () => {
-    await vscode.commands.executeCommand('coffeebreak.addMentionDetail', 'FMention', 'fullname', uri.path);
+    await vscode.commands.executeCommand('coffeebreak.addMentionDetail', 'Sheldon', 'fullname', uri.path);
     assert.deepEqual(Config(uri).get('mentions'), {
       ...defaultFolderMentions,
       ...defaultWorkspaceMentions,
-      'FMention': {
+      'Test': {},
+      'Sheldon': {
         fullname: 'Sheldon Cooper'
       }
     });
