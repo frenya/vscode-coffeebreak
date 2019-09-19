@@ -27,7 +27,8 @@ async function createMention (mention, path = null) {
   }
 
   const value = <InspectValue>config.inspect('mentions');
-  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue) || {};
+  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue)
+    || /* istanbul ignore next */ {};
 
   if (mentions[mention]) return;
   else mentions[mention] = {};
@@ -48,6 +49,7 @@ async function addMentionDetail (mention, attribute, path = null) {
 
   const config = Config(uri);
   const attributeValue = await vscode.window.showInputBox ({ placeHolder: `Enter value for ${attribute} ...`});
+  /* istanbul ignore if */ 
   // Sanity check (null means Esc was pressed)
   // tslint:disable-next-line:triple-equals
   if (attributeValue == null) return;
@@ -55,7 +57,8 @@ async function addMentionDetail (mention, attribute, path = null) {
   const value = <InspectValue>config.inspect('mentions');
   const project = !!(value.workspaceFolderValue && value.workspaceFolderValue[mention]);
 
-  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue) || {};
+  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue)
+    || /* istanbul ignore next */ {};
 
   if  (!mentions[mention]) mentions[mention] = {};
   mentions[mention][attribute] = attributeValue;

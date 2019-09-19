@@ -161,6 +161,29 @@ suite('Adding mentions', () => {
     });
   });
   
+  test('should add mention detail to workspace', async () => {
+    await vscode.commands.executeCommand('coffeebreak.addMentionDetail', 'WMention', 'fullname', '');
+    assert.deepEqual(Config(null).get('mentions'), {
+      ...defaultWorkspaceMentions,
+      'WMention': {
+        fullname: 'Sheldon Cooper'
+      }
+    });
+  });
+  
+  test('should add mention detail to new mention in workspace', async () => {
+    await vscode.commands.executeCommand('coffeebreak.addMentionDetail', 'Empty', 'fullname', '');
+    assert.deepEqual(Config(null).get('mentions'), {
+      ...defaultWorkspaceMentions,
+      'WMention': {
+        fullname: 'Sheldon Cooper'
+      },
+      'Empty': {
+        fullname: 'Sheldon Cooper'
+      }
+    });
+  });
+  
 });
 
 suite('Full names', () => {
