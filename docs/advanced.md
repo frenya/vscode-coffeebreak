@@ -1,3 +1,7 @@
+---
+description: Advanced usage tips for Coffee Break
+---
+
 # Advanced Use
 
 ## Quick note creation

@@ -1,3 +1,7 @@
+---
+description: Collaboration configuration and usage tips
+---
+
 ## Collaboration, primary user
 
 Consider the following scenario

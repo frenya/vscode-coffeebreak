@@ -1,3 +1,7 @@
+---
+description: Installation instructions
+---
+
 # Installation
 
 ## Install Visual Studio Code

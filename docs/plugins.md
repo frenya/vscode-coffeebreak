@@ -1,4 +1,8 @@
-# Sync plugins
+---
+description: Documentation for plugin developers
+---
+
+# Sync plugins (for developers)
 
 Sync plugins are just plain old VSCode extensions that provide command(s) handling the task sync.
 Currently, the following sync plugins are available:
@@ -43,7 +47,7 @@ The expected return value is the original array of tasks with the `.externalURL`
 
 Notes:
 
-- the url will be added to the end of the task in the original file by Coffee Break, see [Introduction](../introduction/#external-sync) for details
+- the url will be added to the end of the task in the original file by Coffee Break, see [Introduction](../howto/#external-sync) for details
 - you can use the `.externalURL` attribute to determine whether a task has already been synchronized and extract its ID
 
 ## Documentation
@@ -53,4 +57,4 @@ Please keep in mind that the user will have to configure the sync. In your docum
 - exact name of the sync command (feel free to follow the `coffeebreak.<name-of-service>.sync` pattern)
 - any attributes the can be passed via the options object and their meaning
 
-If you have any questions, feel free to contact me.
+If you have any questions, feel free to contact me at frenya@frenya.net.
