@@ -169,11 +169,17 @@
       "properties": {
         "coffeebreak.emails": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "My email addresses",
           "default": []
         },
         "coffeebreak.include": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "Globs to use for including files",
           "default": [
             "**/*.md"
@@ -181,6 +187,9 @@
         },
         "coffeebreak.exclude": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "Globs to use for excluding files",
           "default": [
             "**/.*",
