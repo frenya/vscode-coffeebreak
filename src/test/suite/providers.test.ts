@@ -12,6 +12,8 @@ import Utils from '../../utils';
 import { TaskType } from '../../utils/embedded/providers/abstract';
 
 import expected from '../fixtures/tasks1';
+import expectedBacklog from '../fixtures/tasks2';
+
 console.log(expected);
 
 suite('Embedded task provider', () => {
@@ -47,4 +49,25 @@ suite('Embedded task provider', () => {
     });
   });
 
+  test('backlog tasks should be correctly assigned', () => {
+    const actual = Utils.embedded.provider.filesData[path.resolve(__dirname, '../../../demo/New Datacenter/Backlog.md')];
+
+    /*
+    actual.forEach((t: TaskType) => {
+      assert(!!t.backlinkURL);
+      assert(/^vscode:\/\/file\//.test(t.backlinkURL));
+      assert(t.backlinkURL.indexOf('%2F2014-10-08%20Weekly%20Meeting.md:' + (t.lineNr + 1)) !== -1);
+    });
+    */
+    // console.log(JSON.stringify(actual, null, 2));
+
+    assert.equal(actual.length, expectedBacklog.length);
+
+    actual.forEach((t: TaskType, i) => {
+      // console.log('Matching', t, 'to', i, expected[i]);
+      sinon.assert.match(t, expectedBacklog[i]);
+    });
+  });
+
 });
+
