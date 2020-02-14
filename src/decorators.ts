@@ -6,6 +6,7 @@ import Todo from './views/items/todo';
 import Editor from './editor';
 
 import styles from './styles';
+import { mySyncSettings } from './commands/mentions';
 
 const Decorators = {
 
@@ -19,6 +20,7 @@ const Decorators = {
     // Used for empty links
     this.registerGroupDecorator('link', styles.syncLink);
     this.registerGroupDecorator('missing', styles.missingMention);
+    this.registerGroupDecorator('checkbox', { /* no extra styling, only the hover message will be set */ });
 
     this.setEditor(vscode.window.activeTextEditor);
     vscode.window.onDidChangeActiveTextEditor(editor => this.setEditor(editor), null, context.subscriptions);
@@ -98,6 +100,15 @@ const Decorators = {
     return contents;
   },
 
+  getSyncConfigHoverMessage (syncSettings) {
+
+    if (syncSettings) {
+      return new vscode.MarkdownString(`Sync settings:\n\n\`\`\`json\n${JSON.stringify(syncSettings, null, 2)}\n\`\`\``);
+    }
+    return new vscode.MarkdownString(`Task will not be synchronized`);
+
+  },
+
   getMatchRange (match, group = 0) {
     const e = this.activeEditor;
     const start = e.document.positionAt(match.index);
@@ -129,10 +140,19 @@ const Decorators = {
     if (!Editor.isSupported(this.activeEditor)) return;
 
     const uri = this.activeEditor.document.uri;
+    const config = Config(uri);
 
     // Reset ranges
     Object.keys(this.decorators).forEach(key => this.decorators[key].ranges = []);
     
+    // Add hover message to task boxes
+    const syncSettings = config.get('sync');
+    this.decorateMatches (Consts.regexes.todoBoxGlobal, (match, range) => {
+      const taskSyncSettings = mySyncSettings(config, match[2] || '<unassigned>');
+      let hoverMessage = this.getSyncConfigHoverMessage(taskSyncSettings ? Object.assign({}, syncSettings, taskSyncSettings) : null);
+      this.decorators.checkbox.ranges.push({ range: this.getMatchRange(match, 1), hoverMessage });
+    });
+
     // Decorate due dates
     this.decorateMatches (Consts.regexes.date, (match, range) => {
       const dateColor = Todo.getDateColor(match[0]);
