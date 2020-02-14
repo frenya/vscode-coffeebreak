@@ -167,7 +167,7 @@ const Decorators = {
     });
 
     // Decorate mentions
-    const mentionTags: object = Config(uri).get('mentions');
+    const mentionTags: object = config.get('mentions');
     this.decorateMatches (Consts.regexes.mentionGlobal, (match, range) => {
 
       const m = mentionTags[match[1]];
