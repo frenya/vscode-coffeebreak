@@ -98,6 +98,13 @@ const Decorators = {
     return contents;
   },
 
+  getMatchRange (match, group = 0) {
+    const e = this.activeEditor;
+    const start = e.document.positionAt(match.index);
+    const end = e.document.positionAt(match.index + match[group].length);
+    return new vscode.Range(start, end);
+  },
+
   decorateMatches (regEx, callback) {
     const editor = this.activeEditor;
     const text = editor.document.getText();
@@ -107,10 +114,8 @@ const Decorators = {
 
     let match;
     while (match = regEx.exec(text)) {
-      const startPos = editor.document.positionAt(match.index);
-      const endPos = editor.document.positionAt(match.index + match[0].length);
-      const range = new vscode.Range(startPos, endPos);
-      callback(match[0], range);
+      const range = this.getMatchRange(match);
+      callback(match, range);
     }
   },
 
@@ -130,7 +135,7 @@ const Decorators = {
     
     // Decorate due dates
     this.decorateMatches (Consts.regexes.date, (match, range) => {
-      const dateColor = Todo.getDateColor(match);
+      const dateColor = Todo.getDateColor(match[0]);
       if (this.lineIsIncompleteTask(range)) {
         this.getDateDecorator(dateColor).ranges.push({ range });
       }
@@ -143,10 +148,11 @@ const Decorators = {
 
     // Decorate mentions
     const mentionTags: object = Config(uri).get('mentions');
-    this.decorateMatches (Consts.regexes.mentionGlobal, (mention, range) => {
-      const m = mentionTags[mention.substr(1)];
+    this.decorateMatches (Consts.regexes.mentionGlobal, (match, range) => {
+
+      const m = mentionTags[match[1]];
       let group = m ? 'others' : 'missing';
-      let hoverMessage = this.getMentionHoverMessage(mention, m, uri);
+      let hoverMessage = this.getMentionHoverMessage(match[0], m, uri);
       this.getMentionDecorator(group).ranges.push({ range, hoverMessage });
     });
 
