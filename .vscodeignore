@@ -7,8 +7,10 @@
 .vscode
 node_modules
 out/test/**
+coverage/**
 test/**
 src/
 docs/
 demo/
+resources/*.sketch
 webpack.config.js
