@@ -12,21 +12,52 @@ import Folder from '../../folder';
 
 export const pathNormalizer = filePath => filePath.replace ( /\\/g, '/' ).normalize();
 
+/**
+ * Type of task extracted from a Markdown document.
+ */
 export interface TaskType {
   todo: string;
+
+  /** Task owner mention (including the "@"" character) */
   owner: string;
+
+  /** True when task owner matches workspace user */
   myself: boolean;
+
+  /** This is the actual text of the task (without the user mention) */
   message: string;
   code: string;
+
+  /** Line in the original document including all whitespace */
   rawLine: string;
+
   line: string;
+
+  /** Line number in the document, zero based */
   lineNr: number;
+
+  /** Fully qualified file path */
   filePath: string;
+
+  /** Workspace folder name */
   root: string;
+
+  /** Workspace folder path */
   rootPath: string;
+
+  /** Relative path of the document within its workspace folder */
   relativePath: string;
+
+  /** Due date string in the YYYY-MM-DD format */
   dueDate?: string;
+
+  /** When synced to external service, the url identifying the task in the external service */
   externalURL?: string;
+
+  /** Link to the line in the original document */
+  backlinkURL?: string;
+
+  /** Local sync settings (combination of workspace, folder and task owner's settings) */
   sync?: {
     command?: string;
   };

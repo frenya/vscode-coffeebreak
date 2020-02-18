@@ -1,0 +1,32 @@
+{
+  "coffeebreak.mentions": {
+    "John": {
+      "fullname": "John Adams",
+      "deparment": "Networking"
+    },
+    "Doug": {
+      "fullname": "Doug Brown",
+      "deparment": "IT Operations"
+    },
+    "Anne": {
+      "fullname": "Anne Crowley",
+      "deparment": "Finance"
+    },
+    "Sean": {
+      "fullname": "Sean Dermot",
+      "deparment": "UPS Technologies"
+    },
+    "Steve": {
+      "fullname": "Steve Evans",
+      "deparment": "AC Plus"
+    },
+    "Rich": {
+      "fullname": "Richard Francis",
+      "deparment": "Project Manager"
+    },
+    "Frank": {
+      "fullname": "Frantisek Vymazal",
+      "email": "frenya@frenya.net"
+    }
+  }
+}

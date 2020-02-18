@@ -1,24 +1,36 @@
+---
+description: Plugin configuration technical details
+---
+
 # Configuration
 
 ## Workspace
 
-TBD
+Workspace config is stored in your *.code-workspace file in JSON format. 
+You can access it via the Settings icon in the lower left corner.
 
-## Notebook
+![Settings](../assets/img/docs/settings_open.png)
 
-TBD
+Settings tab will open in the main panel. Simply select Extensions -> Coffee Break on the left to see the available options.
 
-## Users, mentions
+![Settings](../assets/img/docs/settings_workspace.png)
 
-Assigning task to a user is easy, simply mention their nickname after the task brackets. Don't worry if the user exists or not, you can configure them later. 
-Simply hover your mouse over the user mention follow the links in the hover message.
+Please note that there are three levels of settings in VSCode
 
-![Missing](../assets/img/docs/mention_missing.png)
+- **User** - whatever you set here will apply to all your workspaces
+- **Workspace** - settings for this particular workspace
+- **Folder** - settings specific for a specific folder within your workspace
 
-![Missing](../assets/img/docs/mention_missing_hover.png)
+## Folder
 
-![Existing](../assets/img/docs/mention_existing.png)
+Folder settings are stored in the folder itself in the .vscode/settings.json file.
 
-![Existing](../assets/img/docs/mention_existing_hover.png)
+## Key Coffee Break settings
 
-![Configured](../assets/img/docs/mention_configured.png)
+Here is the list of settings you should definitely configure to get the most out of Coffee Break:
+
+- coffeebreak.emails - A list of e-mail addresses that belong to the workspace owner. These are used to identify primary user's[^1] tasks.
+- coffeebreak.mentions - A list of user mentions. No need to configure this directly, just add the users over time. Editing the json file may be useful e.g. when importing a list of users.
+- coffeebreak.sync - Useful when synchronizing to an external task manager. More information available at [External sync](../howto/#external-sync)
+
+[^1]: see [Collaboration](../collaboration) for more details.

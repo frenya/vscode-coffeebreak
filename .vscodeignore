@@ -10,4 +10,5 @@ out/test/**
 test/**
 src/
 docs/
+demo/
 webpack.config.js

@@ -13,9 +13,10 @@ interface InspectValue {
   workspaceValue: any;
 }
 
-async function createMention (mention, uri = null) {
+async function createMention (mention, path = null) {
 
-  const project = !!uri;
+  const project = !!path;
+  const uri = vscode.Uri.file(path);
   
   const config = Config(uri);
   if (!mention) {
@@ -26,7 +27,8 @@ async function createMention (mention, uri = null) {
   }
 
   const value = <InspectValue>config.inspect('mentions');
-  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue) || {};
+  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue)
+    || /* istanbul ignore next */ {};
 
   if (mentions[mention]) return;
   else mentions[mention] = {};
@@ -40,12 +42,14 @@ async function createMention (mention, uri = null) {
 
 }
 
-async function addMentionDetail (mention, attribute, uri = null) {
+async function addMentionDetail (mention, attribute, path = null) {
 
+  const uri = vscode.Uri.file(path);
   console.log(mention, attribute, uri);
 
   const config = Config(uri);
   const attributeValue = await vscode.window.showInputBox ({ placeHolder: `Enter value for ${attribute} ...`});
+  /* istanbul ignore if */ 
   // Sanity check (null means Esc was pressed)
   // tslint:disable-next-line:triple-equals
   if (attributeValue == null) return;
@@ -53,7 +57,8 @@ async function addMentionDetail (mention, attribute, uri = null) {
   const value = <InspectValue>config.inspect('mentions');
   const project = !!(value.workspaceFolderValue && value.workspaceFolderValue[mention]);
 
-  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue) || {};
+  let mentions = (project ? value.workspaceFolderValue : value.workspaceValue)
+    || /* istanbul ignore next */ {};
 
   if  (!mentions[mention]) mentions[mention] = {};
   mentions[mention][attribute] = attributeValue;
@@ -84,6 +89,13 @@ export const mySyncSettings = (config, username) => {
   // No emails means nothing to work with
   const isMyself = !!m.email && (myEmails.indexOf(m.email) >= 0);
   return isMyself ? m.sync || {} : null;
+};
+
+export const getFullname = (username, uri) => {
+  const config = Config(uri);
+  const mentions = config.get('mentions') || {};
+  const mention = mentions[username] || {};
+  return  mention.fullname || username;
 };
 
 export { createMention, addMentionDetail };

@@ -28,10 +28,10 @@ description:           >
 
 # A shorter description for the sidebar.
 tagline:               >
-  Let your notes work for you!
+  Meeting notes for real geeks!
 
 # A list of keywords for your blog
-keywords:              [meeting, minutes, agenda, task, todo, project, management, productivity]
+keywords:              [meeting, minutes, agenda, task, todo, project, management, productivity, geek, markdown]
 
 # A (square) logo for your site.
 # If provided, it will be shown at the top of the sidebar.
@@ -49,8 +49,10 @@ author:
 menu:
   - title:             Installation
     url:               /install/
+  - title:             Getting Started
+    url:               /start/
   - title:             Documentation
-    url:               /
+    url:               /howto/
   - title:             Advanced Tips
     url:               /advanced/
   - title:             Plugin Development

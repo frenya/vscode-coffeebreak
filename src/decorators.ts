@@ -75,7 +75,7 @@ const Decorators = {
     const detailLine = (attribute, title = null) => {
       if (owner[attribute]) return owner[attribute];
 
-      const commandUri = vscode.Uri.parse(`command:coffeebreak.addMentionDetail?${encodeURIComponent(JSON.stringify([username, attribute, uri]))}`);
+      const commandUri = createCommandUrl('addMentionDetail', username, attribute, uri.path);
       return `[Add ${title || attribute}](${commandUri})`;
     };
 
@@ -86,7 +86,7 @@ const Decorators = {
     }
     else {
       const commandUri1 = createCommandUrl('createMention', username);
-      const commandUri2 = createCommandUrl('createMention', username, uri);
+      const commandUri2 = createCommandUrl('createMention', username, uri.path);
       contents = new vscode.MarkdownString(`Click here to add *${username}* to [workspace](${commandUri1}) or [project](${commandUri2})`);
     }
 
@@ -121,7 +121,7 @@ const Decorators = {
 
   updateDecorations() {
     // Sanity check
-    if (!this.activeEditor || !Editor.isSupported(this.activeEditor)) return;
+    if (!Editor.isSupported(this.activeEditor)) return;
 
     const uri = this.activeEditor.document.uri;
 
@@ -143,7 +143,7 @@ const Decorators = {
 
     // Decorate mentions
     const mentionTags: object = Config(uri).get('mentions');
-    this.decorateMatches (Consts.regexes.mention, (mention, range) => {
+    this.decorateMatches (Consts.regexes.mentionGlobal, (mention, range) => {
       const m = mentionTags[mention.substr(1)];
       let group = m ? 'others' : 'missing';
       let hoverMessage = this.getMentionHoverMessage(mention, m, uri);

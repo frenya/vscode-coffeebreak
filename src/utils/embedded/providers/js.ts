@@ -104,6 +104,8 @@ class JS extends Abstract {
         task.myself = isItMyself(config, username); // TODO: Maybe useless, could be replaced with !!task.sync
         task.sync = mySyncSettings(config, username);
 
+        // Add document backlink
+        task.backlinkURL = `vscode://file/${encodeURIComponent(task.filePath)}:${task.lineNr+1}`;
 
         data.push (task);
       });

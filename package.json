@@ -3,7 +3,7 @@
   "displayName": "Coffee Break",
   "description": "Meeting minutes plugin for VSCode",
   "icon": "resources/logo/CoffeeBreak.png",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "engines": {
     "vscode": "^1.33.0"
@@ -169,11 +169,17 @@
       "properties": {
         "coffeebreak.emails": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "My email addresses",
           "default": []
         },
         "coffeebreak.include": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "Globs to use for including files",
           "default": [
             "**/*.md"
@@ -181,6 +187,9 @@
         },
         "coffeebreak.exclude": {
           "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "Globs to use for excluding files",
           "default": [
             "**/.*",
@@ -358,13 +367,22 @@
     "package": "vsce package && code --install-extension *.vsix"
   },
   "devDependencies": {
+    "@types/glob": "^7.1.1",
     "@types/lodash": "^4.14.123",
-    "@types/mocha": "^2.2.42",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^10.12.21",
+    "@types/vscode": "^1.38.0",
+    "decache": "^4.5.1",
+    "glob": "^7.1.4",
+    "istanbul": "^0.4.5",
+    "mocha": "^6.2.0",
+    "mockery": "^2.1.0",
+    "remap-istanbul": "^0.13.0",
+    "sinon": "^7.4.2",
     "ts-loader": "^5.4.4",
     "tslint": "^5.12.1",
     "typescript": "^3.3.1",
-    "vscode": "^1.1.28",
+    "vscode-test": "^1.2.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
   },
