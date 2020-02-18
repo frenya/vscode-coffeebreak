@@ -50,7 +50,12 @@ class Embedded extends View {
     if (this.hideLinked && obj.externalURL) return false;
 
     // Filter by owner if applicable
-    if (this.filterOwner && obj.owner !== this.filterOwner) return false;
+    if (this.filterOwner) {
+      if (this.filterOwner === '<me>') {
+        if(!obj.myself) return false;
+      }
+      else if (obj.owner !== this.filterOwner) return false;
+    }
 
     // Filter by due date if applicable
     if (this.filterDueDate && (!obj.dueDate || obj.dueDate > this.filterDueDate)) return false;
