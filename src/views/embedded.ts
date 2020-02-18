@@ -17,7 +17,9 @@ import View from './view';
 
 class Embedded extends View {
 
+  // This corresponds to the view's id defined in package.json
   id = 'coffeebreak.views.coffeeBreak';
+  
   clear = false;
   expanded = true;
   filter: string | false = false;

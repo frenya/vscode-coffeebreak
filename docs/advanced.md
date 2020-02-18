@@ -28,13 +28,13 @@ Continue typing or select from the list.
 
 You can label any task with a hashmark (`#`) followed by a name of a notebook. The task will then show in the sidepanel as belonging to that notebook.
 
-Usage example: During a meeting with the Marketing department, you are given a task that will have to be discussed at your next meeting with Sales team.
-By adding the `#Sales` label to it, it will also show up under Sales in the sidepanel and you won't forget to follow up.
+*Usage example: During a meeting with the Marketing department, you are given a task that will have to be discussed at your next meeting with Sales team.
+By adding the `#Sales` label to it, it will also show up under Sales in the sidepanel and you won't forget to follow up.*
 
 ## Agenda, dedicated task lists
 
 When the name of a file begins with with `@`, all unassigned tasks in that file are automatically assigned to a user corresponding with the name of the file.
 
-Usage example: Create a file called `@agenda.md` and store all your agenda for an upcoming meeting there. The tasks will show in the sidepanel under
-a virtual owner "agenda" and you will be to see them even when taking notes during the meeting.
+*Usage example: Create a file called `@agenda.md` and store all your agenda for an upcoming meeting there. The tasks will show in the sidepanel under
+a virtual owner "agenda" and you will be to see them even when taking notes during the meeting.*
 

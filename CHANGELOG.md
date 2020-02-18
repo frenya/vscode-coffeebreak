@@ -2,8 +2,9 @@
 
 All notable changes to the "vscode-coffeebreak" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## v0.1.4
+2019-09-08
 
-## [Unreleased]
-
-- Initial release
+* Fixed issue with view container not showing up
+* Minor updates in documentation
+* Added change log
