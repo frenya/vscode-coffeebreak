@@ -12,7 +12,9 @@ export class HashTagsCompletionItemProvider implements CompletionItemProvider {
     const items: CompletionItem[] = [];
 
     for (let tag of Object.keys(configuration)) {
-      items.push(new CompletionItem(tag, CompletionItemKind.Keyword));
+      if (tag !== '<unassigned>') {
+        items.push(new CompletionItem(tag, CompletionItemKind.Keyword));
+      }
     }
 
     return items;

@@ -15,3 +15,8 @@ All notable changes to the "vscode-coffeebreak" extension will be documented in 
 * Added configuration option to simplify syncing of unassigned tasks
 * Updated documentation
 * Added hover message to task checkbox to simplify resolving sync config issues
+
+## v0.1.9
+2020-02-18
+
+* Filtered out `<unassigned>` from the mention completion list

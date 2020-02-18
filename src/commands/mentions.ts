@@ -45,7 +45,7 @@ async function createMention (mention, path = null) {
 async function addMentionDetail (mention, attribute, path = null) {
 
   const uri = vscode.Uri.file(path);
-  console.log(mention, attribute, uri);
+  // console.log(mention, attribute, uri);
 
   const config = Config(uri);
   const attributeValue = await vscode.window.showInputBox ({ placeHolder: `Enter value for ${attribute} ...`});
