@@ -3,7 +3,7 @@
   "displayName": "Coffee Break",
   "description": "Meeting minutes plugin for VSCode",
   "icon": "resources/logo/CoffeeBreak.png",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "engines": {
     "vscode": "^1.33.0"
@@ -256,8 +256,8 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "todo",
-          "title": "Todo",
+          "id": "coffeebreak",
+          "title": "Coffee Break",
           "icon": "resources/icons/coffee_break.svg"
         }
       ]
@@ -376,7 +376,10 @@
     "todos",
     "tasks",
     "meeting",
-    "minutes"
+    "minutes",
+    "project",
+    "management",
+    "productivity"
   ],
   "dependencies": {
     "absolute": "0.0.1",

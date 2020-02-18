@@ -9,34 +9,11 @@ Coffee Break is an extension of Microsoft's Visual Studio Code for efficient mee
 
 You can store your notes on any cloud filesystem (Dropbox, Google Drive, etc.) and have them available everywhere.
 
-# Installation
+Coffee Break is also ready for a multi-user collaboration over a shared folder.
 
-## Install Visual Studio Code
+You can find full documentation at [meetcoffeebreak.net](http://meetcoffeebreak.net/introduction/)
 
-Go to [Visual Studio Code pages](https://code.visualstudio.com/) and download the latest version for your operating system.
-
-## Install the Coffee Break plugin
-
-Run Visual Studio Code and install the Coffee Break extension by doing the following
-
-- choose View -> Extensions from the menu (or press Shift-Ctrl-X, Shift-Cmd-X on Mac)
-- search for Coffee Break
-- tap the Install button
-
-![Search](resources/doc/extension_search.png)
-
-NOTE: The extension "Markdown All In One" will be installed as well. It greatly improves Markdown writing in VS Code.
-
-# Start taking notes
-
-Coffee Break can operate in one of two modes
-
-- **Single Notebook** - all your notes (as well as all configuration) are stored in a single folder on your filesystem. The same configuration is used for all notes.
-- **Workspace with multiple Notebooks** - your main configuration is stored in a "workspace" file (*.code-workspace). Multiple filesystem folder can be added to the workspace and configuration can be finetuned for each of them.
-
-Choose the multi-notebook setting when dealing with a more complex scenarios, e.g. create a workspace for all your work notes and add folders for individual projects.
-
-## Markdown
+# Taking notes
 
 Write your notes in Markdown and store them in .md files. For more information on Markdown, please visit [Markdown Guide](https://www.markdownguide.org/)
 
@@ -63,13 +40,26 @@ You can also filter the tasks by:
 - **Sync status** - by default, all tasks are shown. Click the Uplink icon to hide tasks that have been synchronized to an external task manager.
 - **Full text** - click the Loupe icon to search for a specific text
 
+## Organizing notes
+
+Coffee Break can operate in one of two modes
+
+- **Single Notebook** - all your notes (as well as all configuration) are stored in a single folder on your filesystem and its subfolders. The same configuration is used for all notes.
+- **Workspace with multiple Notebooks** - your main configuration is stored in a "workspace" file (*.code-workspace). Multiple filesystem folder can be added to the workspace and configuration can be finetuned for each of them.
+
+Choose the multi-notebook setting when dealing with a more complex scenarios, e.g. create a workspace for all your work notes and add folders for individual projects.
+
+Note: When switching from a single notebook setup to multi notebook, your configuration will not be migrated. It is however stored as JSON and it is very easy to manually move the settings from the .vscode/settings.json file to the appropriate *.code-workspace file.
+
+For more information see [Configuration](http://meetcoffeebreak.net/configuration)
+
 ## External sync
 
 Coffee Break has been prepared for synchronization to an external task manager. Currently, the following sync plugins are available:
 
-- [Sync to Todoist](https://marketplace.visualstudio.com/items?itemName=frenya.vscode-coffeebreak-todoist)
+- [Coffee Break: Todoist Sync](https://marketplace.visualstudio.com/items?itemName=frenya.vscode-coffeebreak-todoist)
 
-To run sync, simply press Shift-Ctrl-P (Shift-Cmd-P on Mac) and select the TBD command.
+To run sync, simply press Shift-Ctrl-P (Shift-Cmd-P on Mac) and select the "Coffee Break: Synchronize with external task manager" command.
 
 After successful sync, links to the external tasks should appear in your notes, e.g. `[](https://todoist.com/showTask?id=123456)`.
 
@@ -77,8 +67,9 @@ After successful sync, links to the external tasks should appear in your notes, 
 
 There are three things to keep in mind when using the external sync:
 
+- you need to install a sync plugin for your deserved task manager
 - you need to configure the "Sync command" in Workspace/Folder Settings
-- you can configure an "Owner Filter" in settings to only sync tasks of with a particular owner (typically your own)
+- only tasks of the primary user will be synced, for notes on how to setup primary user, see CONFIGURATION.md
 - when running the sync for the first time, you will probably be asked to provide an authorization token for the external service - please see documentation of the sync plugin for details
 
 # Various
@@ -88,7 +79,3 @@ There are three things to keep in mind when using the external sync:
 Press Ctrl-Alt-N (Cmd-Alt-N on Mac) for quickly create a meeting note. You will be asked for a title of your note and after pressing Enter a file will be created with the name "YYYY-MM-DD <Note title>.md".
 
 If you want the file to be created in a particular Notebook, simply type a comma (,) after the title and a few characters of the Notebooks's name.
-
-## Single/Multi Notebook setup
-
-When switching from a single notebook setup to multi notebook, your configuration will not be migrated. It is however stored as JSON and it is very easy to manually move the settings from the .vscode/settings.json file to the appropriate *.code-workspace file.

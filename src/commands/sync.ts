@@ -16,7 +16,7 @@ async function extractMyTasks (fileName) {
 
   // Get the tasks
   await Utils.embedded.initProvider ();
-  await Utils.embedded.provider.get ( undefined, true, true, false, null );
+  await Utils.embedded.provider.get ( undefined, null );
 
   const filesData = Utils.embedded.provider.filesData;
   return filesData[fileName].filter(t => t.sync);

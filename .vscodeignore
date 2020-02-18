@@ -9,4 +9,5 @@ node_modules
 out/test/**
 test/**
 src/
+docs/
 webpack.config.js
