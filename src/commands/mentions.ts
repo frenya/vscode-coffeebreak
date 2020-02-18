@@ -73,12 +73,15 @@ async function addMentionDetail (mention, attribute, path = null) {
 }
 
 export const isItMyself = (config, username) => {
+  /*
   const mentions = config.get('mentions');
   const m = mentions[username] || {};
   const myEmails = Config(null).get<string[]>('emails') || [];
   
   // No emails means nothing to work with
   return !!m.email && (myEmails.indexOf(m.email) >= 0);
+  */
+  return !!mySyncSettings(config, username);
 };
 
 export const mySyncSettings = (config, username) => {
@@ -87,7 +90,7 @@ export const mySyncSettings = (config, username) => {
   const myEmails = Config(null).get<string[]>('emails') || [];
 
   // No emails means nothing to work with
-  const isMyself = !!m.email && (myEmails.indexOf(m.email) >= 0);
+  const isMyself = !!m.email && (m.email === '*' || myEmails.indexOf(m.email) >= 0);
   return isMyself ? m.sync || {} : null;
 };
 

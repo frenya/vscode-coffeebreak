@@ -124,7 +124,7 @@ class JS extends Abstract {
     if (match && match.length > group) obj[attributeName] = match[group].trim();
 
     // Remove the regex from message
-    obj.message = obj.message.replace(regex, '');
+    obj.message = obj.message.replace(regex, '').trim();
 
     return obj;
 

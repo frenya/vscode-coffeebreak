@@ -237,5 +237,8 @@ const defaultFolderMentions = {
   'Frank': {
     'fullname': 'Frantisek Vymazal',
     'email': 'frenya@frenya.net'
-  }
+  }, 
+  '<unassigned>': {
+    'email': '*'
+  },
 };
