@@ -20,3 +20,9 @@ All notable changes to the "vscode-coffeebreak" extension will be documented in 
 2020-02-18
 
 * Filtered out `<unassigned>` from the mention completion list
+
+## v0.1.10
+2020-02-19
+
+* No change to behaviour
+* Updated dependency packages to resolve security issues
