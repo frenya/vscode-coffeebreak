@@ -49,13 +49,13 @@ export async function run(): Promise<void> {
   const files = glob.sync('**/*.test.js', { cwd: testsRoot });
 
   // Add files to the test suite
-  files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)))
+  files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
 
-  const failures: number = await new Promise(resolve => mocha.run(resolve))
+  const failures: number = await new Promise(resolve => mocha.run(resolve));
   await coverageRunner.writeCoverageFile();
   await coverageRunner.report();
 
   if (failures > 0) {
-    throw new Error(`${failures} tests failed.`)
+    throw new Error(`${failures} tests failed.`);
   }
 }

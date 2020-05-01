@@ -69,9 +69,11 @@ const Folder = {
 
   parsePath ( filePath ): any { //TSC
 
-    if ( !Folder.rootsRe ) return {};
+    if ( !Folder.rootsRe ) {
+      console.warn('Roots RegExp not initialized, all paths treated as external');
+    }
 
-    const match = Folder.rootsRe.exec ( filePath );
+    const match = Folder.rootsRe ? Folder.rootsRe.exec ( filePath ) : null;
 
     if ( match ) { // Interal path
 
