@@ -2,6 +2,22 @@
 
 All notable changes to the "vscode-coffeebreak" extension will be documented in this file.
 
+
+## v0.1.16
+2020-10-28
+
+* Fixed bug that would crash MD rendering when there is no active editor
+
+## v0.1.15
+2020-09-01
+
+* Added custom bullets to the mention hover message
+
+## v0.1.15
+2020-07-09
+
+* Fixed issue on Windows due to missing path normalization
+
 ## v0.1.11
 2020-02-19
 

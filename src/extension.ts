@@ -48,8 +48,12 @@ const activate = function ( context: vscode.ExtensionContext ) {
   // Init commands
   Utils.init.commands ( context );
 
+  // TODO: Store last active editor using vscode.window.onDidChangeActiveTextEditor(e => e.document.uri), when e is not undefined
   function parser(match, utils) {
-    // TODO: Check for full name in the mentions directory
+    // Sanity check
+    if (!vscode.window.activeTextEditor) return match[0];
+
+    // Check for full name in the mentions directory
     return getFullname(match[1], vscode.window.activeTextEditor.document.uri);
   }
 
