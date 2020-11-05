@@ -11,6 +11,7 @@ import { HashTagsCompletionItemProvider } from './hashtags_completion_item_provi
 import { DateCompletionItemProvider } from './date_completion_item_provider';
 import { getFullname } from './commands/mentions';
 var regexp = require('markdown-it-regexp');
+import { open as openWhatsNew } from './views/whatsnew';
 
 /* ACTIVATE */
 
@@ -47,6 +48,8 @@ const activate = function ( context: vscode.ExtensionContext ) {
 
   // Init commands
   Utils.init.commands ( context );
+
+  openWhatsNew();
 
   // TODO: Store last active editor using vscode.window.onDidChangeActiveTextEditor(e => e.document.uri), when e is not undefined
   function parser(match, utils) {

@@ -13,7 +13,7 @@ All notable changes to the "vscode-coffeebreak" extension will be documented in 
 
 * Added custom bullets to the mention hover message
 
-## v0.1.15
+## v0.1.13
 2020-07-09
 
 * Fixed issue on Windows due to missing path normalization

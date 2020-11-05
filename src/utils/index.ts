@@ -20,11 +20,11 @@ const Utils = {
   view,
 
   getContextValue: function (key) { 
-    return this.context.workspaceState.get(key);
+    return this.context.globalState.get(key);
   },
 
   setContextValue: function (key, value) {
-    return this.context.workspaceState.update(key, value); 
+    return this.context.globalState.update(key, value); 
   },
 
 };
