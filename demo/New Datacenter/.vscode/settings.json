@@ -31,5 +31,8 @@
     "<unassigned>": {
       "email": "*"
     }
+  },
+  "coffeebreak.sync": {
+    "command": "coffeebreak.showTasks"
   }
 }

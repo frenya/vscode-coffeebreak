@@ -6,7 +6,7 @@ import * as vscode from 'vscode';
 import Consts from '../consts';
 import Editor from '../editor';
 import Utils from '../utils';
-import { TaskType } from '../utils/embedded/providers/abstract';
+import { TaskType, pathNormalizer } from '../utils/embedded/providers/abstract';
 
 interface SyncConfiguration {
   command: string;
@@ -19,7 +19,13 @@ async function extractMyTasks (fileName) {
   await Utils.embedded.provider.get ( undefined, null );
 
   const filesData = Utils.embedded.provider.filesData;
-  return filesData[fileName].filter(t => t.sync);
+  const fd = filesData[fileName];
+  
+  if (fd == null) {
+    throw new Error(`"${fileName}" not found in ${JSON.stringify(Object.keys(filesData), null, 2)}`);
+  }
+
+  return fd.filter(t => t.sync);
 
 }
 
@@ -53,7 +59,7 @@ async function syncFile () {
   const { command, ...options } = vscode.workspace.getConfiguration('coffeebreak', textDocument.uri).get<SyncConfiguration>('sync');
 
   // Get workspace owner's tasks, quit if none found
-  const tasks: TaskType[] = await extractMyTasks(textDocument.fileName);
+  const tasks: TaskType[] = await extractMyTasks(pathNormalizer(textDocument.fileName));
   if (!tasks.length) {
     // TODO: Add link to FAQ where own task filtering is explained
     vscode.window.showWarningMessage('No own tasks found. Check FAQ for possible reasons.');
