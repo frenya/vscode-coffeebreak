@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as _ from 'lodash';
 import Config from './config';
 import Consts from './consts';
 import { createCommandUrl } from './commands';
@@ -84,7 +85,17 @@ const Decorators = {
     let contents = null;
 
     if (owner) {
-      contents = new vscode.MarkdownString(`**${username}**\n\n* ${detailLine('fullname', 'full name')}\n* ${detailLine('email')}`);
+      // Create bullets with custom attributes
+      // i.e. any string or number value in the object
+      const { fullname, email, sync, ...m } = owner;
+      
+      const keys = _.sortBy(Object.keys(m));
+      const bullets = keys.map(k => {
+        const v = m[k];
+        return ((typeof v === 'string') || (typeof v === 'number')) ? `\n* *${k}*: ${v}` : '';
+      }).join('');
+
+      contents = new vscode.MarkdownString(`**${username}**\n\n* ${detailLine('fullname', 'full name')}\n* ${detailLine('email')}${bullets}`);
     }
     else {
       const commandUri1 = createCommandUrl('createMention', username);

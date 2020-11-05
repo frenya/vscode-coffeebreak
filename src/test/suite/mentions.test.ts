@@ -212,27 +212,27 @@ const defaultWorkspaceMentions = {
 const defaultFolderMentions = {
   'John': {
     'fullname': 'John Adams',
-    'deparment': 'Networking',
+    'department': 'Networking',
   },
   'Doug': {
     'fullname': 'Doug Brown',
-    'deparment': 'IT Operations',
+    'department': 'IT Operations',
   },
   'Anne': {
     'fullname': 'Anne Crowley',
-    'deparment': 'Finance',
+    'department': 'Finance',
   },
   'Sean': {
     'fullname': 'Sean Dermot',
-    'deparment': 'UPS Technologies',
+    'department': 'UPS Technologies',
   },
   'Steve': {
     'fullname': 'Steve Evans',
-    'deparment': 'AC Plus',
+    'department': 'AC Plus',
   },
   'Rich': {
     'fullname': 'Richard Francis',
-    'deparment': 'Project Manager',
+    'department': 'Project Manager',
   },
   'Frank': {
     'fullname': 'Frantisek Vymazal',
