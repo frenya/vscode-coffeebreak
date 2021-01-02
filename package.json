@@ -3,7 +3,7 @@
   "displayName": "Coffee Break",
   "description": "Meeting minutes plugin for VSCode",
   "icon": "resources/logo/CoffeeBreak.png",
-  "version": "0.1.17",
+  "version": "0.1.19",
   "license": "MIT",
   "engines": {
     "vscode": "^1.38.0"
@@ -366,7 +366,9 @@
     "main-dist": "json -I -f package.json -e 'this.main=\"./dist/extension.js\"'",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "npm run compile && node ./node_modules/vscode/bin/test",
-    "package": "vsce package && code --install-extension *.vsix"
+    "package": "vsce package && code --install-extension *.vsix",
+    "public-merge": "~/bin/git_public_merge.sh v$npm_package_version",
+    "public-push": "~/bin/git_public_push.sh v$npm_package_version"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
@@ -400,7 +402,8 @@
     "note taking",
     "project",
     "management",
-    "productivity"
+    "productivity",
+    "markdown"
   ],
   "dependencies": {
     "absolute": "0.0.1",
@@ -409,6 +412,8 @@
     "globby": "^9.2.0",
     "lodash": "^4.17.15",
     "markdown-it-regexp": "^0.4.0",
+    "markdown-yaml-metadata-parser": "^2.1.1",
+    "micromatch": "^4.0.2",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "pify": "^4.0.1",

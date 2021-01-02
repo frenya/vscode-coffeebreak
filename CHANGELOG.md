@@ -2,6 +2,11 @@
 
 All notable changes to the "vscode-coffeebreak" extension will be documented in this file.
 
+## v0.1.19
+2021-01-03
+
+* Minor bug fixes and improvements
+* Applied security patches in dependencies
 
 ## v0.1.16
 2020-10-28

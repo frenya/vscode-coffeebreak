@@ -25,10 +25,14 @@ const Consts = {
     mention: /@([A-Z][a-zA-Z]*)/,
     mentionGlobal: /@([A-Z][a-zA-Z]*)/g,
     label: /#(\w+)/g,
+    tag: /(@\w+)(\(([^\(\)]*)\))?/g,
+    dueDateTag: /@due(\(([^\(\)]*)\))?/g,
     // NOTE: This is the regex used in task extraction
     // date: /\s[1-9][0-9]{3}-[0-9]{2}-[0-9]{2}/;
+    number: /^\d+$/,
     date: /\d{4}-\d{2}-\d{2}/g,
     emptyLink: /\[\]\(([^)]*)\)/g,
+    version: /^##\s*(v?[0-9]+\.[0-9]+\.[0-9]+)/gm,  // For parsing the Changelog
   }
 };
 

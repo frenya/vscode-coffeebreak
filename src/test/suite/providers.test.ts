@@ -9,7 +9,7 @@ import * as path from 'path';
 
 import Config from '../../config';
 import Utils from '../../utils';
-import { TaskType } from '../../utils/embedded/providers/abstract';
+import { TaskType } from '../../utils/embedded/providers/js';
 
 import expected from '../fixtures/tasks1';
 import expectedBacklog from '../fixtures/tasks2';
@@ -18,18 +18,14 @@ console.log(expected);
 
 suite('Embedded task provider', () => {
 
-  let filesData = null;
 	before(async () => {
-    // Get the tasks
     await Utils.embedded.initProvider ();
-    await Utils.embedded.provider.get ( undefined, null );
-
-    filesData = Utils.embedded.provider.filesData;
 	});
 
-  test('should have task data', () => {
-    // console.log(JSON.stringify(filesData, null, 2));
-    const actual = Utils.embedded.provider.filesData[path.resolve(__dirname, '../../../demo/New Datacenter/2014-10-08 Weekly Meeting.md')];
+  test('should have task data', async () => {
+    const fileData = await Utils.embedded.provider.getFileData(path.resolve(__dirname, '../../../demo/New Datacenter/2014-10-08 Weekly Meeting.md'));
+    const actual = await Utils.embedded.provider.getTodosFromFileData(fileData);
+    // TODO: Add test for filter function
 
     assert(actual.length === expected.length);
 
@@ -39,8 +35,11 @@ suite('Embedded task provider', () => {
     });
   });
 
-  test('tasks should have backlinks', () => {
-    const actual = Utils.embedded.provider.filesData[path.resolve(__dirname, '../../../demo/New Datacenter/2014-10-08 Weekly Meeting.md')];
+  test('tasks should have backlinks', async () => {
+    const fileData = await Utils.embedded.provider.getFileData(path.resolve(__dirname, '../../../demo/New Datacenter/2014-10-08 Weekly Meeting.md'));
+    const actual = await Utils.embedded.provider.getTodosFromFileData(fileData);
+
+    console.log('backlink actual', actual);
 
     actual.forEach((t: TaskType) => {
       assert(!!t.backlinkURL);
@@ -49,8 +48,9 @@ suite('Embedded task provider', () => {
     });
   });
 
-  test('backlog tasks should be correctly assigned', () => {
-    const actual = Utils.embedded.provider.filesData[path.resolve(__dirname, '../../../demo/New Datacenter/Backlog.md')];
+  test('backlog tasks should be correctly assigned', async () => {
+    const fileData = await Utils.embedded.provider.getFileData(path.resolve(__dirname, '../../../demo/New Datacenter/Backlog.md'));
+    const actual = await Utils.embedded.provider.getTodosFromFileData(fileData);
 
     /*
     actual.forEach((t: TaskType) => {

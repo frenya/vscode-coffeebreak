@@ -4,9 +4,11 @@
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Consts from '../consts';
+import Document from '../document';
 import Editor from '../editor';
 import Utils from '../utils';
-import { TaskType, pathNormalizer } from '../utils/embedded/providers/abstract';
+import { pathNormalizer } from '../utils/embedded/providers/abstract';
+import { SyncTaskType } from '../utils/embedded/providers/js';
 
 interface SyncConfiguration {
   command: string;
@@ -16,16 +18,14 @@ async function extractMyTasks (fileName) {
 
   // Get the tasks
   await Utils.embedded.initProvider ();
-  await Utils.embedded.provider.get ( undefined, null );
+  const fd = await Utils.embedded.provider.getFileData(fileName);
 
-  const filesData = Utils.embedded.provider.filesData;
-  const fd = filesData[fileName];
-  
+  // tslint:disable-next-line:triple-equals
   if (fd == null) {
-    throw new Error(`"${fileName}" not found in ${JSON.stringify(Object.keys(filesData), null, 2)}`);
+    throw new Error(`"${fileName}" not found in ${JSON.stringify(Object.keys(Utils.embedded.provider.filesData), null, 2)}`);
   }
 
-  return fd.filter(t => t.sync);
+  return await Utils.embedded.provider.getTodosFromFileData(fd, t => t.sync);
 
 }
 
@@ -56,10 +56,11 @@ async function syncFile () {
   const textDocument = textEditor.document;
 
   // Get the synchronization config, quit if not present
+  // TODO: Replace with Config(uri)
   const { command, ...options } = vscode.workspace.getConfiguration('coffeebreak', textDocument.uri).get<SyncConfiguration>('sync');
 
   // Get workspace owner's tasks, quit if none found
-  const tasks: TaskType[] = await extractMyTasks(pathNormalizer(textDocument.fileName));
+  const tasks: SyncTaskType[] = await extractMyTasks(pathNormalizer(textDocument.fileName));
   if (!tasks.length) {
     // TODO: Add link to FAQ where own task filtering is explained
     vscode.window.showWarningMessage('No own tasks found. Check FAQ for possible reasons.');
@@ -78,13 +79,14 @@ async function syncFile () {
       // Sanity check
       if (!cmd) return;
 
-      let result: TaskType[] = await vscode.commands.executeCommand(cmd, syncCommandLists[cmd], textDocument.uri, options);
+      let result: SyncTaskType[] = await vscode.commands.executeCommand(cmd, syncCommandLists[cmd], textDocument.uri, options);
       if (!result) throw new Error('No response from sync plugin');
       else console.log('Got result', result);
 
       // Create necessary edit operations to add the external links to tasks
       const edits = externalLinkEdits(textDocument, result);
-      await Editor.edits.apply(textEditor, edits);
+      // await Editor.edits.apply(textEditor, edits);
+      await Document.edits.apply(textDocument, edits);
     }));
 
     await textEditor.document.save();

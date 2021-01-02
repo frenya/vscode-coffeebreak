@@ -24,7 +24,7 @@ class Todo extends Item {
 
     super ( obj, label );
 
-    this.tooltip = obj.message;
+    this.tooltip = obj.text;
 
     this.command = {
       title: 'Reveal',

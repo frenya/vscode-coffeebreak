@@ -4,12 +4,11 @@ import * as vscode from 'vscode';
 import stringMatches from 'string-matches';
 import Consts from '../consts';
 import File from '../utils/file';
-import Folder from '../utils/folder';
 import Utils from '../utils';
-import { last } from 'lodash';
+import { myExtension } from '../config';
 const semver = require('semver');
 
-const VersionKey = 'coffeebreak.versionWatermark';
+const VersionKey = `${myExtension}.versionWatermark`;
 
 export async function open () {
 
@@ -22,7 +21,7 @@ export async function open () {
 
   // Create and show panel
   const panel = vscode.window.createWebviewPanel(
-    'coffeebreak.whatsnew',
+    `${myExtension}.whatsnew`,
     'What\'s new in Coffee Break',
     vscode.ViewColumn.One,
     {
@@ -65,7 +64,7 @@ async function getWebviewContent(styleSrc, pageMarkdown) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="${styleSrc}">
-    <title>Recall: What's new</title>
+    <title>Coffee Break: What's new</title>
 </head>
 <body>
   <div class="container">
@@ -85,7 +84,7 @@ async function parseChangelog (lastVersion): Promise<String[]> {
   if (!content) return data;
 
   // Regex to identify all the second level headers in the Changelog
-  const versionRegex = /^##\s*(v?[0-9]+\.[0-9]+\.[0-9]+)/gm;
+  const versionRegex = Consts.regexes.version;
   
   // Find the card starts in the current file
   const matches = stringMatches ( content, versionRegex );
@@ -96,7 +95,7 @@ async function parseChangelog (lastVersion): Promise<String[]> {
   let versionWatermark = lastVersion;
 
   matches.forEach ( (match, i) => {
-    console.log('Version', match[1], 'is greater than', lastVersion, semver.gt(match[1], lastVersion));
+    // console.log('Version', match[1], 'is greater than', lastVersion, semver.gt(match[1], lastVersion));
 
     // Compare match with last version, only show the ones not seen yet
     if (semver.gt(match[1], lastVersion)) {
@@ -111,7 +110,7 @@ async function parseChangelog (lastVersion): Promise<String[]> {
 
   });
 
-  console.log(data);
+  // console.log(data);
 
   // Store watermark
   Utils.setContextValue(VersionKey, versionWatermark);
@@ -120,7 +119,9 @@ async function parseChangelog (lastVersion): Promise<String[]> {
   // i.e. there WAS a previous version installed.
   // Otherwise this is a new install and the user knows
   // what they just installed.
-  return lastVersion === 'v0.0.0' ? [] : data;
+  if (lastVersion === 'v0.0.0') return [];
+  
+  return data;
 
 }
 

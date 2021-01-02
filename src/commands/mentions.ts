@@ -16,7 +16,7 @@ interface InspectValue {
 async function createMention (mention, path = null) {
 
   const project = !!path;
-  const uri = vscode.Uri.file(path);
+  const uri = path ? vscode.Uri.file(path) : null;
   
   const config = Config(uri);
   if (!mention) {

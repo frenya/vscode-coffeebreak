@@ -6,7 +6,6 @@ import * as vscode from 'vscode';
 import embedded from './embedded';
 import file from './file';
 import folder from './folder';
-import init from './init';
 import view from './view';
 
 /* UTILS */
@@ -16,7 +15,6 @@ const Utils = {
   embedded,
   file,
   folder,
-  init,
   view,
 
   getContextValue: function (key) { 

@@ -8,9 +8,6 @@ import Item from './items/item';
 
 class View implements vscode.TreeDataProvider<Item> {
 
-  onDidChangeTreeDataEvent = new vscode.EventEmitter<Item | undefined> ();
-  onDidChangeTreeData = this.onDidChangeTreeDataEvent.event;
-
   constructor () {
   }
 
@@ -20,10 +17,6 @@ class View implements vscode.TreeDataProvider<Item> {
 
   async getChildren ( item?: Item ): Promise<Item[]> {
     return [];
-  }
-
-  refresh () {
-    this.onDidChangeTreeDataEvent.fire ();
   }
 
 }

@@ -4,7 +4,6 @@
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Utils from '../utils';
-import File from './items/file';
 import Item from './items/item';
 import Group from './items/group';
 import Placeholder from './items/placeholder';
@@ -20,6 +19,8 @@ class Embedded extends View {
   // This corresponds to the view's id defined in package.json
   id = 'coffeebreak.views.coffeeBreak';
   
+  onDidChangeTreeData = Utils.embedded.provider.filesDataChanged.event;
+
   clear = false;
   expanded = true;
   filter: string | false = false;
@@ -42,7 +43,7 @@ class Embedded extends View {
 
     await Utils.embedded.initProvider ();
 
-    return await Utils.embedded.provider.get ( undefined, this.isItemVisible.bind(this) );
+    return await Utils.embedded.provider.getTodos(this.isItemVisible.bind(this));
 
   }
 
@@ -62,7 +63,7 @@ class Embedded extends View {
     if (this.filterDueDate && (!obj.dueDate || obj.dueDate > this.filterDueDate)) return false;
 
     // Filter by text if applicable
-    if (this.filterRe && !this.filterRe.test(obj.message)) return false;
+    if (this.filterRe && !this.filterRe.test(obj.text)) return false;
 
     return true;
   }
@@ -86,7 +87,7 @@ class Embedded extends View {
     if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos match filter criteria' )];
 
     if ( _.isArray ( obj ) ) {
-      return obj.map(obj => new Todo ( obj, obj.message, true ));
+      return obj.map(obj => new Todo ( obj, obj.text, true ));
     }
     else if ( _.isObject ( obj ) ) {
       const keys = Object.keys ( obj ).sort ();
@@ -98,8 +99,9 @@ class Embedded extends View {
   refresh ( clear? ) {
 
     this.clear = !!clear;
-
-    super.refresh ();
+    
+    console.warn('Deprecated: Use Utils.embedded.provider.filesDataChanged.fire()');
+    Utils.embedded.provider.filesDataChanged.fire();
 
   }
 
@@ -107,4 +109,4 @@ class Embedded extends View {
 
 /* EXPORT */
 
-export default new Embedded ();
+export default Embedded;

@@ -2,75 +2,28 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as diff from 'diff';
 import * as vscode from 'vscode';
-import Consts from './consts';
+import Document from './document';
 
 /* EDITOR */
 
 const Editor = {
 
-  isSupported ( textEditor?: vscode.TextEditor ) {
-
-    return textEditor && ( textEditor.document.languageId === Consts.languageId );
-
+  isSupported (textEditor?: vscode.TextEditor) {
+    const doc = textEditor && textEditor.document;
+    return doc && Document.isSupported(doc);
   },
 
-  edits: {
+  async toggleRules(...rules) {
 
-    apply ( textEditor: vscode.TextEditor, edits: vscode.TextEdit[] ) {
+    const textEditor = vscode.window.activeTextEditor;
+    if (!this.isSupported(textEditor)) return;
 
-      const uri = textEditor.document.uri,
-            edit = new vscode.WorkspaceEdit ();
+    const doc = textEditor.document;
+    const lineNumbers = _.uniq(textEditor.selections.map(selection => selection.active.line));
 
-      edit.set ( uri, edits );
-
-      return vscode.workspace.applyEdit ( edit );
-
-    },
-
-    /* MAKE */
-
-    makeDiff ( before: string, after: string, lineNr: number = 0 ) {
-
-      if ( before === after ) return;
-
-      const changes = diff.diffWordsWithSpace ( before, after );
-
-      let index = 0;
-
-      return _.filter ( changes.map ( change => {
-        if ( change.added ) {
-          return Editor.edits.makeInsert ( change.value, lineNr, index );
-        } else if ( change.removed ) {
-          const edit = Editor.edits.makeDelete ( lineNr, index, index + change.value.length );
-          index += change.value.length;
-          return edit;
-        } else {
-          index += change.value.length;
-        }
-      }));
-
-    },
-
-    makeDelete ( lineNr: number, fromCh: number, toCh: number = fromCh ) {
-
-      const range = new vscode.Range ( lineNr, fromCh, lineNr, toCh ),
-            edit = vscode.TextEdit.delete ( range );
-
-      return edit;
-
-    },
-
-    makeInsert ( insertion: string, lineNr: number, charNr: number ) {
-
-      const position = new vscode.Position ( lineNr, charNr ),
-            edit = vscode.TextEdit.insert ( position, insertion );
-
-      return edit;
-
-    }
-
+    return Document.toggleRules(doc, lineNumbers, rules);
+ 
   }
 
 };
