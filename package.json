@@ -410,7 +410,7 @@
     "diff": "^3.5.0",
     "find-up": "^3.0.0",
     "globby": "^9.2.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "markdown-it-regexp": "^0.4.0",
     "markdown-yaml-metadata-parser": "^2.1.1",
     "micromatch": "^4.0.2",
