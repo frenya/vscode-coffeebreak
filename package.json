@@ -415,7 +415,7 @@
     "markdown-yaml-metadata-parser": "^2.1.1",
     "micromatch": "^4.0.2",
     "mkdirp": "^0.5.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "pify": "^4.0.1",
     "string-matches": "^1.1.3"
   },
